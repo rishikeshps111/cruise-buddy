@@ -23,10 +23,17 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $phoneNumber = $this->faker->e164PhoneNumber;
+
+        $countryCode = substr($phoneNumber, 0, 3);
+        $phone = substr($phoneNumber, 3);
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'phone' => $phone,
+            'country_code' => $countryCode,
+            'role' => fake()->randomElement(['user', 'owner']),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
@@ -37,7 +44,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

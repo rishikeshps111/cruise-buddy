@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'password' => 'test@example.com',
             'phone' => '8047892340',
             'country_code' => '+91',
             'role' => 'admin',

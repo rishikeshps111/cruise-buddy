@@ -7,7 +7,7 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/dashboard', function () {
         return view('2_AdminPanel.4_Pages.1_Dashboard.dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    })->middleware(['auth', 'verified','role:admin'])->name('dashboard');
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

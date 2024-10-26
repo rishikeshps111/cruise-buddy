@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->enum('proof_type',['aadhar','passport','voter_id','driving_license'])->nullable();
             $table->string('proof_id',50)->nullable();
-            $table->string('proof_image',50)->nullable();
+            $table->string('proof_image')->nullable();
+            $table->string('country_code',50)->nullable();
             $table->string('additional_phone',50)->nullable();
             $table->softDeletes();
             $table->timestamps();

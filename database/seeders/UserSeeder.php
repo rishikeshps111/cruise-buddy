@@ -23,6 +23,6 @@ class UserSeeder extends Seeder
             'country_code' => '+91',
         ]);
 
-        $user->assignRole('admin');
+        // $user->assignRole('admin');
     }
 }

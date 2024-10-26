@@ -22,11 +22,11 @@ class OwnerFactory extends Factory
         $phone = substr($phoneNumber, 3);
 
         return [
-            'user_id' => User::factory(),
-            'proof_type' => fake()->randomElements(['aadhar','passport','voter_id','driving_license']),
+            'user_id' => User::factory()->create(),
+            'proof_type' => fake()->randomElement(['aadhar','passport','voter_id','driving_license']),
             'proof_id' => fake()->randomNumber(5, true),
             'proof_image' => fake()->imageUrl(),
-            'countryCode' => $countryCode,
+            'country_code' => $countryCode,
             'additional_phone' => $phone,
         ];
     }

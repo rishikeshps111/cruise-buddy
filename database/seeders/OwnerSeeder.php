@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Owner;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class OwnerSeeder extends Seeder
 {

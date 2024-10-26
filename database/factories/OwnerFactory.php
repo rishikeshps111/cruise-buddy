@@ -20,10 +20,10 @@ class OwnerFactory extends Factory
         $phoneNumber = $this->faker->e164PhoneNumber;
         $countryCode = substr($phoneNumber, 0, 3);
         $phone = substr($phoneNumber, 3);
-
+        
         return [
             'user_id' => User::factory()->create(),
-            'proof_type' => fake()->randomElement(['aadhar','passport','voter_id','driving_license']),
+            'proof_type' => fake()->randomElement(['aadhar', 'passport', 'voter_id', 'driving_license']),
             'proof_id' => fake()->randomNumber(5, true),
             'proof_image' => fake()->imageUrl(),
             'country_code' => $countryCode,

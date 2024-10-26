@@ -35,7 +35,7 @@
                     <div class="mb-4">
                         <div class="form-check custom-checkbox mb-3">
                             <input type="checkbox" class="form-check-input" id="remember_me" name="remember">
-                            <label class="form-check-label" for="customCheckBox1">Remember me</label>
+                            <label class="form-check-label" for="remember_me">Remember me</label>
                         </div>
                     </div>
                     @if (Route::has('password.request'))

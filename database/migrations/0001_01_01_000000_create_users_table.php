@@ -15,11 +15,12 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('name')->nullable();
             $table->string('email')->nullable()->unique();
+            $table->string('google_id')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('country_code',5)->nullable();
             $table->string('phone',15)->nullable()->unique();
             $table->string('password');
-            $table->enum('role', ['user', 'admin', 'owner'])->default('user');
+            $table->string('image_path')->nullable();
             $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->softDeletes();

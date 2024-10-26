@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
@@ -21,7 +20,6 @@ class UserSeeder extends Seeder
             'password' => 'test@example.com',
             'phone' => '8047892340',
             'country_code' => '+91',
-            'role' => 'admin',
         ]);
     }
 }

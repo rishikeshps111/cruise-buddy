@@ -33,7 +33,8 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'phone' => $phone,
             'country_code' => $countryCode,
-            'role' => fake()->randomElement(['user', 'owner']),
+            'google_id' => fake()->randomNumber(5,true),
+            'image_path' => fake()->imageUrl(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

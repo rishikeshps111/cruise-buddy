@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\v1\AuthenticationController;
+use App\Http\Controllers\Api\v1\CruiseController;
+use App\Http\Controllers\Api\v1\CruiseTypeController;
 use App\Http\Controllers\Api\v1\LocationController;
 use App\Http\Controllers\Api\v1\OwnerController;
 use App\Http\Controllers\Api\v1\UserController;
@@ -18,5 +20,7 @@ Route::prefix('/v1')->name('api.v1.')->group(function () {
         Route::apiResource('/user', UserController::class);
         Route::apiResource('owner', OwnerController::class);
         Route::apiResource('location', LocationController::class);
+        Route::apiResource('cruise-type', CruiseTypeController::class);
+        Route::apiResource('cruise', CruiseController::class);
     });
 });

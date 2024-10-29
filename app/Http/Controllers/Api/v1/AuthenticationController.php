@@ -7,25 +7,20 @@ use Google_Client as GoogleClient;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class AuthenticationController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required'
-        ]);
-        if (!auth()->attempt($request->only(['email', 'password']))) {
-            return "Invalid user";
-        } else {
-            $user = auth()->user();
-            $token = $user->createToken('AppUser');
-            return [
-                'token' => $token->plainTextToken
-            ];
-        }
+        $request->authenticate();
+        $user = Auth::user();
+        $token = $user->createToken('AppUser');
+        return [
+            'token' => $token->plainTextToken
+        ];
     }
     public function phoneVerify(Request $request)
     {
@@ -54,10 +49,13 @@ class AuthenticationController extends Controller
         if ($cacheOtp == $request->otp) {
             $user = User::updateOrCreate(
                 ['phone' => $phone],
-                ['password' => str()->password()]
+                [
+                    'password' => str()->password(),
+                    'email_verified_at' => User::where('phone', $phone)->value('email_verified_at') ?? now()
+                ]
             );
 
-            auth()->login($user);
+            Auth::login($user);
             $token = $user->createToken('AppUser');
             return [
                 'token' => $token->plainTextToken
@@ -85,10 +83,11 @@ class AuthenticationController extends Controller
                 ['email' => $email],
                 [
                     'password' => str()->password(),
-                    'google_id' => $googleId
+                    'google_id' => $googleId,
+                    'email_verified_at' => User::where('email', $email)->value('email_verified_at') ?? now()
                 ]
             );
-            auth()->login($user);
+            Auth::login($user);
             $token = $user->createToken('AppUser');
             return response()->json([
                 'message' => 'Login success',
@@ -102,7 +101,7 @@ class AuthenticationController extends Controller
     }
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete();
+        Auth::user()->tokens()->delete();
         return response()->json([
             'message' => 'Logout successfully'
         ], 201);

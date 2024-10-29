@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('location', 50);
+            $table->string('name', 50);
             $table->string('district', 50);
             $table->string('state', 50);
             $table->string('country', 50);

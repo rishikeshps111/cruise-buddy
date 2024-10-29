@@ -14,14 +14,13 @@ class DatabaseSeeder extends Seeder
       
 
         $this->call([
-            // PermissionSeeder::class,
-            // UserSeeder::class,
-            // OwnerSeeder::class,
-            // LocationSeeder::class,
-            // CruiseSeeder::class,
-            // CruiseTypeSeeder::class,
+            PermissionSeeder::class,
+            UserSeeder::class,
+            OwnerSeeder::class,
+            LocationSeeder::class,
+            CruiseTypeSeeder::class,
+            CruiseSeeder::class,
             CruiseImageSeeder::class,
-            
         ]);
     }
 }

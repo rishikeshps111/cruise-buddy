@@ -20,9 +20,9 @@ class CruiseFactory extends Factory
     public function definition(): array
     {
         return [
-            'owner_id' => Owner::factory(),             
-            'cruise_type_id' => CruiseType::factory(),  
-            'location_id' => Location::factory(),       
+            'owner_id' => Owner::inRandomOrder()->first()->id,             
+            'cruise_type_id' => CruiseType::inRandomOrder()->first()->id,  
+            'location_id' => Location::inRandomOrder()->first()->id,       
             'rooms' => fake()->numberBetween(4, 10),
             'max_capacity' => fake()->numberBetween(20, 60),
             'description' => fake()->paragraph(),

@@ -3,26 +3,24 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\v1\UserResource;
-use App\Models\User;
+use App\Http\Resources\Api\v1\OwnerResource;
+use App\Models\Owner;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class UserController extends Controller
+class OwnerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = QueryBuilder::for(User::class)
-            ->allowedIncludes('owners')
-            ->paginate()->withQueryString();
-        return UserResource::collection($users);
-
-        // if (request()->query('include', '') && in_array('owners', explode(',', request()->query('include')))) {
-        //     // 'owners' is included, do something if needed
-        // }
+        $page_limit = request()->query('page_limit') ?: 20;
+        $owners = QueryBuilder::for(Owner::class)
+            ->with('user')
+            ->paginate($page_limit)
+            ->withQueryString();
+        return OwnerResource::collection($owners);
     }
 
     /**
@@ -36,9 +34,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Owner $owner)
     {
-        //
+        $query = QueryBuilder::for(Owner::class)
+            ->with('user');
+        $owner = $query->find($owner->id);
+        return new OwnerResource($owner);
     }
 
     /**

@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\v1\UserResource;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\v1\LocationResource;
+use App\Models\Location;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class UserController extends Controller
+class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = QueryBuilder::for(User::class)
-            ->allowedIncludes('owners')
-            ->paginate()->withQueryString();
-        return UserResource::collection($users);
+        $page_limit = request()->query('page_limit') ?: 20;
 
-        // if (request()->query('include', '') && in_array('owners', explode(',', request()->query('include')))) {
-        //     // 'owners' is included, do something if needed
-        // }
+        $locations = QueryBuilder::for(Location::class)
+            ->allowedFilters(['location', 'district', 'state'])
+            ->allowedSorts('location')
+            ->paginate($page_limit)->withQueryString();
+
+        return LocationResource::collection($locations);
     }
 
     /**
@@ -36,9 +36,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Location $location)
     {
-        //
+        return new LocationResource($location);
     }
 
     /**

@@ -13,6 +13,7 @@
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "propaganistas/laravel-phone": "^5.3",
         "spatie/laravel-permission": "*",
         "spatie/laravel-query-builder": "^6.2",
         "spatie/laravel-tags": "^4.7"
@@ -35,7 +36,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/MenuHelper.php"
+            "app/Helpers/MenuHelper.php",
+            "app/Helpers/Helper.php"
         ]
     },
     "autoload-dev": {

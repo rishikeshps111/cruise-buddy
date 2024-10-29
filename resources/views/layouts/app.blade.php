@@ -27,6 +27,7 @@
     <link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet">
     <link href="{{ asset('2_AdminPanel/assets/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/css/intlTelInput.css">
 
     <!-- Tagify-css -->
     <link href="{{ asset('2_AdminPanel/assets/vendor/tagify/dist/tagify.css') }}" rel="stylesheet">
@@ -59,7 +60,7 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="{{ route('dashboard')}}" class="brand-logo">
+            <a href="{{ route('dashboard') }}" class="brand-logo">
                 <svg class="logo-abbr" width="39" height="23" viewBox="0 0 39 23" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path class="w3"
@@ -127,6 +128,8 @@
     <script src="{{ asset('2_AdminPanel/assets/vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/vendor/chart.js/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/js/intlTelInput.min.js"></script>
+    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
     <script src="{{ asset('2_AdminPanel/assets/vendor/apexchart/apexchart.js') }}"></script>
 
     <!-- Dashboard 1 -->
@@ -141,7 +144,7 @@
     <script src="{{ asset('2_AdminPanel/assets/vendor/datatables/js/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/vendor/datatables/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/vendor/datatables/js/jszip.min.js') }}"></script>
-    <script src="{{ asset('2_AdminPanel/assets/js/plugins-init/datatables.init.js') }}"></script>
+    {{-- <script src="{{ asset('2_AdminPanel/assets/js/plugins-init/datatables.init.js') }}"></script> --}}
 
     <!-- Apex Chart -->
 
@@ -154,28 +157,17 @@
     <script src="{{ asset('2_AdminPanel/assets/vendor/jqvmap/js/jquery.vmap.min.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/vendor/jqvmap/js/jquery.vmap.world.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/vendor/jqvmap/js/jquery.vmap.usa.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('2_AdminPanel/assets/js/custom.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/js/deznav-init.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/js/demo.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/js/styleSwitcher.js') }}"></script>
+    <script src="{{ asset('2_AdminPanel/assets/js/common.js') }}"></script>
 
-    {{-- <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-        @include('layouts.navigation')
-
-        <!-- Page Heading -->
-        @isset($header)
-            <header class="bg-white dark:bg-gray-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endisset
-
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
-    </div> --}}
+    <!-- Page Js -->
+    @if (is_file(public_path('2_AdminPanel/PageConfigs/' . PageName() . '.js')))
+        <script src="{{ asset('2_AdminPanel/PageConfigs/' . PageName() . '.js') }}"></script>
+    @endif
 </body>
 
 </html>

@@ -22,7 +22,7 @@
                     <x-input-label for="password" :value="__('Password')" />
 
                     <x-text-input id="dz-password" type="password" name="password" required
-                        placeholder="Enter Your Password" autocomplete="current-password" />
+                        placeholder="Enter Your Password" autocomplete="current-password" data-name="password" />
 
                     <span class="show-pass eye">
                         <i class="fa fa-eye-slash"></i>

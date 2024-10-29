@@ -15,13 +15,13 @@ class UserSeeder extends Seeder
     {
         User::factory(10)->create();
 
-        $user =  User::create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => Hash::make('test@example.com'),
-            'phone' => '8047892340',
-            'country_code' => '+91',
-        ]);
+        // $user =  User::create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        //     'password' => Hash::make('test@example.com'),
+        //     'phone' => '8047892340',
+        //     'country_code' => '+91',
+        // ]);
 
         // $user->assignRole('admin');
     }

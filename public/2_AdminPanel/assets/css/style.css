@@ -47438,4 +47438,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.iti {
+  width: 100%;
+}
+
+.iti__search-input {
+  padding: 10px;
+}
+
+.fixed-avatar {
+  width: 150px;
+  height: 150px;
+}
+
+.form-img-preview {
+  display: none;
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 /*# sourceMappingURL=style.css.map */

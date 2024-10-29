@@ -17,15 +17,28 @@
                     <x-input-error :messages="$errors->get('email')" />
                 </div>
                 <div class="mb-4">
-                    <x-input-label for="password" :value="__('Password')" />
-                    <x-text-input id="password" type="password" name="password" required autocomplete="new-password" />
+                    <div class="position-relative">
+                        <x-input-label for="password" :value="__('Password')" />
+                        <x-text-input id="password" type="password" name="password" required
+                            autocomplete="new-password" data-name="password" />
+                        <span class="show-pass eye">
+                            <i class="fa fa-eye-slash"></i>
+                            <i class="fa fa-eye"></i>
+                        </span>
+                    </div>
                     <x-input-error :messages="$errors->get('password')" />
                 </div>
                 <div class="mb-4">
-                    <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                    <div class="position-relative">
+                        <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-                    <x-text-input id="password_confirmation" type="password" name="password_confirmation" required
-                        autocomplete="new-password" />
+                        <x-text-input id="password_confirmation" type="password" name="password_confirmation" required
+                            autocomplete="new-password" data-name="password" />
+                        <span class="show-pass eye">
+                            <i class="fa fa-eye-slash"></i>
+                            <i class="fa fa-eye"></i>
+                        </span>
+                    </div>
 
                     <x-input-error :messages="$errors->get('password_confirmation')" />
                 </div>

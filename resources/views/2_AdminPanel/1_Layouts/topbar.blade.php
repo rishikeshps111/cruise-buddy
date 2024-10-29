@@ -255,7 +255,7 @@
                                 aria-expanded="false">
                                 <div class="header-info2 d-flex align-items-center">
                                     <div class="header-media">
-                                        <img src="{{ asset('2_AdminPanel/assets/images/tab/1.jpg') }}" alt="">
+                                        <img src="{{ Auth::user()->image_path ? asset('storage/' . Auth::user()->image_path) : asset('2_AdminPanel/assets/images/dummy-avatar.jpg') }}" alt="">
                                     </div>
                                     <div class="header-info">
                                         <h6>{{ Auth::user()->name }}</h6>
@@ -268,7 +268,7 @@
                                 <div class="card border-0 mb-0">
                                     <div class="card-header py-2">
                                         <div class="products">
-                                            <img src="{{ asset('2_AdminPanel/assets/images/tab/1.jpg') }}"
+                                            <img src="{{ Auth::user()->image_path ? asset('storage/' . Auth::user()->image_path) : asset('2_AdminPanel/assets/images/dummy-avatar.jpg') }}"
                                                 class="avatar avatar-md" alt="">
                                             <div>
                                                 <h6>{{ Auth::user()->name }}</h6>

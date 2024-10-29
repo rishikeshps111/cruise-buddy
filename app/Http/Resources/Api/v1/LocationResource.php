@@ -5,7 +5,7 @@ namespace App\Http\Resources\Api\v1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class LocationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,11 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'phoneNumber' => $this->phone,
-            'owner' => new OwnerResource($this->whenLoaded('owners'))
+            'location' => $this->location,
+            'district' => $this->district,
+            'state' => $this->state,
+            'country' => $this->country,
+            'mapUrl' => $this->map_url
         ];
     }
 }

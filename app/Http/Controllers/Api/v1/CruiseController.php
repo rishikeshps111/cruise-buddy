@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\v1\CruiseResource;
 use App\Models\Cruise;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CruiseController extends Controller
@@ -16,15 +15,16 @@ class CruiseController extends Controller
      */
     public function index()
     {
+        $page_limit = request()->query('page_limit') ?: 20;
         $cruise = QueryBuilder::for(Cruise::class)
             ->allowedIncludes(['location', 'cruise_type', 'owner.user'])
             ->allowedFilters([
-                AllowedFilter::partial('location.name'),
-                AllowedFilter::partial('cruise_type.model_name'),
-                AllowedFilter::partial('cruise_type.type'),
+                'location.name',
+                'cruise_type.model_name',
+                'cruise_type.type',
             ])
             ->with('cruises_images')
-            ->paginate()->withQueryString();
+            ->paginate($page_limit)->withQueryString();
 
         return CruiseResource::collection($cruise);
     }
@@ -40,9 +40,13 @@ class CruiseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Cruise $cruise)
     {
-        //
+        $query = QueryBuilder::for(Cruise::class)
+            ->allowedIncludes(['location', 'cruise_type', 'owner.user'])
+            ->with('cruises_images');
+        $cruise = $query->find($cruise->id);
+        return new CruiseResource($cruise);
     }
 
     /**

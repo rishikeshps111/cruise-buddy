@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\v1\CruiseResource;
 use App\Http\Resources\Api\v1\CruiseTypeResource;
 use App\Models\CruiseType;
 use Illuminate\Http\Request;
@@ -15,9 +16,10 @@ class CruiseTypeController extends Controller
      */
     public function index()
     {
+        $page_limit = request()->query('page_limit') ?: 20;
         $cruise_types = QueryBuilder::for(CruiseType::class)
-            ->allowedIncludes('cruises.location')
-            ->get();
+            ->paginate($page_limit)
+            ->withQueryString();
         return CruiseTypeResource::collection($cruise_types);
     }
 
@@ -32,9 +34,9 @@ class CruiseTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(CruiseType $cruise_type)
     {
-        //
+        return new CruiseTypeResource($cruise_type);
     }
 
     /**

@@ -15,9 +15,11 @@ class UserController extends Controller
      */
     public function index()
     {
+        $page_limit = request()->query('page_limit') ?: 20;
         $users = QueryBuilder::for(User::class)
             ->allowedIncludes('owners')
-            ->paginate()->withQueryString();
+            ->paginate($page_limit)
+            ->withQueryString();
         return UserResource::collection($users);
 
         // if (request()->query('include', '') && in_array('owners', explode(',', request()->query('include')))) {
@@ -52,8 +54,9 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return response()->noContent(204);
     }
 }

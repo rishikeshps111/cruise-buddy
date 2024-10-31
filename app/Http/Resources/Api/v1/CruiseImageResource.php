@@ -5,7 +5,7 @@ namespace App\Http\Resources\Api\v1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class LocationResource extends JsonResource
+class CruiseImageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +16,9 @@ class LocationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'district' => $this->district,
-            'state' => $this->state,
-            'country' => $this->country,
-            'mapUrl' => $this->map_url,
-            'cruises' => CruiseResource::collection($this->whenLoaded('cruises'))
+            'cruiseId' => $this->cruise_id,
+            'cruiseImg' => $this->cruise_img,
+            'alt' => $this->alt
         ];
     }
 }

@@ -18,9 +18,14 @@ class LocationController extends Controller
         $page_limit = request()->query('page_limit') ?: 20;
 
         $locations = QueryBuilder::for(Location::class)
-            ->allowedFilters(['location', 'district', 'state'])
+            ->allowedFilters([
+                'location',
+                'district',
+                'state'
+            ])
             ->allowedSorts('location')
-            ->paginate($page_limit)->withQueryString();
+            ->paginate($page_limit)
+            ->withQueryString();
 
         return LocationResource::collection($locations);
     }

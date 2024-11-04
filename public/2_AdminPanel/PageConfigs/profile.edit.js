@@ -6,10 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const type = sessionMessageElement.getAttribute('data-type');
         showToast(message, 3000, type);
     }
-
-    initIntlTelInput('phone','validate-phone','UpdateProfile');
     ActiveTab();
 });
+
+initIntlTelInput('phone','validate-phone','UpdateProfile');
 
 document.querySelector('.avatar-upload-button').addEventListener('click', function () {
     document.getElementById('avatar').click();
@@ -115,7 +115,8 @@ const updatePasswordConfig = {
     },
 };
 
-initializeValidator('#UpdatePassword', updatePasswordConfig);
+// the parameter true for automatically submit the form if validation all true
+initializeValidator('#UpdatePassword', updatePasswordConfig, true); 
 
 const updateProfileConfig = {
     '#name': {
@@ -140,6 +141,23 @@ const updateProfileConfig = {
                 rule: 'required',
                 errorMessage: 'Phone is required',
             },
+            {
+                rule: 'custom',
+                validator: (value) => {
+                    try {
+
+                        let countryCode = document.querySelector('input[name="country_code"]').value;
+                        let numberObj = libphonenumber.parsePhoneNumber(value.replace(/\s+/g, ''), countryCode.toUpperCase());
+                        return numberObj.isValid();
+
+                    } catch (error) {
+
+                        return false;
+                    }
+
+                },
+                errorMessage: 'Please enter a valid phone number.',
+            },
         ],
         options: {
             errorsContainer: '.validate-phone', // Custom container for current password
@@ -147,6 +165,6 @@ const updateProfileConfig = {
     },
 };
 
-initializeValidator('#UpdateProfile', updateProfileConfig);
+initializeValidator('#UpdateProfile', updateProfileConfig, true);
 
 

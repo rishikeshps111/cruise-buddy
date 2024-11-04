@@ -21,6 +21,7 @@ class Owner extends Model
 		'proof_type',
 		'proof_id',
 		'proof_image',
+		'country_code',
 		'additional_phone'
 	];
 

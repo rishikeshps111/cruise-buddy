@@ -17,20 +17,15 @@
     <!-- MOBILE SPECIFIC -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+     <!-- Common Style Sheets -->
     <link href="{{ asset('2_AdminPanel/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
-    <link href="{{ asset('2_AdminPanel/assets/vendor/swiper/css/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.css">
     <link href="{{ asset('2_AdminPanel/assets/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('2_AdminPanel/assets/vendor/jvmap/jquery-jvectormap.css') }}" rel="stylesheet">
-    <link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet">
-    <link href="{{ asset('2_AdminPanel/assets/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}"
-        rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/css/intlTelInput.css">
 
-    <!-- Tagify-css -->
-    <link href="{{ asset('2_AdminPanel/assets/vendor/tagify/dist/tagify.css') }}" rel="stylesheet">
+     <!-- Page Based Styles  -->
+    @yield('styles')
 
     <!-- Style css -->
     <link href="{{ asset('2_AdminPanel/assets/css/style.css') }}" rel="stylesheet">
@@ -124,40 +119,20 @@
     <!--**********************************
         Scripts
     ***********************************-->
-    <!-- Required vendors -->
+    <!-- Common vendors -->
     <script src="{{ asset('2_AdminPanel/assets/vendor/global/global.min.js') }}"></script>
-    <script src="{{ asset('2_AdminPanel/assets/vendor/chart.js/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/js/intlTelInput.min.js"></script>
     <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
-    <script src="{{ asset('2_AdminPanel/assets/vendor/apexchart/apexchart.js') }}"></script>
-
-    <!-- Dashboard 1 -->
-    <script src="{{ asset('2_AdminPanel/assets/js/dashboard/dashboard-1.js') }}"></script>
-    <script src="{{ asset('2_AdminPanel/assets/vendor/draggable/draggable.js') }}"></script>
-
-
-    <!-- tagify -->
-    <script src="{{ asset('2_AdminPanel/assets/vendor/tagify/dist/tagify.js') }}"></script>
-
-    <script src="{{ asset('2_AdminPanel/assets/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('2_AdminPanel/assets/vendor/datatables/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('2_AdminPanel/assets/vendor/datatables/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('2_AdminPanel/assets/vendor/datatables/js/jszip.min.js') }}"></script>
-    {{-- <script src="{{ asset('2_AdminPanel/assets/js/plugins-init/datatables.init.js') }}"></script> --}}
-
-    <!-- Apex Chart -->
-
-    <script src="{{ asset('2_AdminPanel/assets/vendor/bootstrap-datetimepicker/js/moment.js') }}"></script>
-    <script src="{{ asset('2_AdminPanel/assets/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}">
-    </script>
-
-
-    <!-- Vectormap -->
-    <script src="{{ asset('2_AdminPanel/assets/vendor/jqvmap/js/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('2_AdminPanel/assets/vendor/jqvmap/js/jquery.vmap.world.js') }}"></script>
-    <script src="{{ asset('2_AdminPanel/assets/vendor/jqvmap/js/jquery.vmap.usa.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.9.50/libphonenumber-js.min.js"></script>
+    <script src="{{ asset('2_AdminPanel/assets/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+
+    <!-- Page Based Vendors  -->
+    @yield('scripts')
+
+    <!-- Common Vectormap -->
     <script src="{{ asset('2_AdminPanel/assets/js/custom.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/js/deznav-init.js') }}"></script>
     <script src="{{ asset('2_AdminPanel/assets/js/demo.js') }}"></script>

@@ -38,18 +38,17 @@ class ProfileController extends Controller
         $avatar = $request->avatar ?? null;
 
         if ($avatar) {
-           
+
             if ($request->user()->image_path) {
                 $directoryPath = dirname($request->user()->image_path);
                 Storage::disk('public')->deleteDirectory($directoryPath);
             }
-            $request->user()->image_path = $avatar->store('user/' . Str::random(), 'public');
+            $request->user()->image_path = $avatar->store('users/' . $request->user()->id . '/avatar/' . Str::random(), 'public');
         }
 
         $formattedPhoneNumber = new PhoneNumber($request->phone, $request->country_code);
-        
-        $request->user()->phone = $formattedPhoneNumber;
-        $request->user()->country_code = $formattedPhoneNumber->getCountry();
+        $request->user()->phone = $formattedPhoneNumber->formatE164();
+        $request->user()->country_code = $request->country_code;
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');

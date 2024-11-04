@@ -18,8 +18,13 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             OwnerSeeder::class,
             LocationSeeder::class,
+<<<<<<< HEAD
+            CruiseSeeder::class,
+            CruiseTypeSeeder::class,
+=======
             CruiseTypeSeeder::class,
             CruiseSeeder::class,
+>>>>>>> main
             CruiseImageSeeder::class,
         ]);
     }

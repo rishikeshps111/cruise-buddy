@@ -19,8 +19,8 @@ class UserSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         //     'password' => Hash::make('test@example.com'),
-        //     'phone' => '8047892340',
-        //     'country_code' => '+91',
+        //     'phone' => '+918047892340',
+        //     'country_code' => 'in',
         // ]);
 
         // $user->assignRole('admin');

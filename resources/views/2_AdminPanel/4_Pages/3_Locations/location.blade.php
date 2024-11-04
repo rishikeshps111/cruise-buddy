@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <!-- Breadcrumb -->
-    @component('2_AdminPanel.5_Components.breadcrumb', ['title' => 'Owners', 'activePage' => 'Owners'])
+    @component('2_AdminPanel.5_Components.breadcrumb', ['title' => 'Locations', 'activePage' => 'Locations'])
     @endcomponent
 
     <!-- container starts -->
@@ -15,11 +15,11 @@
                         <div class="card dz-card" id="accordion-three">
                             <div class="card-header flex-wrap d-flex justify-content-between">
                                 <div>
-                                    <h4 class="card-title">Owners Table</h4>
+                                    <h4 class="card-title">Locations Table</h4>
                                 </div>
                                 <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" role="button"
-                                    aria-controls="offcanvasExample" id="addOwnerButton">+ Add
-                                    Owner</button>
+                                    aria-controls="offcanvasExample" id="addLocationButton">+ Add
+                                    Location</button>
                             </div>
                             <!-- tab-content -->
                             <div class="tab-content">
@@ -31,13 +31,12 @@
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
-                                                        <th>Image</th>
-                                                        <th>Name</th>
-                                                        <th>Email</th>
-                                                        <th>Phone</th>
-                                                        <th>Proof</th>
-                                                        <th>Proof ID</th>
-                                                        <th>Status</th>
+                                                        <th>Thumbnail</th>
+                                                        <th>Location</th>
+                                                        <th>District</th>
+                                                        <th>State</th>
+                                                        <th>Country</th>
+                                                        <th>Map URL</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -46,21 +45,14 @@
                                                         <th><input class="form-control" type="text" disabled></th>
                                                         <th><input class="form-control" type="text" disabled></th>
                                                         <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Name"></th>
+                                                                placeholder="Filter by Location"></th>
                                                         <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Email"></th>
+                                                                placeholder="Filter by District"></th>
                                                         <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Phone"></th>
+                                                                placeholder="Filter by State"></th>
+                                                        <th><input class="form-control" type="text"
+                                                                placeholder="Filter by Country"></th>
                                                         <th><input class="form-control" type="text" disabled></th>
-                                                        <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Proof ID"></th>
-                                                        <th>
-                                                            <select id="statusFilter" class="form-control-sm mb-2">
-                                                                <option value="">All</option>
-                                                                <option value="1">Active</option>
-                                                                <option value="0">Inactive</option>
-                                                            </select>
-                                                        </th>
                                                         <th><button id="resetButton" class="btn btn-danger"><i
                                                                     class="fa-solid fa-filter me-2"></i></button></th>
                                                     </tr>

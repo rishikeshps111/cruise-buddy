@@ -7,7 +7,11 @@ var W3Crm = function () {
 
 	var handleSelectPicker = function () {
 		if (jQuery('.default-select,.table-responsive select').length > 0) {
-			jQuery('.default-select,.table-responsive select').selectpicker();
+			jQuery('.default-select,.table-responsive select').selectpicker({
+				liveSearch: true, // Enable search functionality
+				liveSearchPlaceholder: 'Search...', // Placeholder for search input
+				size: 5
+			});
 		}
 	}
 

@@ -95,17 +95,6 @@
                                 <ul class="timeline">
                                     <li>
                                         <div class="timeline-panel">
-                                            <div class="media me-2">
-                                                <img alt="image" width="50" src="images/avatar/1.jpg">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="mb-1">Dr sultads Send you Photo</h6>
-                                                <small class="d-block">29 July 2020 - 02:26 PM</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="timeline-panel">
                                             <div class="media me-2 media-info">
                                                 KG
                                             </div>
@@ -122,17 +111,6 @@
                                             </div>
                                             <div class="media-body">
                                                 <h6 class="mb-1">Reminder : Treatment Time!</h6>
-                                                <small class="d-block">29 July 2020 - 02:26 PM</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="timeline-panel">
-                                            <div class="media me-2">
-                                                <img alt="image" width="50" src="images/avatar/1.jpg">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="mb-1">Dr sultads Send you Photo</h6>
                                                 <small class="d-block">29 July 2020 - 02:26 PM</small>
                                             </div>
                                         </div>
@@ -161,17 +139,6 @@
                                     </li>
                                     <li>
                                         <div class="timeline-panel">
-                                            <div class="media me-2">
-                                                <img alt="image" width="50" src="images/avatar/1.jpg">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="mb-1">Dr sultads Send you Photo</h6>
-                                                <small class="d-block">29 July 2020 - 02:26 PM</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="timeline-panel">
                                             <div class="media me-2 media-info">
                                                 KG
                                             </div>
@@ -188,17 +155,6 @@
                                             </div>
                                             <div class="media-body">
                                                 <h6 class="mb-1">Reminder : Treatment Time!</h6>
-                                                <small class="d-block">29 July 2020 - 02:26 PM</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="timeline-panel">
-                                            <div class="media me-2">
-                                                <img alt="image" width="50" src="images/avatar/1.jpg">
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="mb-1">Dr sultads Send you Photo</h6>
                                                 <small class="d-block">29 July 2020 - 02:26 PM</small>
                                             </div>
                                         </div>

@@ -22,13 +22,8 @@ class OwnerFactory extends Factory
         $phone = substr($phoneNumber, 3);
 
         return [
-<<<<<<< HEAD
             'user_id' => User::factory()->create(),
             'proof_type' => fake()->randomElement(['aadhaar', 'passport', 'voter_id', 'driving_license']),
-=======
-            'user_id' => User::inRandomOrder()->first()->id,
-            'proof_type' => fake()->randomElement(['aadhar', 'passport', 'voter_id', 'driving_license']),
->>>>>>> main
             'proof_id' => fake()->randomNumber(5, true),
             'proof_image' => fake()->imageUrl(),
             'country_code' => fake()->randomElement(['in', 'au']),

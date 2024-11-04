@@ -13,6 +13,6 @@ class CruiseImageSeeder extends Seeder
      */
     public function run(): void
     {
-        CruisesImage::factory(5)->create();
+        CruisesImage::factory(1000)->create();
     }
 }

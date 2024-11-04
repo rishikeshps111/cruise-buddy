@@ -18,9 +18,9 @@ class CruisesImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'cruise_id' => Cruise::factory(),
+            'cruise_id' => Cruise::inRandomOrder()->first()->id,
             'cruise_img' => fake()->imageUrl(640, 480, 'cruise'),
-            'alt' =>fake()->sentence(),
+            'alt' => fake()->word(),
         ];
     }
 }

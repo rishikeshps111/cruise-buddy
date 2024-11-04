@@ -3,29 +3,52 @@
 namespace App\Http\Controllers\Api\v1;
 
 use Carbon\Carbon;
-use Google_Client as GoogleClient;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Google_Client as GoogleClient;
+use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Auth\Events\Registered;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticationController extends Controller
 {
-    public function login(Request $request)
+    public function register(LoginRequest $request)
     {
         $request->validate([
-            'email' => 'required',
-            'password' => 'required'
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password_confirmation' => ['required']
         ]);
-        if (!auth()->attempt($request->only(['email', 'password']))) {
-            return "Invalid user";
-        } else {
-            $user = auth()->user();
-            $token = $user->createToken('AppUser');
-            return [
-                'token' => $token->plainTextToken
-            ];
-        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'email_verified_at' => now()
+        ]);
+
+        event(new Registered($user));
+        Auth::login($user);
+        $token = $user->createToken('AppUser');
+        return response()->json([
+            'user' => $user,
+            'token' => $token->plainTextToken
+        ], 201);
+    }
+    public function login(LoginRequest $request)
+    {
+        $request->authenticate();
+        $user = Auth::user();
+        $token = $user->createToken('AppUser');
+        return response()->json([
+            'user' => $user,
+            'token' => $token->plainTextToken
+        ], 201);
     }
     public function phoneVerify(Request $request)
     {
@@ -38,10 +61,10 @@ class AuthenticationController extends Controller
             $otp,
             Carbon::now()->addMinutes(2)
         );
-        return [
+        return response()->json([
             'message' => 'Send messages successful',
             'opt' => $otp
-        ];
+        ], 200);
     }
     public function otpVerify(Request $request)
     {
@@ -54,18 +77,22 @@ class AuthenticationController extends Controller
         if ($cacheOtp == $request->otp) {
             $user = User::updateOrCreate(
                 ['phone' => $phone],
-                ['password' => str()->password()]
+                [
+                    'password' => str()->password(),
+                    'email_verified_at' => User::where('phone', $phone)->value('email_verified_at') ?? now()
+                ]
             );
 
-            auth()->login($user);
+            Auth::login($user);
             $token = $user->createToken('AppUser');
-            return [
+            return response()->json([
+                'user' => $user,
                 'token' => $token->plainTextToken
-            ];
+            ], 201);
         } else {
-            return [
-                'Invalid login'
-            ];
+            return response()->json([
+                'error' => 'Unauthorized'
+            ], 401);
         }
     }
     public function googleVerify(Request $request)
@@ -85,13 +112,14 @@ class AuthenticationController extends Controller
                 ['email' => $email],
                 [
                     'password' => str()->password(),
-                    'google_id' => $googleId
+                    'google_id' => $googleId,
+                    'email_verified_at' => User::where('email', $email)->value('email_verified_at') ?? now()
                 ]
             );
-            auth()->login($user);
+            Auth::login($user);
             $token = $user->createToken('AppUser');
             return response()->json([
-                'message' => 'Login success',
+                'user' => $user,
                 'token' => $token->plainTextToken
             ], 200);
         } else {
@@ -102,9 +130,9 @@ class AuthenticationController extends Controller
     }
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete();
+        Auth::user()->tokens()->delete();
         return response()->json([
             'message' => 'Logout successfully'
-        ], 201);
+        ], 202);
     }
 }

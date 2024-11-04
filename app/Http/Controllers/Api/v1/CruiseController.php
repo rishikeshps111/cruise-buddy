@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\v1\LocationResource;
-use App\Models\Location;
+use App\Http\Resources\Api\v1\CruiseResource;
+use App\Models\Cruise;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class LocationController extends Controller
+class CruiseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,18 +16,17 @@ class LocationController extends Controller
     public function index()
     {
         $page_limit = request()->query('page_limit') ?: 20;
-
-        $locations = QueryBuilder::for(Location::class)
+        $cruise = QueryBuilder::for(Cruise::class)
+            ->allowedIncludes(['location', 'cruise_type', 'owner.user'])
             ->allowedFilters([
-                'location',
-                'district',
-                'state'
+                'location.name',
+                'cruise_type.model_name',
+                'cruise_type.type',
             ])
-            ->allowedSorts('location')
-            ->paginate($page_limit)
-            ->withQueryString();
+            ->with('cruises_images')
+            ->paginate($page_limit)->withQueryString();
 
-        return LocationResource::collection($locations);
+        return CruiseResource::collection($cruise);
     }
 
     /**
@@ -41,9 +40,13 @@ class LocationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Location $location)
+    public function show(Cruise $cruise)
     {
-        return new LocationResource($location);
+        $query = QueryBuilder::for(Cruise::class)
+            ->allowedIncludes(['location', 'cruise_type', 'owner.user'])
+            ->with('cruises_images');
+        $cruise = $query->find($cruise->id);
+        return new CruiseResource($cruise);
     }
 
     /**

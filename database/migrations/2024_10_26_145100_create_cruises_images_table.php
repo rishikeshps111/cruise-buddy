@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->foreignId('cruise_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('cruise_img');
-            $table->string('alt',50)->nullable();
+            $table->string('alt', 50)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

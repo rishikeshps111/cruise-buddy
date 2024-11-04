@@ -12,6 +12,6 @@ class CruiseSeeder extends Seeder
      */
     public function run(): void
     {
-        Cruise::factory(5)->create();
+        Cruise::factory(50)->create();
     }
 }

@@ -100,7 +100,7 @@ class LocationController extends Controller
         $location->update($data);
 
         return response()->json([
-            'message' => $data['location'] . ' Details Updated Successfully',
+            'message' => $data['name'] . ' Details Updated Successfully',
             'data' => $location,
         ], 200);
     }
@@ -120,7 +120,7 @@ class LocationController extends Controller
         $location->delete();
 
         return response()->json([
-            'message' => 'Location ' . $location->location . ' Deleted Successfully',
+            'message' => 'Location ' . $location->name . ' Deleted Successfully',
             'data' => $location,
         ], 200);
     }

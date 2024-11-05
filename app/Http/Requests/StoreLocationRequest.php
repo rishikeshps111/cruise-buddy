@@ -22,7 +22,7 @@ class StoreLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'location' => ['required'],
+            'name' => ['required'],
             'district' => ['required'],
             'state' => ['required'],
             'country' => ['required'],

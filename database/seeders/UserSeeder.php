@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('test@example.com'),
             'phone' => '+918047892340',
             'country_code' => 'in',
+            'email_verified_at' => now()
         ]);
 
         $user->assignRole('admin');

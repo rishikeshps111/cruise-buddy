@@ -16,7 +16,7 @@
                                             <li>
                                                 <h6 class="me-1 mb-0">Location:</h6>
                                                 <span
-                                                    class="fs-13">{{ formatDocumentName($location->location) }}</span>
+                                                    class="fs-13">{{ formatDocumentName($location->name) }}</span>
                                             </li>
                                             <li>
                                                 <h6 class="me-1 mb-0">District:</h6>

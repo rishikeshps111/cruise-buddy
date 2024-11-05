@@ -6,10 +6,10 @@
     @endif
     <div class="row">
         <div class="mb-3 col-md-6">
-            <x-input-label for="location" :value="__('Location')" />
-            <x-text-input id="location" type="text" name="location" :value="old('location')" placeholder="Enter Location"
-                value="{{ $data->location ?? '' }}" />
-            <x-input-error :messages="$errors->get('location')" />
+            <x-input-label for="name" :value="__('Name')" />
+            <x-text-input id="name" type="text" name="name" :value="old('name')" placeholder="Enter Name"
+                value="{{ $data->name ?? '' }}" />
+            <x-input-error :messages="$errors->get('name')" />
         </div>
         <div class="mb-3 col-md-6">
             <x-input-label for="district" :value="__('District')" />

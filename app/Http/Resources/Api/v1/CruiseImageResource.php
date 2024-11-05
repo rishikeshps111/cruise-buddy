@@ -18,7 +18,8 @@ class CruiseImageResource extends JsonResource
             'id' => $this->id,
             'cruiseId' => $this->cruise_id,
             'cruiseImg' => $this->cruise_img,
-            'alt' => $this->alt
+            'alt' => $this->alt,
+            'cruise' => new CruiseResource($this->whenLoaded('cruise'))
         ];
     }
 }

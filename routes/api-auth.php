@@ -29,11 +29,11 @@ Route::get('google-verify', function (Request $request) {
     $name = $userInfo->name;
     $picture = $userInfo->picture;
 
-    return [
+    return response()->json([
         'google_id' => $googleId,
         'token' => $token['id_token'],
         'name' => $name,
         'email' => $email,
         'picture' => $picture
-    ];
+    ], 200);
 });

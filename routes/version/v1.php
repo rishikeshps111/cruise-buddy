@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\v1\AuthenticationController;
 use App\Http\Controllers\Api\v1\CruiseController;
+use App\Http\Controllers\Api\v1\CruiseImageController;
 use App\Http\Controllers\Api\v1\CruiseTypeController;
 use App\Http\Controllers\Api\v1\LocationController;
 use App\Http\Controllers\Api\v1\OwnerController;
@@ -28,5 +29,7 @@ Route::prefix('/v1')->name('api.v1.')->group(function () {
         Route::apiResource('cruise-type', CruiseTypeController::class);
         
         Route::apiResource('cruise', CruiseController::class);
+
+        Route::apiResource('cruise-images', CruiseImageController::class);
     });
 });

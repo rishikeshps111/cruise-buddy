@@ -10,9 +10,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class OwnerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $page_limit = request()->query('page_limit') ?: 20;
@@ -23,17 +20,11 @@ class OwnerController extends Controller
         return OwnerResource::collection($owners);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Owner $owner)
     {
         $query = QueryBuilder::for(Owner::class)
@@ -42,17 +33,11 @@ class OwnerController extends Controller
         return new OwnerResource($owner);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

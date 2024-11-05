@@ -2,21 +2,18 @@
 
 namespace Tests\Feature\Api\v1;
 
-use App\Models\Cruise;
-use App\Models\CruisesImage;
-use App\Models\CruiseType;
-use App\Models\Location;
-use App\Models\Owner;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Owner;
+use App\Models\Cruise;
+use App\Models\Location;
+use App\Models\CruiseType;
+use App\Models\CruisesImage;
+use Laravel\Sanctum\Sanctum;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CruiseTest extends TestCase
+class CruiseImageTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     use RefreshDatabase;
     protected $user;
     public function setup(): void
@@ -31,34 +28,32 @@ class CruiseTest extends TestCase
         Cruise::factory(50)->create();
         CruisesImage::factory(200)->create();
     }
-    public function test_fetch_all_cruise_api(): void
+    public function test_fetch_all_cruise_image_api(): void
     {
-        $response = $this->getJson('api/v1/cruise');
+        $response = $this->getJson('api/v1/cruise-images');
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
                     '*' => [
                         'id',
-                        'rooms',
-                        'maxCapacity',
-                        'description',
-                        'isActive'
+                        'cruiseId',
+                        'cruiseImg',
+                        'alt'
                     ]
                 ]
             ]);
     }
-    public function test_fetch_cruise_api(): void
+    public function test_fetch_cruise_image_api(): void
     {
-        $id = Cruise::first()->id;
-        $response = $this->getJson('api/v1/cruise/' . $id);
+        $id = CruisesImage::first()->id;
+        $response = $this->getJson('api/v1/cruise-images/' . $id);
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
                     'id',
-                    'rooms',
-                    'maxCapacity',
-                    'description',
-                    'isActive'
+                    'cruiseId',
+                    'cruiseImg',
+                    'alt'
                 ]
             ]);
     }

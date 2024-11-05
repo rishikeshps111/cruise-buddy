@@ -3,7 +3,7 @@
         <div class="login-form">
             <div class="text-center">
                 <h3 class="title">Sign In</h3>
-                <p>Sign in to your account to start using W3CRM</p>
+                <p>Sign in to your account to start using Cruise Buddy</p>
             </div>
             <!-- Session Status -->
             <x-auth-session-status class="mb-4" :status="session('status')" />

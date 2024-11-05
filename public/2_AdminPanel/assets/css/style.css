@@ -47459,4 +47459,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/*# sourceMappingURL=style.css.map */
+.proof-image {
+    height: 200px;       
+    border-radius: 8px;  
+    object-fit: cover;  
+}

@@ -48,8 +48,7 @@
                     <label class="form-label mb-md-0" for="phone">Contact Phone</label>
                 </div>
                 <div class="col-md-9">
-                    <x-text-input id="phone" name="phone" type="tel" :value="old('phone', $user->phone)" required
-                        autocomplete="username" />
+                    <x-text-input id="phone" name="phone" type="tel" :value="old('phone', $user->phone)" required />
                     <div class="validate-phone"></div>
                     <x-input-error :messages="$errors->get('phone')" />
                 </div>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('state', 50);
             $table->string('country', 50);
             $table->longText('map_url')->nullable();
+            $table->string('thumbnail')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

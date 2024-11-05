@@ -16,7 +16,8 @@ class Location extends Model
 		'district',
 		'state',
 		'country',
-		'map_url'
+		'map_url',
+		'thumbnail'
 	];
 
 	public function cruises()

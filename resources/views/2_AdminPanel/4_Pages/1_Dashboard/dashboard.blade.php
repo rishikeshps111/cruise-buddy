@@ -1365,4 +1365,12 @@
         </div>
 
     </div>
+
+    @section('scripts')
+        <script src="{{ asset('2_AdminPanel/assets/vendor/chart.js/Chart.bundle.min.js') }}"></script>
+        <script src="{{ asset('2_AdminPanel/assets/vendor/apexchart/apexchart.js') }}"></script>
+        <script src="{{ asset('2_AdminPanel/assets/js/dashboard/dashboard-1.js') }}"></script>
+        <script src="{{ asset('2_AdminPanel/assets/vendor/draggable/draggable.js') }}"></script>
+    @endsection
+
 </x-app-layout>

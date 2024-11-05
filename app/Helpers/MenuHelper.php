@@ -25,16 +25,32 @@ class MenuHelper
                     ],
                     [
                         'name' => 'Owners',
-                        'route' => 'owners.index', 
+                        'route' => 'owners.index', // Define the route name for employees
                         'icon' => '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10.99 14.07C7.44 14.07 4.41 14.6 4.41 16.75C4.41 18.9 7.42 19.45 10.99 19.45C14.53 19.45 17.56 18.92 17.56 16.77C17.56 14.62 14.55 14.07 10.99 14.07Z" stroke="#888" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M10.99 11.01C13.31 11.01 15.2 9.12 15.2 6.79C15.2 4.47 13.31 2.58 10.99 2.58C8.66 2.58 6.77 4.47 6.77 6.79C6.77 9.11 8.64 11.01 10.99 11.01Z" stroke="#888" stroke-linecap="round" stroke-linejoin="round"/>
                                    </svg>',
-                        'subMenu' => [
-                            ['name' => 'List', 'route' => 'owners.index'],
-                            ['name' => 'Add New', 'route' => 'profile.edit'],
-                        ],
                     ],
+                    [
+                        'name' => 'Locations',
+                        'route' => 'locations.index', // Define the route name for employees
+                        'icon' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 10.5005C14.5 9.11924 13.3808 8 12.0005 8C10.6192 8 9.5 9.11924 9.5 10.5005C9.5 11.8808 10.6192 13 12.0005 13C13.3808 13 14.5 11.8808 14.5 10.5005Z" stroke="#888" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9995 21C10.801 21 4.5 15.8984 4.5 10.5633C4.5 6.38664 7.8571 3 11.9995 3C16.1419 3 19.5 6.38664 19.5 10.5633C19.5 15.8984 13.198 21 11.9995 21Z" stroke="#888" stroke-linecap="round" stroke-linejoin="round"/>
+                                   </svg>',
+                    ],
+                    // [
+                    //     'name' => 'Owners',
+                    //     'route' => 'owners.index',
+                    //     'icon' => '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    //                 <path d="M10.99 14.07C7.44 14.07 4.41 14.6 4.41 16.75C4.41 18.9 7.42 19.45 10.99 19.45C14.53 19.45 17.56 18.92 17.56 16.77C17.56 14.62 14.55 14.07 10.99 14.07Z" stroke="#888" stroke-linecap="round" stroke-linejoin="round"/>
+                    //                 <path d="M10.99 11.01C13.31 11.01 15.2 9.12 15.2 6.79C15.2 4.47 13.31 2.58 10.99 2.58C8.66 2.58 6.77 4.47 6.77 6.79C6.77 9.11 8.64 11.01 10.99 11.01Z" stroke="#888" stroke-linecap="round" stroke-linejoin="round"/>
+                    //                </svg>',
+                    //     'subMenu' => [
+                    //         ['name' => 'List', 'route' => 'owners.index'],
+                    //         ['name' => 'Add New', 'route' => 'profile.edit'],
+                    //     ],
+                    // ],
                 ],
             ],
         ];

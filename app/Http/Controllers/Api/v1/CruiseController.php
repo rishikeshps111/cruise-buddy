@@ -10,36 +10,26 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class CruiseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $page_limit = request()->query('page_limit') ?: 20;
         $cruise = QueryBuilder::for(Cruise::class)
-            ->allowedIncludes(['location', 'cruise_type', 'owner.user'])
+            ->allowedIncludes(['location', 'cruise_type', 'cruises_images' , 'owner.user'])
             ->allowedFilters([
                 'location.name',
                 'cruise_type.model_name',
                 'cruise_type.type',
             ])
-            ->with('cruises_images')
             ->paginate($page_limit)->withQueryString();
 
         return CruiseResource::collection($cruise);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Cruise $cruise)
     {
         $query = QueryBuilder::for(Cruise::class)
@@ -49,18 +39,12 @@ class CruiseController extends Controller
         return new CruiseResource($cruise);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Cruise $cruise)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Cruise $cruise)
     {
         //
     }

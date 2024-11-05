@@ -6,37 +6,26 @@ use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Google_Client as GoogleClient;
-use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\v1\OtpVerifyRequest;
+use App\Http\Requests\Api\v1\RegistrationRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\Api\v1\UserResource;
 
 class AuthenticationController extends Controller
 {
-    public function register(LoginRequest $request)
+    public function register(RegistrationRequest $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'password_confirmation' => ['required']
-        ]);
+        $user = $request->register();
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'email_verified_at' => now()
-        ]);
-
-        event(new Registered($user));
+        // event(new Registered($user)); email sending
         Auth::login($user);
         $token = $user->createToken('AppUser');
         return response()->json([
-            'user' => $user,
+            'user' => new UserResource($user),
             'token' => $token->plainTextToken
         ], 201);
     }
@@ -46,7 +35,7 @@ class AuthenticationController extends Controller
         $user = Auth::user();
         $token = $user->createToken('AppUser');
         return response()->json([
-            'user' => $user,
+            'user' => new UserResource($user),
             'token' => $token->plainTextToken
         ], 201);
     }
@@ -63,20 +52,18 @@ class AuthenticationController extends Controller
         );
         return response()->json([
             'message' => 'Send messages successful',
-            'opt' => $otp
+            'otp' => $otp
         ], 200);
     }
-    public function otpVerify(Request $request)
+    public function otpVerify(OtpVerifyRequest $request)
     {
-        $request->validate([
-            'otp' => 'required|min:4|max:4',
-            'phoneNumber' => 'required'
-        ]);
         $phone = $request->phoneNumber;
         $cacheOtp = Cache::get('otp_' . $phone);
         if ($cacheOtp == $request->otp) {
             $user = User::updateOrCreate(
-                ['phone' => $phone],
+                [
+                    'phone' => $phone
+                ],
                 [
                     'password' => str()->password(),
                     'email_verified_at' => User::where('phone', $phone)->value('email_verified_at') ?? now()
@@ -86,7 +73,7 @@ class AuthenticationController extends Controller
             Auth::login($user);
             $token = $user->createToken('AppUser');
             return response()->json([
-                'user' => $user,
+                'user' => new UserResource($user),
                 'token' => $token->plainTextToken
             ], 201);
         } else {
@@ -98,28 +85,28 @@ class AuthenticationController extends Controller
     public function googleVerify(Request $request)
     {
         $request->validate([
-            'token' => 'required'
+            'authToken' => 'required'
         ]);
         $client = new GoogleClient(['client_id' => env('GOOGLE_CLIENT_ID')]);
         $payload = $client->verifyIdToken($request->token);
 
         if ($payload) {
-            $googleId = $payload['sub'];
             $email = $payload['email'];
-            $name = $payload['name'];
-
             $user = User::updateOrCreate(
-                ['email' => $email],
                 [
+                    'email' => $email
+                ],
+                [
+                    'name' => $payload['name'],
                     'password' => str()->password(),
-                    'google_id' => $googleId,
+                    'google_id' => $payload['sub'],
                     'email_verified_at' => User::where('email', $email)->value('email_verified_at') ?? now()
                 ]
             );
             Auth::login($user);
             $token = $user->createToken('AppUser');
             return response()->json([
-                'user' => $user,
+                'user' => new UserResource($user),
                 'token' => $token->plainTextToken
             ], 200);
         } else {

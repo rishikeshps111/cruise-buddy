@@ -22,7 +22,7 @@ class LocationTest extends TestCase
         Location::factory(10)->create();
         Sanctum::actingAs($this->user, ['*']);
     }
-    public function test_fetch_all_location__api(): void
+    public function test_fetch_all_location_api(): void
     {
         $response = $this->getJson('/api/v1/location');
         $response->assertStatus(200)
@@ -39,7 +39,7 @@ class LocationTest extends TestCase
                 ]
             ]);
     }
-    public function test_fetch_location__api(): void
+    public function test_fetch_location_api(): void
     {
         $id = Location::inRandomOrder()->first()->id;
         $response = $this->getJson('/api/v1/location/' . $id);

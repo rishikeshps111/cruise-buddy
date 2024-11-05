@@ -20,7 +20,7 @@ class CruiseResource extends JsonResource
             'maxCapacity' => $this->max_capacity,
             'description' => $this->description,
             'isActive' => $this->is_active,
-            'images' => CruiseImageResource::collection($this->cruises_images),
+            'images' => CruiseImageResource::collection($this->whenLoaded('cruises_images')),
             'location' => new LocationResource($this->whenLoaded('location')),
             'cruiseType' => new CruiseTypeResource($this->whenLoaded('cruise_type')),
             'owner' => new OwnerResource($this->whenLoaded('owner'))

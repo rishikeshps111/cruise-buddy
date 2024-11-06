@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\StoreOwnerRequest;
-use App\Http\Requests\UpdateOwnerRequest;
+use App\Http\Requests\Admin\StoreOwnerRequest;
+use App\Http\Requests\Admin\UpdateOwnerRequest;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 

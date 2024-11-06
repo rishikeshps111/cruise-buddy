@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\Admin\ProfileUpdateRequest;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 class ProfileController extends Controller

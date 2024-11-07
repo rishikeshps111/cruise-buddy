@@ -61,9 +61,7 @@ class AuthenticationController extends Controller
         $cacheOtp = Cache::get('otp_' . $phone);
         if ($cacheOtp == $request->otp) {
             $user = User::updateOrCreate(
-                [
-                    'phone' => $phone
-                ],
+                ['phone' => $phone],
                 [
                     'password' => str()->password(),
                     'email_verified_at' => User::where('phone', $phone)->value('email_verified_at') ?? now()
@@ -93,9 +91,7 @@ class AuthenticationController extends Controller
         if ($payload) {
             $email = $payload['email'];
             $user = User::updateOrCreate(
-                [
-                    'email' => $email
-                ],
+                ['email' => $email],
                 [
                     'name' => $payload['name'],
                     'password' => str()->password(),

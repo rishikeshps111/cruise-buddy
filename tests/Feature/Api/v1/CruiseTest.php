@@ -2,15 +2,15 @@
 
 namespace Tests\Feature\Api\v1;
 
-use App\Models\Cruise;
-use App\Models\CruisesImage;
-use App\Models\CruiseType;
-use App\Models\Location;
-use App\Models\Owner;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Owner;
+use App\Models\Cruise;
+use App\Models\Location;
+use App\Models\CruiseType;
+use App\Models\CruisesImage;
+use Laravel\Sanctum\Sanctum;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CruiseTest extends TestCase
 {
@@ -19,6 +19,7 @@ class CruiseTest extends TestCase
      */
     use RefreshDatabase;
     protected $user;
+    protected $headers;
     public function setup(): void
     {
         parent::setUp();
@@ -30,10 +31,13 @@ class CruiseTest extends TestCase
         CruiseType::factory(5)->create();
         Cruise::factory(50)->create();
         CruisesImage::factory(200)->create();
+        $this->headers = [
+            'CRUISE_AUTH_KEY' => env('CRUISE_AUTH_KEY')
+        ];
     }
     public function test_fetch_all_cruise_api(): void
     {
-        $response = $this->getJson('api/v1/cruise');
+        $response = $this->withHeaders($this->headers)->getJson('api/v1/cruise');
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
@@ -50,7 +54,7 @@ class CruiseTest extends TestCase
     public function test_fetch_cruise_api(): void
     {
         $id = Cruise::first()->id;
-        $response = $this->getJson('api/v1/cruise/' . $id);
+        $response = $this->withHeaders($this->headers)->getJson('api/v1/cruise/' . $id);
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [

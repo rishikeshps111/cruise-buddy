@@ -16,11 +16,12 @@ class LocationController extends Controller
 
         $locations = QueryBuilder::for(Location::class)
             ->allowedFilters([
-                'location',
+                'name',
                 'district',
-                'state'
+                'state', 
+                'country'
             ])
-            ->allowedSorts('location')
+            ->allowedSorts('name')
             ->paginate($page_limit)
             ->withQueryString();
 

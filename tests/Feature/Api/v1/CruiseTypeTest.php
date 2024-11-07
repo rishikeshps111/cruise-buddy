@@ -15,16 +15,20 @@ class CruiseTypeTest extends TestCase
      */
     use RefreshDatabase;
     protected $user;
+    protected $headers;
     public function setup(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
         Sanctum::actingAs($this->user, ['*']);
         CruiseType::factory(10)->create();
+        $this->headers = [
+            'CRUISE_AUTH_KEY' => env('CRUISE_AUTH_KEY')
+        ];
     }
     public function test_fetch_all_cruise_type_api(): void
     {
-        $response = $this->getJson('/api/v1/cruise-type');
+        $response = $this->withHeaders($this->headers)->getJson('/api/v1/cruise-type');
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
@@ -39,7 +43,7 @@ class CruiseTypeTest extends TestCase
     public function test_fetch_cruise_type_api(): void
     {
         $id = CruiseType::inRandomOrder()->first()->id;
-        $response = $this->getJson('/api/v1/cruise-type/' . $id);
+        $response = $this->withHeaders($this->headers)->getJson('/api/v1/cruise-type/' . $id);
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [

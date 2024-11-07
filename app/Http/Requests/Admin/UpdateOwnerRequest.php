@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreOwnerRequest extends FormRequest
+class UpdateOwnerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,17 +28,17 @@ class StoreOwnerRequest extends FormRequest
                 'required',
                 'email',
                 'max:255',
-                'unique:users,email',
+                Rule::unique('users')->ignore($this->user_id),
             ],
             'phone' => [
                 'required',
-                'unique:users,phone',
+                Rule::unique('users')->ignore($this->user_id),
             ],
             'phone_2' => ['required'],
             'proof_type' => ['required', 'in:aadhaar,passport,driving_license,voter_id'],
             'proof_id' => ['required', 'string', 'max:50'],
-            'proof_image' => ['required', 'image', 'max:2048'],
-            'avatar' => ['required', 'image', 'max:2048'],
+            'proof_image' => ['nullable', 'image', 'max:2048'], 
+            'avatar' => ['nullable', 'image', 'max:2048'], 
             'status' => ['required', 'boolean'],
         ];
     }

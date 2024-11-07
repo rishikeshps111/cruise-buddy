@@ -40,7 +40,7 @@ var table = $('#CommonTable').DataTable({
                     `;
             }
         },
-        { data: 'location' },
+        { data: 'name' },
         { data: 'district' },
         { data: 'state' },
         { data: 'country' },
@@ -170,11 +170,11 @@ function ImagePreview() {
 }
 
 const LocationForm = {
-    '#location': {
+    '#name': {
         rules: [
             {
                 rule: 'required',
-                errorMessage: 'Location is required',
+                errorMessage: 'Name is required',
             },
         ],
     },

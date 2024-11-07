@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreLocationRequest;
-use App\Http\Requests\UpdateLocationRequest;
+use App\Http\Requests\Admin\StoreLocationRequest;
+use App\Http\Requests\Admin\UpdateLocationRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -100,7 +100,7 @@ class LocationController extends Controller
         $location->update($data);
 
         return response()->json([
-            'message' => $data['location'] . ' Details Updated Successfully',
+            'message' => $data['name'] . ' Details Updated Successfully',
             'data' => $location,
         ], 200);
     }
@@ -120,7 +120,7 @@ class LocationController extends Controller
         $location->delete();
 
         return response()->json([
-            'message' => 'Location ' . $location->location . ' Deleted Successfully',
+            'message' => 'Location ' . $location->name . ' Deleted Successfully',
             'data' => $location,
         ], 200);
     }

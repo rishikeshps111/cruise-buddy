@@ -32,7 +32,7 @@
                                                     <tr>
                                                         <th>No</th>
                                                         <th>Thumbnail</th>
-                                                        <th>Location</th>
+                                                        <th>Name</th>
                                                         <th>District</th>
                                                         <th>State</th>
                                                         <th>Country</th>

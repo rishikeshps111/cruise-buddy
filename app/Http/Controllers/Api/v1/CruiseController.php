@@ -14,11 +14,19 @@ class CruiseController extends Controller
     {
         $page_limit = request()->query('page_limit') ?: 20;
         $cruise = QueryBuilder::for(Cruise::class)
-            ->allowedIncludes(['location', 'cruise_type', 'cruises_images' , 'owner.user'])
+            ->allowedIncludes([
+                'packages',
+                'location',
+                'cruise_type',
+                'cruises_images',
+                'owner.user'
+            ])
             ->allowedFilters([
                 'location.name',
                 'cruise_type.model_name',
                 'cruise_type.type',
+                'rooms',
+                'max_capacity'
             ])
             ->paginate($page_limit)->withQueryString();
 

@@ -24,9 +24,9 @@ class Package extends Model
 		'is_active'
 	];
 
-	public function owner()
+	public function cruise()
 	{
-		return $this->belongsTo(Owner::class);
+		return $this->belongsTo(Cruise::class);
 	}
 
 	public function itineraries()
@@ -34,21 +34,18 @@ class Package extends Model
 		return $this->hasMany(Itinerary::class);
 	}
 
-	public function package_amenities()
-	{
-		return $this->hasMany(PackageAmenity::class);
-	}
-
 	public function food()
 	{
 		return $this->belongsToMany(Food::class, 'package_foods')
-					->withPivot('id');
+			->withPivot('id')
+			->withTimestamps();
 	}
 
 	public function amenity()
 	{
 		return $this->belongsToMany(Amenity::class, 'package_amenities')
-					->withPivot('id');
+			->withPivot('id')
+			->withTimestamps();
 	}
 
 	public function package_images()

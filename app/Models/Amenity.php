@@ -20,6 +20,7 @@ class Amenity extends Model
 	public function packages()
 	{
 		return $this->belongsToMany(Package::class, 'package_amenities')
-					->withPivot('id');
+					->withPivot('id')
+					->withTimestamps();
 	}
 }

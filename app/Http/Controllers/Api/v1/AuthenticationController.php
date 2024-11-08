@@ -42,11 +42,12 @@ class AuthenticationController extends Controller
     public function phoneVerify(Request $request)
     {
         $request->validate([
-            'phoneNumber' => 'required'
+            'phoneNumber' => 'required',
+            'countryCode' => 'required',
         ]);
         $otp = rand(1000, 9999);
         Cache::put(
-            'otp_' . $request->phoneNumber,
+            'otp_' . $request->countryCode . $request->phoneNumber,
             $otp,
             Carbon::now()->addMinutes(2)
         );
@@ -57,12 +58,14 @@ class AuthenticationController extends Controller
     }
     public function otpVerify(OtpVerifyRequest $request)
     {
-        $phone = $request->phoneNumber;
-        $cacheOtp = Cache::get('otp_' . $phone);
+        $phone = $request->phone_number;
+        $country_code = $request->country_code;
+        $cacheOtp = Cache::get('otp_' . $country_code . $phone);
         if ($cacheOtp == $request->otp) {
             $user = User::updateOrCreate(
                 ['phone' => $phone],
                 [
+                    'country_code' => $country_code,
                     'password' => str()->password(),
                     'email_verified_at' => User::where('phone', $phone)->value('email_verified_at') ?? now()
                 ]
@@ -76,7 +79,7 @@ class AuthenticationController extends Controller
             ], 201);
         } else {
             return response()->json([
-                'error' => 'Unauthorized'
+                'error' => 'Invalid OTP'
             ], 401);
         }
     }

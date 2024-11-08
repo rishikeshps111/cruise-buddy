@@ -21,6 +21,7 @@ class CruiseResource extends JsonResource
             'description' => $this->description,
             'isActive' => $this->is_active,
             'images' => CruiseImageResource::collection($this->whenLoaded('cruises_images')),
+            'packages' => PackageResource::collection($this->whenLoaded('packages')),
             'location' => new LocationResource($this->whenLoaded('location')),
             'cruiseType' => new CruiseTypeResource($this->whenLoaded('cruise_type')),
             'owner' => new OwnerResource($this->whenLoaded('owner'))

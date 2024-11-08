@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cruise extends Model
 {
@@ -48,5 +49,10 @@ class Cruise extends Model
 	public function cruises_images()
 	{
 		return $this->hasMany(CruisesImage::class);
+	}
+	
+	public function packages(): HasMany
+	{
+		return $this->hasMany(Package::class);
 	}
 }

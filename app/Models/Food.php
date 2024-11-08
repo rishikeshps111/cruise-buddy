@@ -26,6 +26,7 @@ class Food extends Model
 	public function packages()
 	{
 		return $this->belongsToMany(Package::class, 'package_foods')
-					->withPivot('id');
+					->withPivot('id')
+					->withTimestamps();
 	}
 }

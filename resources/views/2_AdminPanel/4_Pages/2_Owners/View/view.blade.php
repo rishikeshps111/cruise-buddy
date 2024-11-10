@@ -4,8 +4,7 @@
             <div class="card h-auto">
                 <div class="card-body">
                     <div class="c-profile text-center">
-                        <img src="{{ asset('storage/' . $data->user->image_path) }}"
-                            class="img-fluid rounded-circle w-25 mb-2" alt="">
+                        <img src="{{ $data->user->image_path }}" class="img-fluid rounded-circle w-25 mb-2" alt="">
                         <h4>{{ $data->user->name }}</h4>
                     </div>
                     <div class="c-details">
@@ -32,8 +31,7 @@
                             </li>
                             <li>
                                 <span>Proof: </span>
-                                <img src="{{ asset('storage/' . $data->proof_image) }}" alt=""
-                                    class="w-100 proof-image">
+                                <img src="{{ $data->proof_image }}" alt="" class="w-100 proof-image">
                             </li>
 
                         </ul>

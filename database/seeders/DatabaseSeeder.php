@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-      
+
 
         $this->call([
             PermissionSeeder::class,
@@ -21,6 +21,11 @@ class DatabaseSeeder extends Seeder
             CruiseTypeSeeder::class,
             CruiseSeeder::class,
             CruiseImageSeeder::class,
+            PackageSeeder::class,
+            AmenitySeeder::class,
+            FoodSeeder::class,
+            PackageAmenitySeeder::class,
+            PackageFoodSeeder::class,
         ]);
     }
 }

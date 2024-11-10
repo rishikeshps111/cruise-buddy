@@ -15,11 +15,15 @@ class PackageResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'ownerId' => $this->owner_id,
+            'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'isActive' => $this->is_active,
-            'cruise' => new CruiseResource($this->whenLoaded('cruise'))
+            'cruiseId' => $this->cruise_id,
+            'cruise' => new CruiseResource($this->whenLoaded('cruise')),
+            'amenities' => AmenityResource::collection($this->whenLoaded('amenity')),
+            'food' => FoodResource::collection($this->whenLoaded('food')),
+            'itinerary' => new ItineraryResource($this->whenLoaded('itinerary')),
         ];
     }
 }

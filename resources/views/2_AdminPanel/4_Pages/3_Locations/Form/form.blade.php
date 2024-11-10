@@ -81,7 +81,7 @@
             <x-input-label for="thumbnail" :value="__('Thumbnail')" />
             <div class="d-flex justify-content-center">
                 <img id="thumbnailPreview" class="form-img-preview mb-2" alt="Proof Preview"
-                    src="{{ isset($data->thumbnail) ? asset('storage/' . $data->thumbnail) : '' }}"
+                    src="{{ isset($data->thumbnail) ? $data->thumbnail : '' }}"
                     style="{{ isset($data->thumbnail) ? 'display: block;' : 'display: none;' }}">
             </div>
             <x-text-input id="thumbnail" type="file" name="thumbnail" accept="image/*" />

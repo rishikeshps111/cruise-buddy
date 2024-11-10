@@ -35,7 +35,7 @@ var table = $('#CommonTable').DataTable({
                 const imageUrl = data ? data : '/2_AdminPanel/assets/images/dummy-avatar.jpg';
                 return `
                     <img class="rounded-circle" width="35"
-                         src="/storage/${imageUrl}" 
+                         src="${imageUrl}" 
                          alt="">
                     `;
             }

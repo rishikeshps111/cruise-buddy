@@ -41,7 +41,13 @@ class CruiseController extends Controller
     public function show(Cruise $cruise)
     {
         $query = QueryBuilder::for(Cruise::class)
-            ->allowedIncludes(['location', 'cruise_type', 'owner.user'])
+            ->allowedIncludes([
+                'packages',
+                'location',
+                'cruise_type',
+                'cruises_images',
+                'owner.user'
+            ])
             ->with('cruises_images');
         $cruise = $query->find($cruise->id);
         return new CruiseResource($cruise);

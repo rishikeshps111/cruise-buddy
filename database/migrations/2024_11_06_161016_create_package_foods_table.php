@@ -15,6 +15,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->foreignId('package_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('food_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->enum('dining_time', ['breakfast', 'lunch', 'snacks', 'dinner', 'all'])
+                ->default('all');
 
             $table->unique(['package_id', 'food_id']);
         });

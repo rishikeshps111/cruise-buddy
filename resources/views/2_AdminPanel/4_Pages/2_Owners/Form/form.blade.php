@@ -14,7 +14,8 @@
             <x-input-error :messages="$errors->get('name')" />
         </div>
         <div class="mb-3 col-md-6">
-            <x-input-label for="email" :value="__('Email')" /><small class="form-text text-muted">*Password will be your email ID.</small>
+            <x-input-label for="email" :value="__('Email')" /><small class="form-text text-muted">*Password will be your
+                email ID.</small>
             <x-text-input id="email" type="email" name="email" :value="old('email')" placeholder="Enter Your Email"
                 value="{{ $data->user->email ?? '' }}" />
             <x-input-error :messages="$errors->get('email')" />
@@ -60,7 +61,7 @@
             <x-input-label for="proof_image" :value="__('Proof')" />
             <div class="d-flex justify-content-center">
                 <img id="proofPreview" class="form-img-preview mb-2" alt="Proof Preview"
-                    src="{{ isset($data->proof_image) ? asset('storage/' . $data->proof_image) : '' }}"
+                    src="{{ isset($data->proof_image) ? $data->proof_image : '' }}"
                     style="{{ isset($data->proof_image) ? 'display: block;' : 'display: none;' }}">
             </div>
             <x-text-input id="proof_image" type="file" name="proof_image" accept="image/*" />
@@ -70,7 +71,7 @@
             <x-input-label for="avatar" :value="__('Avatar')" />
             <div class="d-flex justify-content-center">
                 <img id="avatarPreview" class="form-img-preview mb-2" alt="Avatar Preview"
-                    src="{{ isset($data->user->image_path) ? asset('storage/' . $data->user->image_path) : '' }}"
+                    src="{{ isset($data->user->image_path) ? $data->user->image_path : '' }}"
                     style="{{ isset($data->user->image_path) ? 'display: block;' : 'display: none;' }}">
             </div>
             <x-text-input id="avatar" type="file" name="avatar" accept="image/*" value="" />

@@ -5,7 +5,7 @@ namespace App\Http\Resources\Api\v1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AmenityResource extends JsonResource
+class FoodScheduleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,7 @@ class AmenityResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'icon' => $this->icon
+            'schedule' => $this->schedule,
         ];
     }
 }

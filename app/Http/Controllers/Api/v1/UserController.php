@@ -15,6 +15,7 @@ class UserController extends Controller
         $page_limit = request()->query('page_limit') ?: 20;
         $users = QueryBuilder::for(User::class)
             ->allowedIncludes('owners')
+            ->with('owners')
             ->paginate($page_limit)
             ->withQueryString();
         return UserResource::collection($users);

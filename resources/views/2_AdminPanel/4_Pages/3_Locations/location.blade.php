@@ -45,13 +45,13 @@
                                                         <th><input class="form-control" type="text" disabled></th>
                                                         <th><input class="form-control" type="text" disabled></th>
                                                         <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Location"></th>
+                                                                placeholder="Filter by Name" name="name"></th>
                                                         <th><input class="form-control" type="text"
-                                                                placeholder="Filter by District"></th>
+                                                                placeholder="Filter by District" name="district"></th>
                                                         <th><input class="form-control" type="text"
-                                                                placeholder="Filter by State"></th>
+                                                                placeholder="Filter by State" name="state"></th>
                                                         <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Country"></th>
+                                                                placeholder="Filter by Country" name="country"></th>
                                                         <th><input class="form-control" type="text" disabled></th>
                                                         <th><button id="resetButton" class="btn btn-danger"><i
                                                                     class="fa-solid fa-filter me-2"></i></button></th>

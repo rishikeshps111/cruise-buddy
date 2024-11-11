@@ -125,10 +125,38 @@ class LocationController extends Controller
         ], 200);
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $locations = Location::orderBy('created_at', 'desc')->get();
 
-        return response()->json($locations);
+        $query = Location::query();
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+        if ($request->filled('district')) {
+            $query->where('district', 'like', '%' . $request->input('district') . '%');
+        }
+        if ($request->filled('state')) {
+            $query->where('state', 'like', '%' . $request->input('state') . '%');
+        }
+        if ($request->filled('country')) {
+            $query->where('country', 'like', '%' . $request->input('country') . '%');
+        }
+
+        $totalRecords = Location::count();
+        $filteredRecords = $query->count();
+
+        // Apply pagination
+        $query->skip($request->input('start', 0))
+            ->take($request->input('length', 10));
+
+        $locations = $query->orderBy('created_at', 'desc')->get();
+        
+        return response()->json([
+            'draw' => intval($request->input('draw')),            
+            'recordsTotal' => $totalRecords,                      // Total records before filtering
+            'recordsFiltered' => $filteredRecords,                // Total records after filtering
+            'data' => $locations                                       // Data to display
+        ]);
     }
 }

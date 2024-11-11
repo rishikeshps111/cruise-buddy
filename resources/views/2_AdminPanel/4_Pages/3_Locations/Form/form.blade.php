@@ -80,7 +80,7 @@
         <div class="mb-3 col-md-6">
             <x-input-label for="thumbnail" :value="__('Thumbnail')" />
             <div class="d-flex justify-content-center">
-                <img id="thumbnailPreview" class="form-img-preview mb-2" alt="Proof Preview"
+                <img id="thumbnailPreview" class="form-img-preview mb-2" alt="Thumbnail Preview"
                     src="{{ isset($data->thumbnail) ? asset('storage/' . $data->thumbnail) : '' }}"
                     style="{{ isset($data->thumbnail) ? 'display: block;' : 'display: none;' }}">
             </div>

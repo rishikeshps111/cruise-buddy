@@ -2,9 +2,17 @@
 var table = $('#CommonTable').DataTable({
     paging: true,
     scrollCollapse: true,
+    serverSide: true,
     ajax: {
         url: '/admin/locations/list', // Replace with the correct route if necessary
-        dataSrc: '' // DataTables will use the JSON response as the data source directly
+        type: 'GET',
+        data: function(d) {
+            // Add filter values to the AJAX request
+            d.name = $('#CommonTable .filter-row input[name="name"]').val();
+            d.email = $('#CommonTable .filter-row input[name="district"]').val();
+            d.phone = $('#CommonTable .filter-row input[name="state"]').val();
+            d.proof_id = $('#CommonTable .filter-row input[name="country"]').val();
+        }
     },
     layout: {
         bottomEnd: {
@@ -71,28 +79,15 @@ var table = $('#CommonTable').DataTable({
     }
 });
 
-$('#CommonTable thead tr:eq(1) th').each(function (i) {
-    // Attach event to filter inputs and select
-    $('input', this).on('keyup change', function () {
-        if (table.column(i).search() !== this.value) {
-            table
-                .column(i)
-                .search(this.value)
-                .draw();
-        }
-    });
+// Trigger table refresh on filter change
+$('#CommonTable .filter-row input').on('input change', function() {
+    table.ajax.reload();
 });
 
-
-$('#resetButton').on('click', function () {
-    // Reset each input and dropdown in the filter row
-    $('#CommonTable thead tr:eq(1) th').each(function () {
-        $('input', this).val('');
-    });
-
-    // Reset each column's search and redraw the table
-    const table = $('#CommonTable').DataTable();
-    table.columns().search('').draw();
+// Reset filters and reload table
+$('#resetButton').on('click', function() {
+    $('#CommonTable .filter-row input').val(''); // Clear text inputs
+    table.ajax.reload(); // Reload table data
 });
 
 function openFormModal(action, itemId = null, size = 'modal-md') {

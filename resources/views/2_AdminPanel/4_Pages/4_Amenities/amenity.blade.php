@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <!-- Breadcrumb -->
-    @component('2_AdminPanel.5_Components.breadcrumb', ['title' => 'Owners', 'activePage' => 'Owners'])
+    @component('2_AdminPanel.5_Components.breadcrumb', ['title' => 'Amenities', 'activePage' => 'Amenities'])
     @endcomponent
 
     <!-- container starts -->
@@ -15,11 +15,11 @@
                         <div class="card dz-card" id="accordion-three">
                             <div class="card-header flex-wrap d-flex justify-content-between">
                                 <div>
-                                    <h4 class="card-title">Owners Table</h4>
+                                    <h4 class="card-title">Amenities Table</h4>
                                 </div>
                                 <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" role="button"
-                                    aria-controls="offcanvasExample" id="addOwnerButton">+ Add
-                                    Owner</button>
+                                    aria-controls="offcanvasExample" id="addAmenityButton">+ Add
+                                    Amenity</button>
                             </div>
                             <!-- tab-content -->
                             <div class="tab-content">
@@ -31,13 +31,8 @@
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
-                                                        <th>Image</th>
+                                                        <th>Icon</th>
                                                         <th>Name</th>
-                                                        <th>Email</th>
-                                                        <th>Phone</th>
-                                                        <th>Proof</th>
-                                                        <th>Proof ID</th>
-                                                        <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -46,21 +41,7 @@
                                                         <th><input class="form-control" type="text" disabled></th>
                                                         <th><input class="form-control" type="text" disabled></th>
                                                         <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Name" name="name"></th>
-                                                        <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Email" name="email"></th>
-                                                        <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Phone" name="phone"></th>
-                                                        <th><input class="form-control" type="text" disabled></th>
-                                                        <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Proof ID" name="proof_id"></th>
-                                                        <th>
-                                                            <select id="statusFilter" class="form-control-sm mb-2">
-                                                                <option value="">All</option>
-                                                                <option value="1">Active</option>
-                                                                <option value="0">Inactive</option>
-                                                            </select>
-                                                        </th>
+                                                                placeholder="Filter by Name"></th>
                                                         <th><button id="resetButton" class="btn btn-danger"><i
                                                                     class="fa-solid fa-filter me-2"></i></button></th>
                                                     </tr>

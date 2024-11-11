@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AmenityController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\OwnerController;
@@ -19,5 +20,8 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
 
     Route::get('locations/list', [LocationController::class, 'list'])->name('owners.list');
     Route::resource('locations', LocationController::class);
+
+    Route::get('amenities/list', [AmenityController::class, 'list'])->name('amenities.list');
+    Route::resource('amenities', AmenityController::class);
     
 });

@@ -189,10 +189,63 @@ class OwnerController extends Controller
         ], 200);
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $owners = Owner::with('user')->orderBy('created_at', 'desc')->get();
+        $query = Owner::with('user');
 
-        return response()->json($owners);
+        if ($request->filled('name')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->input('name') . '%');
+            });
+        }
+        if ($request->filled('email')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('email', 'like', '%' . $request->input('email') . '%');
+            });
+        }
+        if ($request->filled('phone')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('phone', 'like', '%' . $request->input('phone') . '%');
+            });
+        }
+        if ($request->filled('proof_id')) {
+            $query->where('proof_id', 'like', '%' . $request->input('proof_id') . '%');
+        }
+        if ($request->filled('status')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('is_active', $request->input('status'));
+            });
+        }
+
+        // Global search (all fields)
+        if ($request->filled('search.value')) {
+            $search = $request->input('search.value');
+            $query->where(function ($query) use ($search) {
+                $query->whereHas('user', function ($q) use ($search) {
+                    $q->where('email', 'like', '%' . $search . '%')
+                        ->orWhere('name', 'like', '%' . $search . '%')
+                        ->orWhere('phone', 'like', '%' . $search . '%');
+                })
+                    ->orWhere('proof_id', 'like', '%' . $search . '%')
+                    // Add more columns to search if needed
+                ;
+            });
+        }
+
+        $totalRecords = Owner::count();
+        $filteredRecords = $query->count();
+
+        // Apply pagination
+        $query->skip($request->input('start', 0))
+            ->take($request->input('length', 10));
+
+        $owners = $query->orderBy('created_at', 'desc')->get();
+
+        return response()->json([
+            'draw' => intval($request->input('draw')),
+            'recordsTotal' => $totalRecords,                      // Total records before filtering
+            'recordsFiltered' => $filteredRecords,                // Total records after filtering
+            'data' => $owners                                       // Data to display
+        ]);
     }
 }

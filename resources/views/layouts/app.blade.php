@@ -17,14 +17,13 @@
     <!-- MOBILE SPECIFIC -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-     <!-- Common Style Sheets -->
+    <!-- Common Style Sheets -->
     <link href="{{ asset('2_AdminPanel/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
     <link href="{{ asset('2_AdminPanel/assets/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/css/intlTelInput.css">
+    <link rel="stylesheet" href="{{ asset('2_AdminPanel/assets/css/intlTelInput.css') }}">
 
-     <!-- Page Based Styles  -->
+    <!-- Page Based Styles  -->
     @yield('styles')
 
     <!-- Style css -->

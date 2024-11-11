@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Models\Food;
 use App\Models\Package;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\QueryException;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
 
 class PackageFoodSeeder extends Seeder
 {
@@ -16,7 +18,8 @@ class PackageFoodSeeder extends Seeder
     {
         $packages = Package::all();
         $food = Food::all();
-        foreach ($packages as $key => $packages) {
+
+        foreach ($packages as $packages) {
             $randomFood = $food->random(rand(1, 5))->pluck('id')->toArray();
             $attachData = [];
             foreach ($randomFood as $item) {
@@ -24,7 +27,11 @@ class PackageFoodSeeder extends Seeder
                     'dining_time' => fake()->randomElement(['breakfast', 'lunch', 'snacks', 'dinner', 'all'])
                 ];
             }
-            $packages->food()->attach($attachData);
+            try {
+                $packages->food()->attach($attachData);
+            } catch (QueryException $th) {
+                Log::info('Package food seeder :' . $th->getMessage());
+            }
         }
     }
 }

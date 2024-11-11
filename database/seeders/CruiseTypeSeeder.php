@@ -12,6 +12,19 @@ class CruiseTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        CruiseType::factory(5)->create();
+        $cruiseModel = ['normal', 'full_upper_duck', 'semi_upper_duck'];
+        $cruiseType = ['open', 'closed'];
+        foreach ($cruiseModel as $model) {
+            foreach ($cruiseType as $type) {
+
+                CruiseType::updateOrCreate(
+                    [
+                        'model_name' => $model,
+                        'type' => $type
+                    ],
+                    []
+                );
+            }
+        }
     }
 }

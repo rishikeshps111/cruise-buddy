@@ -13,9 +13,8 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'user']);
-        Role::create(['name' => 'owner']);
-
+        Role::updateOrCreate(['name' => 'admin'], []);
+        Role::updateOrCreate(['name' => 'user'], []);
+        Role::updateOrCreate(['name' => 'owner'], []);
     }
 }

@@ -18,7 +18,7 @@ class AmenityFactory extends Factory
     {
         return [
             'name' => fake()->word(),
-            'icon' => fake()->imageUrl(640, 480, 'amenity'),
+            'icon' => 'default/dummy-avatar.jpg',
         ];
     }
 }

@@ -19,7 +19,7 @@ class CruisesImageFactory extends Factory
     {
         return [
             'cruise_id' => Cruise::inRandomOrder()->first()->id,
-            'cruise_img' => fake()->imageUrl(640, 480, 'cruise'),
+            'cruise_img' => 'default/dummy-avatar.jpg',
             'alt' => fake()->word(),
         ];
     }

@@ -22,8 +22,7 @@ class LocationFactory extends Factory
             'state' => fake()->state(),
             'country' => fake()->country(),
             'map_url' => fake()->url(),
-            'thumbnail' => fake()->imageUrl(),
-
+            'thumbnail' => 'default/dummy-avatar.jpg',
         ];
     }
 }

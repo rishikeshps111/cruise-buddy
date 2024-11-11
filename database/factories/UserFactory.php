@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'phone' => $phoneNumber,
             'country_code' => fake()->randomElement(['in', 'au']),
             'google_id' => fake()->randomNumber(5,true),
-            'image_path' => fake()->imageUrl(),
+            'image_path' => 'default/dummy-avatar.jpg',
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

@@ -19,7 +19,7 @@ class FoodFactory extends Factory
         return [
             'title' => fake()->word(),
             'description' => fake()->paragraph(),
-            'image' => fake()->imageUrl(640, 480, 'food'),
+            'image' => 'default/dummy-avatar.jpg',
             'is_veg' => fake()->boolean()
         ];
     }

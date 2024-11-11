@@ -25,7 +25,7 @@ class OwnerFactory extends Factory
             'user_id' => User::factory()->create(),
             'proof_type' => fake()->randomElement(['aadhaar', 'passport', 'voter_id', 'driving_license']),
             'proof_id' => fake()->randomNumber(5, true),
-            'proof_image' => fake()->imageUrl(),
+            'proof_image' => 'default/dummy-avatar.jpg',
             'country_code' => fake()->randomElement(['in', 'au']),
             'additional_phone' => $phoneNumber,
         ];

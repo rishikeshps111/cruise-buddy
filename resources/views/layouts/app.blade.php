@@ -21,7 +21,7 @@
     <link href="{{ asset('2_AdminPanel/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
     <link href="{{ asset('2_AdminPanel/assets/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('2_AdminPanel/assets/css/intlTelInput.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/css/intlTelInput.css">
 
     <!-- Page Based Styles  -->
     @yield('styles')

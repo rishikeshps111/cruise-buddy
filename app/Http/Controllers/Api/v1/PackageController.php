@@ -10,18 +10,27 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class PackageController extends Controller
 {
-    public function index($cruise_id)
+    public function index()
     {
+        $page_limit = request()->query('limit') ?: 20;
         $packages = QueryBuilder::for(Package::class)
             ->allowedIncludes([
                 'cruise',
                 'itineraries',
                 'amenity',
                 'food',
-                'package_images'
+                'packageImages',
+                'bookingTypes.priceRules',
+                'unavailableDates',
             ])
-            ->where('cruise_id', $cruise_id)
-            ->get();
+            ->allowedFilters([
+                'food.title',
+                'food.is_veg',
+                'amenity.name',
+                'bookingTypes.name'
+            ])
+            ->paginate($page_limit)
+            ->withQueryString();
         return PackageResource::collection($packages);
     }
 
@@ -30,7 +39,7 @@ class PackageController extends Controller
         //
     }
 
-    public function show($cruise_id, Package $package)
+    public function show(Package $package)
     {
         $query = QueryBuilder::for(Package::class)
             ->allowedIncludes([
@@ -38,18 +47,20 @@ class PackageController extends Controller
                 'itineraries',
                 'amenity',
                 'food',
-                'package_images'
+                'packageImages',
+                'bookingTypes.priceRules',
+                'unavailableDates',
             ]);
         $package = $query->find($package->id);
         return new PackageResource($package);
     }
 
-    public function update(Request $request, $cruise_id, string $id)
+    public function update(Request $request, string $id)
     {
         //
     }
 
-    public function destroy($cruise_id, string $id)
+    public function destroy(string $id)
     {
         //
     }

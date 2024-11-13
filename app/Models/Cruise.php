@@ -31,7 +31,7 @@ class Cruise extends Model
 		'is_active'
 	];
 
-	public function cruise_type()
+	public function cruiseType()
 	{
 		return $this->belongsTo(CruiseType::class);
 	}
@@ -46,13 +46,22 @@ class Cruise extends Model
 		return $this->belongsTo(Owner::class);
 	}
 
-	public function cruises_images()
+	public function cruisesImages()
 	{
 		return $this->hasMany(CruisesImage::class);
 	}
-	
+
 	public function packages(): HasMany
 	{
 		return $this->hasMany(Package::class);
+	}
+
+	public function ratings(): HasMany
+	{
+		return $this->hasMany(Rating::class);
+	}
+	public function favorites(): HasMany
+	{
+		return $this->hasMany(Favorite::class);
 	}
 }

@@ -8,6 +8,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
@@ -55,11 +57,25 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function owners()
+    // relationship
+    public function owners(): HasOne
     {
         return $this->hasOne(Owner::class);
     }
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
 
+    // mutators
     public function imagePath(): Attribute
     {
         return Attribute::make(

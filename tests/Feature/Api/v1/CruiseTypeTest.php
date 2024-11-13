@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\CruiseType;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 
 class CruiseTypeTest extends TestCase
 {
@@ -21,7 +22,9 @@ class CruiseTypeTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create();
         Sanctum::actingAs($this->user, ['*']);
-        CruiseType::factory(10)->create();
+        Artisan::call('db:seed', [
+            '--class' => 'CruiseTypeSeeder',
+        ]);
         $this->headers = [
             'CRUISE_AUTH_KEY' => env('CRUISE_AUTH_KEY')
         ];

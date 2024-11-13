@@ -26,6 +26,13 @@ class DatabaseSeeder extends Seeder
             FoodSeeder::class,
             PackageAmenitySeeder::class,
             PackageFoodSeeder::class,
+            BookingTypeSeeder::class,
+            PackageBookingTypeSeeder::class,
+            PriceRuleSeeder::class,
+            BookingSeeder::class,
+            RatingSeeder::class,
+            FavoriteSeeder::class,
+            PaymentSeeder::class
         ]);
     }
 }

@@ -23,9 +23,12 @@ class AmenityController extends Controller
         //
     }
 
-    public function show(string $id)
+    public function show(Amenity $amenity)
     {
-        //
+        $query = QueryBuilder::for(Amenity::class)
+            ->allowedIncludes(['packages']);
+        $amenity = $query->find($amenity->id);
+        return new AmenityResource($amenity);
     }
 
     public function update(Request $request, string $id)

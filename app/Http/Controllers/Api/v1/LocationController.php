@@ -12,7 +12,7 @@ class LocationController extends Controller
 {
     public function index()
     {
-        $page_limit = request()->query('page_limit') ?: 20;
+        $page_limit = request()->query('limit') ?: 20;
 
         $locations = QueryBuilder::for(Location::class)
             ->allowedFilters([

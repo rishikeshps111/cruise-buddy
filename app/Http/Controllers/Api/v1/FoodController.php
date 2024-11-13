@@ -22,9 +22,9 @@ class FoodController extends Controller
         //
     }
 
-    public function show(string $id)
+    public function show(Food $food)
     {
-        //
+        return new FoodResource($food);
     }
 
     public function update(Request $request, string $id)

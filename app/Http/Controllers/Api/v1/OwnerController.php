@@ -12,7 +12,7 @@ class OwnerController extends Controller
 {
     public function index()
     {
-        $page_limit = request()->query('page_limit') ?: 20;
+        $page_limit = request()->query('limit') ?: 20;
         $owners = QueryBuilder::for(Owner::class)
             ->with('user')
             ->paginate($page_limit)

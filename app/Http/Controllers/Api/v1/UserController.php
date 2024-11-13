@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $page_limit = request()->query('page_limit') ?: 20;
+        $page_limit = request()->query('limit') ?: 20;
         $users = QueryBuilder::for(User::class)
             ->allowedIncludes('owners')
             ->with('owners')

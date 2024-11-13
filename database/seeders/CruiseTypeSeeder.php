@@ -12,7 +12,7 @@ class CruiseTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $cruiseModel = ['normal', 'full_upper_duck', 'semi_upper_duck'];
+        $cruiseModel = ['normal', 'full_upper_deck', 'semi_upper_deck'];
         $cruiseType = ['open', 'closed'];
         foreach ($cruiseModel as $model) {
             foreach ($cruiseType as $type) {

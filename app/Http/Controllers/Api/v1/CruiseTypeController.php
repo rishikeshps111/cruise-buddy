@@ -12,10 +12,7 @@ class CruiseTypeController extends Controller
 {
     public function index()
     {
-        $page_limit = request()->query('page_limit') ?: 20;
-        $cruise_types = QueryBuilder::for(CruiseType::class)
-            ->paginate($page_limit)
-            ->withQueryString();
+        $cruise_types = QueryBuilder::for(CruiseType::class)->get();
         return CruiseTypeResource::collection($cruise_types);
     }
 

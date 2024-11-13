@@ -25,6 +25,7 @@ class Package extends Model
 		'is_active'
 	];
 
+	// relationship
 	public function cruise()
 	{
 		return $this->belongsTo(Cruise::class);
@@ -57,7 +58,29 @@ class Package extends Model
 			->withPivot('id');
 	}
 
-	public function package_images()
+	public function bookingTypes()
+	{
+		return $this->belongsToMany(BookingType::class, 'package_booking_types')
+			->withPivot([
+				'id',
+				'price',
+				'compare_price',
+				'min_amount_to_pay',
+				'price_per_person',
+				'price_per_bed'
+			]);
+	}
+
+	public function bookings()
+	{
+		return $this->hasMany(Booking::class);
+	}
+	public function unavailableDates()
+	{
+		return $this->hasMany(Booking::class)
+			->where('start_date', '>=', Carbon::today());
+	}
+	public function packageImages()
 	{
 		return $this->hasMany(PackageImage::class);
 	}

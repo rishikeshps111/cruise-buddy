@@ -12,10 +12,9 @@ class ItineraryController extends Controller
 {
     public function index()
     {
-        $page_limit = request()->query('page_limit') ?: 20;
+        $page_limit = request()->query('limit') ?: 20;
         $itineraries = QueryBuilder::for(Itinerary::class)
             ->allowedIncludes(['package'])
-            ->with(['package'])
             ->paginate($page_limit)
             ->withQueryString();
         return ItineraryResource::collection($itineraries);
@@ -29,8 +28,7 @@ class ItineraryController extends Controller
     public function show(Itinerary $itinerary)
     {
         $query = QueryBuilder::for(Itinerary::class)
-            ->allowedIncludes(['package'])
-            ->with('cruises_images');
+            ->allowedIncludes(['package']);
         $itinerary = $query->find($itinerary->id);
         return new ItineraryResource($itinerary);
     }

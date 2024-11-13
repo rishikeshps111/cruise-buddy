@@ -11,6 +11,7 @@ use App\Models\CruiseType;
 use App\Models\CruisesImage;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 
 class CruiseTest extends TestCase
 {
@@ -28,7 +29,9 @@ class CruiseTest extends TestCase
         Sanctum::actingAs($this->user, ['*']);
         Owner::factory()->create();
         Location::factory(5)->create();
-        CruiseType::factory(5)->create();
+        Artisan::call('db:seed', [
+            '--class' => 'CruiseTypeSeeder',
+        ]);
         Cruise::factory(50)->create();
         CruisesImage::factory(200)->create();
         $this->headers = [

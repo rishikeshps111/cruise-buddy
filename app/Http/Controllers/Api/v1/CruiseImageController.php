@@ -12,7 +12,7 @@ class CruiseImageController extends Controller
 {
     public function index()
     {
-        $page_limit = request()->query('page_limit') ?: 20;
+        $page_limit = request()->query('limit') ?: 20;
         $cruise = QueryBuilder::for(CruisesImage::class)
             ->allowedIncludes(['cruise'])
             ->paginate($page_limit)->withQueryString();

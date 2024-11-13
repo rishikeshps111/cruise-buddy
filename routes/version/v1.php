@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\v1\AmenityController;
 use App\Http\Controllers\Api\v1\AuthenticationController;
+use App\Http\Controllers\Api\v1\BookingController;
 use App\Http\Controllers\Api\v1\CruiseController;
 use App\Http\Controllers\Api\v1\CruiseImageController;
 use App\Http\Controllers\Api\v1\CruiseTypeController;
@@ -35,7 +36,8 @@ Route::prefix('/v1')->middleware('api_auth_key')->name('api.v1.')->group(functio
         Route::apiResource('/cruise-images', CruiseImageController::class);
         Route::apiResource('/amenity', AmenityController::class);
 
-        Route::apiResource('cruise', CruiseController::class);
-        Route::apiResource('cruise/{cruise_id}/package', PackageController::class);
+        Route::apiResource('/cruise', CruiseController::class);
+        Route::apiResource('/package', PackageController::class);
+        Route::apiResource('/booking', BookingController::class);
     });
 });

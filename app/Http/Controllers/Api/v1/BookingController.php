@@ -7,7 +7,6 @@ use App\Http\Requests\Api\v1\BookingRequest;
 use App\Http\Resources\Api\v1\BookingResource;
 use App\Models\Booking;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -21,6 +20,7 @@ class BookingController extends Controller
     public function index()
     {
         $bookings = QueryBuilder::for(Booking::class)
+            ->allowedIncludes(['package.cruise.owner'])
             ->where('user_id', $this->user->id)
             ->paginate()
             ->withQueryString();
@@ -34,9 +34,11 @@ class BookingController extends Controller
         if (!$unavailableDates->isEmpty()) {
             return response()->json([
                 'message' => "We regret to inform you that there are no scheduled dates available for this cruise.",
-            ], Response::HTTP_NOT_FOUND);
+            ], 404);
         }
-        return new BookingResource($request->bookingStore());
+        return response()->json([
+            'booking' => new BookingResource($request->store())
+        ], 201);
     }
 
     public function show(Booking $booking)
@@ -51,7 +53,7 @@ class BookingController extends Controller
         else
             return response()->json([
                 'message' => "We regret to inform you that there are no bookings associated with this user.",
-            ], Response::HTTP_NOT_FOUND);
+            ], 404);
     }
 
     public function update(Request $request, string $id)
@@ -62,5 +64,17 @@ class BookingController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function bookingOwner($owner)
+    {
+        $bookings = QueryBuilder::for(Booking::class)
+            ->allowedIncludes(['package.cruise.owner.user'])
+            ->whereHas('package.cruise.owner', function ($query) use ($owner) {
+                $query->where('user_id', $owner);
+            })
+            ->paginate()
+            ->withQueryString();
+        return BookingResource::collection($bookings);
     }
 }

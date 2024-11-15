@@ -14,13 +14,14 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\Api\v1\UserResource;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class AuthenticationController extends Controller
 {
     public function register(RegistrationRequest $request)
     {
         $user = $request->register();
-
+        $user->assignRole('user');
         // event(new Registered($user)); email sending
         Auth::login($user);
         $token = $user->createToken('AppUser');
@@ -37,7 +38,7 @@ class AuthenticationController extends Controller
         return response()->json([
             'user' => new UserResource($user),
             'token' => $token->plainTextToken
-        ], 201);
+        ], 200);
     }
     public function phoneVerify(Request $request)
     {
@@ -107,12 +108,18 @@ class AuthenticationController extends Controller
             return response()->json([
                 'user' => new UserResource($user),
                 'token' => $token->plainTextToken
-            ], 200);
+            ], 201);
         } else {
             return response()->json([
                 'error' => 'Unauthorized'
             ], 401);
         }
+    }
+    public function whoAmI()
+    {
+        $user = QueryBuilder::for(User::class)
+            ->allowedIncludes(['owner'])->find(Auth::user()->id);
+        return new UserResource($user);
     }
     public function logout(Request $request)
     {

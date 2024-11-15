@@ -11,29 +11,25 @@ use Illuminate\Foundation\Http\FormRequest;
 class BookingRequest extends FormRequest
 {
 
-    protected $order_id;
-    protected $user_id;
+    protected $user;
 
     public function __construct()
     {
-        $this->user_id = Auth::user()->id;
+        $this->user = Auth::user();
     }
 
     public function authorize(): bool
     {
-        if ($this->user_id)
-            return true;
-        else
-            return false;
+        return true;
     }
 
     public function rules(): array
     {
         return [
             'packageId' => 'required',
-            'bookingTypeId' => 'required|numeric',
-            'totalAmount' => 'required|numeric',
-            'minimum_amount_paid' => 'required|numeric',
+            'bookingTypeId' => 'nullable|numeric',
+            'totalAmount' => 'nullable|numeric',
+            'minimum_amount_paid' => 'nullable|numeric',
             'customerNote' => 'nullable|between:10,5000',
             'startDate' => 'required|date',
             'endDate' => 'sometimes|required|date'
@@ -46,7 +42,8 @@ class BookingRequest extends FormRequest
         $endDate = isset($value['endDate']) ? Carbon::parse($bookingDates['endDate']) : Carbon::parse($bookingDates['startDate']);
 
         $unavailableDates = Booking::where(function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('start_date', [$startDate, $endDate])
+            $query->whereNot('fulfillment_status', 'cancelled')
+                ->whereBetween('start_date', [$startDate, $endDate])
                 ->orWhereBetween('end_date', [$startDate, $endDate])
                 ->orWhere(function ($query) use ($startDate, $endDate) {
                     $query->where('start_date', '<=', $startDate)
@@ -56,18 +53,17 @@ class BookingRequest extends FormRequest
         return $unavailableDates;
     }
 
-    public function bookingStore()
+    public function store()
     {
-        $this->order_id = IdGenerator::generate([
+        $order_id = IdGenerator::generate([
             'table' => 'bookings',
             'field' => 'order_id',
             'length' => 10,
             'prefix' => 'INV-'
         ]);
-
         $data = [
-            'order_id' => $this->order_id,
-            'user_id' => $this->user_id,
+            'order_id' => $order_id,
+            'user_id' => $this->user->hasRole('user') ? $this->user->id : null,
             'package_id' => $this->packageId,
             'booking_type_id' => $this->bookingTypeId,
             'total_amount' => $this->totalAmount,
@@ -75,7 +71,8 @@ class BookingRequest extends FormRequest
             'balance_amount' => $this->balanceAmount,
             'customer_note' => $this->customerNote,
             'start_date' => $this->startDate,
-            'end_date' => $this->endDate
+            'end_date' => $this->endDate,
+            'booked_by_user' => $this->user->hasRole('user') ? true : false,
         ];
         $booking = Booking::create($data);
 

@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\v1\CruiseResource;
 use App\Models\Cruise;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -64,7 +63,7 @@ class CruiseController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => "We regret to inform you that there are no scheduled dates available for this cruise.",
-            ], Response::HTTP_NOT_FOUND);
+            ], 404);
         }
     }
 

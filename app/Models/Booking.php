@@ -21,6 +21,7 @@ class Booking extends Model
 		'balance_amount' => 'float',
 		'start_date' => 'datetime',
 		'end_date' => 'datetime',
+		'booked_by_user' => 'bool',
 		'is_active' => 'bool'
 	];
 
@@ -36,6 +37,7 @@ class Booking extends Model
 		'start_date',
 		'end_date',
 		'fulfillment_status',
+		'booked_by_user',
 		'is_active'
 	];
 

@@ -58,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     // relationship
-    public function owners(): HasOne
+    public function owner(): HasOne
     {
         return $this->hasOne(Owner::class);
     }

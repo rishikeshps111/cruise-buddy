@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources\Api\v1;
 
+use App\Models\Cruise;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class FavoriteResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +17,8 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'phoneNumber' => $this->phone,
-            'countryCode' => $this->country_code,
-            'owner' => new OwnerResource($this->whenLoaded('owner'))
+            'user' => new UserResource($this->whenLoaded('user')),
+            'cruise' => new Cruise($this->whenLoaded('cruise'))
         ];
     }
 }

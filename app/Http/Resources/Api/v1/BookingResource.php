@@ -19,6 +19,7 @@ class BookingResource extends JsonResource
             'orderId' => $this->order_id,
             'userId' => $this->user_id,
             'packageId' => $this->package_id,
+            'package' => new PackageResource($this->whenLoaded('package')),
             'bookingTypeId' => $this->booking_type_id,
             'totalAmount' => $this->total_amount,
             'amountPaid' => $this->amount_paid,
@@ -27,6 +28,7 @@ class BookingResource extends JsonResource
             'startDate' => $this->start_date,
             'endDate' => $this->end_date,
             'fulfillmentStatus' => $this->fulfillment_status,
+            'bookedByUser' => $this->booked_by_user,
             'isActive' => $this->is_active
         ];
     }

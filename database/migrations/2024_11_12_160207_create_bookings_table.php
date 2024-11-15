@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('order_id');
-            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('package_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('booking_type_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->decimal('total_amount', 8, 2);
+            $table->foreignId('booking_type_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->decimal('total_amount', 8, 2)->nullable();
             $table->decimal('minimum_amount_paid', 8, 2)->nullable();
             $table->decimal('amount_paid', 8, 2)->nullable();
             $table->decimal('balance_amount', 8, 2)->nullable();
@@ -32,9 +32,11 @@ return new class extends Migration
                     'paid',
                     'payment_failed',
                     'cancelled',
+                    'blocked_by_owner',
                     'other'
                 ]
             )->default('pending');
+            $table->boolean('booked_by_user')->default(true);
             $table->boolean('is_active')->default(true);
             $table->softDeletes();
             $table->timestamps();

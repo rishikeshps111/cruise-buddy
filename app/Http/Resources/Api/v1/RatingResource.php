@@ -5,7 +5,7 @@ namespace App\Http\Resources\Api\v1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class RatingResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,12 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'phoneNumber' => $this->phone,
-            'countryCode' => $this->country_code,
-            'owner' => new OwnerResource($this->whenLoaded('owner'))
+            'userId' => $this->user_id,
+            'cruiseId' => $this->cruise_id,
+            'rating' => $this->rating,
+            'description' => $this->description,
+            'user' => new UserResource($this->whenLoaded('user')),
+            'cruises' => new CruiseResource($this->whenLoaded('cruises'))
         ];
     }
 }

@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-md-9">
                     <div class="d-inline-block position-relative me-4 mb-3 mb-lg-0">
-                        <img src="{{ $user->image_path ? asset('storage/' . $user->image_path) : asset('2_AdminPanel/assets/images/dummy-avatar.jpg') }}"
+                        <img src="{{ $user->image_path ? asset($user->image_path) : asset('2_AdminPanel/assets/images/dummy-avatar.jpg') }}"
                             alt="" class="rounded-4 profile-avatar fixed-avatar" id="profile-avatar-preview">
                         <button type="button"
                             class="btn btn-primary btn-sharp position-absolute bottom-0 end-0 avatar-upload-button">

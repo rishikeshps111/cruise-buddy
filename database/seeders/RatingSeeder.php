@@ -19,7 +19,7 @@ class RatingSeeder extends Seeder
 
             Rating::updateOrCreate(
                 [
-                    'user_id' => User::doesntHave('owners')->inRandomOrder()->first()->id,
+                    'user_id' => User::doesntHave('owner')->inRandomOrder()->first()->id,
                     'cruise_id' => Cruise::inRandomOrder()->first()->id
                 ],
                 [

@@ -19,7 +19,7 @@ class RatingFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::doesntHave('owners')->inRandomOrder()->first()->id,
+            'user_id' => User::doesntHave('owner')->inRandomOrder()->first()->id,
             'cruise_id' => Cruise::inRandomOrder()->first()->id,
             'rating' => fake()->numberBetween(1, 5),
             'description' => fake()->paragraph()

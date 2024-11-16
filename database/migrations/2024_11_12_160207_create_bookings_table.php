@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('package_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('booking_type_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->decimal('total_amount', 8, 2)->nullable();
-            $table->decimal('minimum_amount_paid', 8, 2)->nullable();
             $table->decimal('amount_paid', 8, 2)->nullable();
             $table->decimal('balance_amount', 8, 2)->nullable();
             $table->longText('customer_note')->nullable();

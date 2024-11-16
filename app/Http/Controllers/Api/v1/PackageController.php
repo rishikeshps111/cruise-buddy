@@ -13,6 +13,7 @@ class PackageController extends Controller
     public function index()
     {
         $page_limit = request()->query('limit') ?: 20;
+
         $packages = QueryBuilder::for(Package::class)
             ->allowedIncludes([
                 'cruise',
@@ -20,14 +21,13 @@ class PackageController extends Controller
                 'amenity',
                 'food',
                 'packageImages',
-                'bookingTypes.priceRules',
+                'bookingTypes',
                 'unavailableDates',
             ])
             ->allowedFilters([
                 'food.title',
                 'food.is_veg',
-                'amenity.name',
-                'bookingTypes.name'
+                'amenity.name'
             ])
             ->paginate($page_limit)
             ->withQueryString();
@@ -41,6 +41,7 @@ class PackageController extends Controller
 
     public function show(Package $package)
     {
+        return $package;
         $query = QueryBuilder::for(Package::class)
             ->allowedIncludes([
                 'cruise',
@@ -48,7 +49,7 @@ class PackageController extends Controller
                 'amenity',
                 'food',
                 'packageImages',
-                'bookingTypes.priceRules',
+                'bookingTypes',
                 'unavailableDates',
             ]);
         $package = $query->find($package->id);

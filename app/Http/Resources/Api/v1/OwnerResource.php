@@ -16,6 +16,7 @@ class OwnerResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'userId' => $this->user_id,
             'proofType' => $this->proof_type,
             'proofId'=> $this->proof_id,
             'proofImage'=> $this->proof_image,

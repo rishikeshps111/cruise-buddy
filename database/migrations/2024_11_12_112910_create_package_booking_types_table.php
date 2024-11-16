@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('package_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('booking_type_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->decimal('price', 8, 2);
+            $table->decimal('price_per_day', 8, 2)->nullable();
             $table->decimal('compare_price', 8, 2);
             $table->decimal('min_amount_to_pay', 8, 2);
             $table->decimal('price_per_person', 8, 2);

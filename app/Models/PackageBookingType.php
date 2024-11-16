@@ -16,6 +16,7 @@ class PackageBookingType extends Model
 		'package_id' => 'int',
 		'booking_type_id' => 'int',
 		'price' => 'float',
+		'price_per_day' => 'float',
 		'compare_price' => 'float',
 		'min_amount_to_pay' => 'float',
 		'price_per_person' => 'float',
@@ -26,6 +27,7 @@ class PackageBookingType extends Model
 		'package_id',
 		'booking_type_id',
 		'price',
+		'price_per_day',
 		'compare_price',
 		'min_amount_to_pay',
 		'price_per_person',
@@ -40,5 +42,16 @@ class PackageBookingType extends Model
 	public function package()
 	{
 		return $this->belongsTo(Package::class);
+	}
+	public function priceRule()
+	{
+		return $this->hasMany(PriceRule::class)->orderByRaw("
+            CASE 
+                WHEN price_type = 'date' THEN 1
+                WHEN price_type = 'custom_range' THEN 2
+                WHEN price_type = 'weekends' THEN 3
+                ELSE 4
+                END
+        ");
 	}
 }

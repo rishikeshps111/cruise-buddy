@@ -17,6 +17,9 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('package_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('booking_type_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->integer('veg_count')->nullable();
+            $table->integer('non_veg_count')->nullable();
+            $table->integer('jain_veg_count')->nullable();
             $table->decimal('total_amount', 8, 2)->nullable();
             $table->decimal('amount_paid', 8, 2)->nullable();
             $table->decimal('balance_amount', 8, 2)->nullable();

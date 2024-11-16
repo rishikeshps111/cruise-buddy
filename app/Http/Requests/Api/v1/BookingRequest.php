@@ -79,6 +79,9 @@ class BookingRequest extends FormRequest
 			'user_id' => $this->user->hasRole('user') ? $this->user->id : null,
 			'package_id' => $this->packageId,
 			'booking_type_id' => $this->bookingTypeId,
+			'veg_count' => $this->vegCount,
+			'non_veg_count' => $this->nonVegCount,
+			'jain_veg_count' => $this->jainVegCount,
 			'total_amount' => $this->totalAmount,
 			'balance_amount' => $this->totalAmount,		// initial declaration
 			'customer_note' => $this->customerNote,
@@ -97,6 +100,9 @@ class BookingRequest extends FormRequest
 			'user_id' => $this->user->hasRole('user') ? $this->user->id : null,
 			'package_id' => $this->packageId,
 			'booking_type_id' => $this->bookingTypeId,
+			'veg_count' => $this->vegCount,
+			'non_veg_count' => $this->nonVegCount,
+			'jain_veg_count' => $this->jainVegCount,
 			'total_amount' => $this->totalAmount,
 			'balance_amount' => $this->totalAmount,		// initial declaration
 			'customer_note' => $this->customerNote,

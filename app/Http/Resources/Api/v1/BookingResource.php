@@ -25,8 +25,8 @@ class BookingResource extends JsonResource
             'amountPaid' => $this->amount_paid,
             'balanceAmount' => $this->balance_amount,
             'customerNote' => $this->customer_note,
-            'startDate' => $this->start_date,
-            'endDate' => $this->end_date,
+            'startDate' => date_format($this->start_date, 'Y-m-d'),
+            'endDate' => date_format($this->end_date, 'Y-m-d'),
             'fulfillmentStatus' => $this->fulfillment_status,
             'bookedByUser' => $this->booked_by_user,
             'isActive' => $this->is_active

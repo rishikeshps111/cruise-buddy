@@ -27,8 +27,8 @@ class PriceRule extends Model
         'end_date'
     ];
 
-    public function bookingTypes()
+    public function packageBookingType()
     {
-        return $this->belongsTo(BookingType::class);
+        return $this->belongsTo(PackageBookingType::class);
     }
 }

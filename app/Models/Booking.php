@@ -16,7 +16,6 @@ class Booking extends Model
 		'package_id' => 'int',
 		'booking_type_id' => 'int',
 		'total_amount' => 'float',
-		'minimum_amount_paid' => 'float',
 		'amount_paid' => 'float',
 		'balance_amount' => 'float',
 		'start_date' => 'datetime',

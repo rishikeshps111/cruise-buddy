@@ -14,14 +14,14 @@ class UserController extends Controller
     {
         $page_limit = request()->query('limit') ?: 20;
         $users = QueryBuilder::for(User::class)
-            ->allowedIncludes('owners')
-            ->with('owners')
+            ->allowedIncludes('owner')
+            ->with('owner')
             ->paginate($page_limit)
             ->withQueryString();
         return UserResource::collection($users);
 
-        // if (request()->query('include', '') && in_array('owners', explode(',', request()->query('include')))) {
-        //     // 'owners' is included, do something if needed
+        // if (request()->query('include', '') && in_array('owner', explode(',', request()->query('include')))) {
+        //     // 'owner' is included, do something if needed
         // }
     }
 

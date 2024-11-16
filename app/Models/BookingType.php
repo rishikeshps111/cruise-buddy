@@ -25,29 +25,16 @@ class BookingType extends Model
 	public function packages()
 	{
 		return $this->belongsToMany(Package::class, 'package_booking_types')
-					->withPivot(
-                        'id', 
-                        'price', 
-                        'compare_price', 
-                        'min_amount_to_pay', 
-                        'price_per_person', 
-                        'price_per_bed', 
-                        'deleted_at'
-                        )
-					->withTimestamps();
-	}
-
-	public function priceRules()
-	{
-		return $this->hasMany(PriceRule::class)->orderByRaw("
-            CASE 
-                WHEN price_type = 'date' THEN 1
-                WHEN price_type = 'custom_range' THEN 2
-                WHEN price_type = 'weekends' THEN 3
-                ELSE 4
-                END
-        ");
+			->withPivot(
+				'id',
+				'price',
+				'price_per_day',
+				'compare_price',
+				'min_amount_to_pay',
+				'price_per_person',
+				'price_per_bed',
+				'deleted_at'
+			)
+			->withTimestamps();
 	}
 }
-
-

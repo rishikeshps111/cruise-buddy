@@ -64,11 +64,17 @@ class Package extends Model
 			->withPivot([
 				'id',
 				'price',
+				'price_per_day',
 				'compare_price',
 				'min_amount_to_pay',
 				'price_per_person',
 				'price_per_bed'
 			]);
+	}
+
+	public function packageBookingType()
+	{
+		return $this->hasMany(PackageBookingType::class);
 	}
 
 	public function bookings()

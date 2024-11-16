@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\v1\BookingRequest;
-use App\Http\Resources\Api\v1\BookingResource;
+use Carbon\Carbon;
 use App\Models\Booking;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Requests\Api\v1\BookingRequest;
+use App\Http\Resources\Api\v1\BookingResource;
 
 class BookingController extends Controller
 {
@@ -29,8 +29,7 @@ class BookingController extends Controller
 
     public function store(BookingRequest $request)
     {
-        $bookingDates = $request->only(['startDate', 'endDate']);
-        $unavailableDates = $request->getAvailability($bookingDates);
+        $unavailableDates = $request->getAvailability();
         if (!$unavailableDates->isEmpty()) {
             return response()->json([
                 'message' => "We regret to inform you that there are no scheduled dates available for this cruise.",
@@ -56,9 +55,33 @@ class BookingController extends Controller
             ], 404);
     }
 
-    public function update(Request $request, string $id)
+    public function update(BookingRequest $request, Booking $booking)
     {
-        //
+        $startDate = Carbon::parse($request->startDate)->toDateString();
+        $endDate = Carbon::parse($request->endDate)->toDateString();
+
+        $existingStartDate = Carbon::parse($booking->start_date)->toDateString();
+        $existingEndDate = Carbon::parse($booking->end_date)->toDateString();
+
+        if (($startDate >= $existingStartDate && $startDate <= $existingEndDate) &&
+            ($endDate >= $existingStartDate && $endDate <= $existingEndDate) &&
+            $request->packageId == $booking->package_id
+        ) {
+            return response()->json([
+                'booking' => new BookingResource($request->update($booking))
+            ], 201);
+        }
+
+        $unavailableDates = $request->getAvailability();
+        if (!$unavailableDates->isEmpty()) {
+            return response()->json([
+                'message' => "We regret to inform you that there are no scheduled dates available for this cruise.",
+            ], 404);
+        }
+
+        return response()->json([
+            'booking' => new BookingResource($request->update($booking))
+        ], 201);
     }
 
     public function destroy(string $id)
@@ -66,12 +89,27 @@ class BookingController extends Controller
         //
     }
 
-    public function bookingOwner($owner)
+    public function bookingOwner($id)
     {
         $bookings = QueryBuilder::for(Booking::class)
             ->allowedIncludes(['package.cruise.owner.user'])
-            ->whereHas('package.cruise.owner', function ($query) use ($owner) {
-                $query->where('user_id', $owner);
+            ->whereHas('package.cruise.owner', function ($query) use ($id) {
+                $query->where('user_id', $id);
+                // $query->where('user_id', $this->user->id);
+            })
+            ->paginate()
+            ->withQueryString();
+        return BookingResource::collection($bookings);
+    }
+    public function bookingCruise($id)
+    {
+        $bookings = QueryBuilder::for(Booking::class)
+            ->allowedIncludes(['package.cruise.owner.user'])
+            ->whereHas('package.cruise', function ($query) use ($id) {
+                $query->where('id', $id);
+            })
+            ->whereHas('package.cruise.owner', function ($query) use ($id) {
+                $query->where('user_id', $this->user->id);
             })
             ->paginate()
             ->withQueryString();

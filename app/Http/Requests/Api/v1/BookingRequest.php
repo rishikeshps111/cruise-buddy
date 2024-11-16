@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Api\v1;
 
 use App\Models\Booking;
+use App\Models\Cruise;
+use App\Models\Package;
 use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Auth;
@@ -11,71 +13,98 @@ use Illuminate\Foundation\Http\FormRequest;
 class BookingRequest extends FormRequest
 {
 
-    protected $user;
+	protected $user;
 
-    public function __construct()
-    {
-        $this->user = Auth::user();
-    }
+	public function __construct()
+	{
+		$this->user = Auth::user();
+	}
 
-    public function authorize(): bool
-    {
-        return true;
-    }
+	public function authorize(): bool
+	{
+		return true;
+	}
 
-    public function rules(): array
-    {
-        return [
-            'packageId' => 'required',
-            'bookingTypeId' => 'nullable|numeric',
-            'totalAmount' => 'nullable|numeric',
-            'minimum_amount_paid' => 'nullable|numeric',
-            'customerNote' => 'nullable|between:10,5000',
-            'startDate' => 'required|date',
-            'endDate' => 'sometimes|required|date'
-        ];
-    }
+	public function rules(): array
+	{
+		if ($this->isMethod('post')) {
+			return [
+				'packageId' => 'required',
+				'bookingTypeId' => 'nullable|numeric',
+				'totalAmount' => 'nullable|numeric',
+				'customerNote' => 'nullable|between:10,5000',
+				'startDate' => 'required|date_format:Y-m-d|before_or_equal:endDate',
+				'endDate' => 'sometimes|required|date_format:Y-m-d|after_or_equal:startDate'
+			];
+		}
+		return [
+			'packageId' => 'sometimes|required',
+			'bookingTypeId' => 'nullable|numeric',
+			'totalAmount' => 'nullable|numeric',
+			'customerNote' => 'nullable|between:10,5000',
+			'startDate' => 'sometimes|required|date_format:Y-m-d|before_or_equal:endDate',
+			'endDate' => 'sometimes|required|date_format:Y-m-d|after_or_equal:startDate'
+		];
+	}
 
-    public function getAvailability($bookingDates)
-    {
-        $startDate = Carbon::parse($bookingDates['startDate']);
-        $endDate = isset($value['endDate']) ? Carbon::parse($bookingDates['endDate']) : Carbon::parse($bookingDates['startDate']);
+	public function getAvailability()
+	{
+		$startDate = Carbon::parse($this->startDate)->startOfDay();
+		$endDate = $this->endDate ? Carbon::parse($this->startDate)->endOfDay() : Carbon::parse($this->startDate)->startOfDay();
+		$package = Package::where('id', $this->packageId)->first();
+		$unavailablePackage = Cruise::where('id', $package->cruise_id)
+			->whereHas('packages.bookings', function ($query) use ($startDate, $endDate) {
+				$query->whereNot('fulfillment_status', 'cancelled')
+					->whereBetween('start_date', [$startDate, $endDate])
+					->orWhereBetween('end_date', [$startDate, $endDate])
+					->orWhere(function ($query) use ($startDate, $endDate) {
+						$query->where('start_date', '<=', $startDate)
+							->where('end_date', '>=', $endDate);
+					});
+			})
+			->get();
+		return $unavailablePackage;
+	}
 
-        $unavailableDates = Booking::where(function ($query) use ($startDate, $endDate) {
-            $query->whereNot('fulfillment_status', 'cancelled')
-                ->whereBetween('start_date', [$startDate, $endDate])
-                ->orWhereBetween('end_date', [$startDate, $endDate])
-                ->orWhere(function ($query) use ($startDate, $endDate) {
-                    $query->where('start_date', '<=', $startDate)
-                        ->where('end_date', '>=', $endDate);
-                });
-        })->get();
-        return $unavailableDates;
-    }
+	public function store()
+	{
+		$order_id = IdGenerator::generate([
+			'table' => 'bookings',
+			'field' => 'order_id',
+			'length' => 10,
+			'prefix' => 'INV-'
+		]);
+		$data = [
+			'order_id' => $order_id,
+			'user_id' => $this->user->hasRole('user') ? $this->user->id : null,
+			'package_id' => $this->packageId,
+			'booking_type_id' => $this->bookingTypeId,
+			'total_amount' => $this->totalAmount,
+			'balance_amount' => $this->totalAmount,		// initial declaration
+			'customer_note' => $this->customerNote,
+			'start_date' => $this->startDate,
+			'end_date' => $this->endDate ?: $this->startDate,
+			'booked_by_user' => $this->user->hasRole('user') ? true : false,
+		];
+		$booking = Booking::create($data);
 
-    public function store()
-    {
-        $order_id = IdGenerator::generate([
-            'table' => 'bookings',
-            'field' => 'order_id',
-            'length' => 10,
-            'prefix' => 'INV-'
-        ]);
-        $data = [
-            'order_id' => $order_id,
-            'user_id' => $this->user->hasRole('user') ? $this->user->id : null,
-            'package_id' => $this->packageId,
-            'booking_type_id' => $this->bookingTypeId,
-            'total_amount' => $this->totalAmount,
-            'amount_paid' => $this->amountPaid,
-            'balance_amount' => $this->balanceAmount,
-            'customer_note' => $this->customerNote,
-            'start_date' => $this->startDate,
-            'end_date' => $this->endDate,
-            'booked_by_user' => $this->user->hasRole('user') ? true : false,
-        ];
-        $booking = Booking::create($data);
+		return $booking;
+	}
 
-        return $booking;
-    }
+	public function update($booking)
+	{
+		$data = [
+			'user_id' => $this->user->hasRole('user') ? $this->user->id : null,
+			'package_id' => $this->packageId,
+			'booking_type_id' => $this->bookingTypeId,
+			'total_amount' => $this->totalAmount,
+			'balance_amount' => $this->totalAmount,		// initial declaration
+			'customer_note' => $this->customerNote,
+			'start_date' => $this->startDate,
+			'end_date' => $this->endDate ?: $this->startDate,
+			'booked_by_user' => $this->user->hasRole('user') ? true : false,
+		];
+		$booking->update($data);
+		return $booking;
+	}
 }

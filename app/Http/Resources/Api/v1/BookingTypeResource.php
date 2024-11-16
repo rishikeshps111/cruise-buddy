@@ -19,12 +19,13 @@ class BookingTypeResource extends JsonResource
             'packageId' => $this->pivot ?  $this->pivot->package_id : null,
             'name' => $this->name,
             'icon' => $this->icon,
-            "price" => $this->pivot ?  $this->pivot->price : null,
-            "comparePrice" => $this->pivot ?  $this->pivot->compare_price : null,
-            "minAmountToPay" => $this->pivot ?  $this->pivot->min_amount_to_pay : null,
-            "pricePerPerson" => $this->pivot ?  $this->pivot->price_per_person : null,
-            "pricePerBed" => $this->pivot ?  $this->pivot->price_per_bed : null,
-            'priceRules' => PriceRuleResource::collection($this->whenLoaded('priceRules'))
+            'booking_price_rule' => $this->pivot ?  $this->pivot->id : null,
+            'price' => $this->pivot ?  $this->pivot->price : null,
+            'price_per_day' => $this->pivot ?  $this->pivot->price_per_day : null,
+            'comparePrice' => $this->pivot ?  $this->pivot->compare_price : null,
+            'minAmountToPay' => $this->pivot ?  $this->pivot->min_amount_to_pay : null,
+            'pricePerPerson' => $this->pivot ?  $this->pivot->price_per_person : null,
+            'pricePerBed' => $this->pivot ?  $this->pivot->price_per_bed : null
         ];
     }
 }

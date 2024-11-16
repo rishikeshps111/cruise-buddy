@@ -16,8 +16,8 @@ class OwnerSeeder extends Seeder
     {
         Owner::factory(10)->create();
         // set permission for user and owners
-        $owners = User::has('owners')->get();
-        $users = User::doesntHave('owners')->get();
+        $owners = User::has('owner')->get();
+        $users = User::doesntHave('owner')->get();
         foreach ($owners as $owner) {
             $owner->assignRole('owner');
         }

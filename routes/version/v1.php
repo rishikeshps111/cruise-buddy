@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\v1\LocationController;
 use App\Http\Controllers\Api\v1\CruiseTypeController;
 use App\Http\Controllers\Api\v1\CruiseImageController;
 use App\Http\Controllers\Api\v1\AuthenticationController;
+use App\Http\Controllers\Api\v1\PackageBookingTypeController;
 
 Route::prefix('/v1')->middleware('api_auth_key')->name('api.v1.')->group(function () {
 
@@ -29,7 +30,9 @@ Route::prefix('/v1')->middleware('api_auth_key')->name('api.v1.')->group(functio
         Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
         Route::apiResource('/user', UserController::class);
         Route::apiResource('/owner', OwnerController::class);
-        Route::get('/owner/{owner}/booking', [BookingController::class, 'bookingOwner'])->name('owner.booking');
+        Route::get('/owner/{id}/booking', [BookingController::class, 'bookingOwner'])
+            ->name('owner.booking')
+            ->middleware(['role:owner']);
 
 
         Route::apiResource('/location', LocationController::class);
@@ -38,7 +41,11 @@ Route::prefix('/v1')->middleware('api_auth_key')->name('api.v1.')->group(functio
         Route::apiResource('/amenity', AmenityController::class);
 
         Route::apiResource('/cruise', CruiseController::class);
+        Route::get('/cruise/{id}/booking', [BookingController::class, 'bookingCruise'])->name('owner.booking');
+
+
         Route::apiResource('/package', PackageController::class);
+        Route::apiResource('/package-booking-type', PackageBookingTypeController::class);
         Route::apiResource('/booking', BookingController::class);
 
         Route::apiResource('/rating', RatingController::class);

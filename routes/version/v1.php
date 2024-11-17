@@ -41,7 +41,7 @@ Route::prefix('/v1')->middleware('api_auth_key')->name('api.v1.')->group(functio
         Route::apiResource('/amenity', AmenityController::class);
 
         Route::apiResource('/cruise', CruiseController::class);
-        Route::get('/cruise/{id}/booking', [BookingController::class, 'bookingCruise'])->name('owner.booking');
+        Route::get('/cruise/{id}/booking', [BookingController::class, 'bookingCruise'])->name('cruise.booking');
 
 
         Route::apiResource('/package', PackageController::class);

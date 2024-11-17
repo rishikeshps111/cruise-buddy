@@ -20,6 +20,7 @@ class LocationResource extends JsonResource
             'district' => $this->district,
             'state' => $this->state,
             'country' => $this->country,
+            'thumbnail' => $this->thumbnail,
             'mapUrl' => $this->map_url,
             'cruises' => CruiseResource::collection($this->whenLoaded('cruises'))
         ];

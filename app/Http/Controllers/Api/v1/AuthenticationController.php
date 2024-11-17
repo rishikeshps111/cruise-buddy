@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\v1;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Google_Client as GoogleClient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\OtpVerifyRequest;
 use App\Http\Requests\Api\v1\RegistrationRequest;
@@ -86,35 +85,9 @@ class AuthenticationController extends Controller
     }
     public function googleVerify(Request $request)
     {
-        $request->validate([
-            'authToken' => 'required'
-        ]);
-        $client = new GoogleClient(['client_id' => env('GOOGLE_CLIENT_ID')]);
-        $payload = $client->verifyIdToken($request->token);
-
-        if ($payload) {
-            $email = $payload['email'];
-            $user = User::updateOrCreate(
-                ['email' => $email],
-                [
-                    'name' => $payload['name'],
-                    'password' => str()->password(),
-                    'google_id' => $payload['sub'],
-                    'email_verified_at' => User::where('email', $email)->value('email_verified_at') ?? now()
-                ]
-            );
-            Auth::login($user);
-            $token = $user->createToken('AppUser');
-            return response()->json([
-                'user' => new UserResource($user),
-                'token' => $token->plainTextToken
-            ], 201);
-        } else {
-            return response()->json([
-                'error' => 'Unauthorized'
-            ], 401);
-        }
+        
     }
+
     public function whoAmI()
     {
         $user = QueryBuilder::for(User::class)

@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Api\v1;
 
-use App\Models\Cruise;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,7 +17,7 @@ class FavoriteResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => new UserResource($this->whenLoaded('user')),
-            'cruise' => new Cruise($this->whenLoaded('cruise'))
+            'cruise' => new CruiseResource($this->whenLoaded('cruise'))
         ];
     }
 }

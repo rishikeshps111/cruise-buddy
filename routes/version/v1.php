@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\v1\LocationController;
 use App\Http\Controllers\Api\v1\CruiseTypeController;
 use App\Http\Controllers\Api\v1\CruiseImageController;
 use App\Http\Controllers\Api\v1\AuthenticationController;
+use App\Http\Controllers\Api\v1\GoogleVerifyController;
 use App\Http\Controllers\Api\v1\PackageBookingTypeController;
 
 Route::prefix('/v1')->middleware('api_auth_key')->name('api.v1.')->group(function () {
@@ -23,7 +24,7 @@ Route::prefix('/v1')->middleware('api_auth_key')->name('api.v1.')->group(functio
     Route::post('login', [AuthenticationController::class, 'login'])->name('login');
     Route::post('phone-verify', [AuthenticationController::class, 'phoneVerify']);
     Route::post('otp-verify', [AuthenticationController::class, 'otpVerify']);
-    Route::post('google-verify', [AuthenticationController::class, 'googleVerify']);
+    Route::post('google-verify', [GoogleVerifyController::class, 'googleVerify']);
 
     Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/who-am-i', [AuthenticationController::class, 'whoAmI'])->name('who-am-i');
@@ -42,6 +43,7 @@ Route::prefix('/v1')->middleware('api_auth_key')->name('api.v1.')->group(functio
 
         Route::apiResource('/cruise', CruiseController::class);
         Route::get('/cruise/{id}/booking', [BookingController::class, 'bookingCruise'])->name('cruise.booking');
+        Route::get('/featured/cruise/', [CruiseController::class, 'featuredCruise'])->name('feature.cruise');
 
 
         Route::apiResource('/package', PackageController::class);

@@ -6,6 +6,7 @@ use App\Filters\DateRangeFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\v1\CruiseResource;
 use App\Models\Cruise;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Enums\FilterOperator;
@@ -75,5 +76,18 @@ class CruiseController extends Controller
     public function destroy(Cruise $cruise)
     {
         //
+    }
+
+    public function featuredCruise()
+    {
+        $cruises =  Cruise::addSelect([
+            'avg_rating' => Rating::selectRaw('AVG(rating)')
+                ->whereColumn('cruise_id', 'cruises.id')
+                ->limit(1)
+        ])
+            ->orderBy('avg_rating', 'desc')
+            ->limit(20)
+            ->get();
+        return CruiseResource::collection($cruises);
     }
 }

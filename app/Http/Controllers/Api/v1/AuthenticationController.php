@@ -61,31 +61,26 @@ class AuthenticationController extends Controller
         $phone = $request->phone_number;
         $country_code = $request->country_code;
         $cacheOtp = Cache::get('otp_' . $country_code . $phone);
-        if ($cacheOtp == $request->otp) {
-            $user = User::updateOrCreate(
-                ['phone' => $phone],
-                [
-                    'country_code' => $country_code,
-                    'password' => str()->password(),
-                    'email_verified_at' => User::where('phone', $phone)->value('email_verified_at') ?? now()
-                ]
-            );
-
-            Auth::login($user);
-            $token = $user->createToken('AppUser');
-            return response()->json([
-                'user' => new UserResource($user),
-                'token' => $token->plainTextToken
-            ], 201);
-        } else {
+        if ($cacheOtp != $request->otp) {
             return response()->json([
                 'error' => 'Invalid OTP'
             ], 401);
         }
-    }
-    public function googleVerify(Request $request)
-    {
-        
+        $user = User::updateOrCreate(
+            ['phone' => $phone],
+            [
+                'country_code' => $country_code,
+                'password' => str()->password(),
+                'email_verified_at' => User::where('phone', $phone)->value('email_verified_at') ?? now()
+            ]
+        );
+
+        Auth::login($user);
+        $token = $user->createToken('AppUser');
+        return response()->json([
+            'user' => new UserResource($user),
+            'token' => $token->plainTextToken
+        ], 201);
     }
 
     public function whoAmI()

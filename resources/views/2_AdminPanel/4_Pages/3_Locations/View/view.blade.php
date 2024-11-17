@@ -10,10 +10,10 @@
                         <div class="col-xl-6 col-lg-6">
                             <div class="row">
                                 <div class="col-xl-12">
-                                    <div class="c-card-details mt-4">
+                                    <div class="c-card-details mt-4 pt-3">
                                         <ul>
                                             <li>
-                                                <h6 class="me-1 mb-0">Location:</h6>
+                                                <h6 class="me-1 mb-0">Name:</h6>
                                                 <span class="fs-13">{{ formatDocumentName($location->name) }}</span>
                                             </li>
                                             <li>

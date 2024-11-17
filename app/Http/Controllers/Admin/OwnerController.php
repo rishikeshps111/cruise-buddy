@@ -136,7 +136,8 @@ class OwnerController extends Controller
         ]);
 
         if ($avatar) {
-            $directoryPath = dirname($user->image_path);
+            $imagePath = $user->getRawOriginal('image_path');
+            $directoryPath = dirname($imagePath);
             Storage::disk('public')->deleteDirectory($directoryPath);
             $data['avatar'] = $avatar->store('users/' . $user->id . '/avatar/' . Str::random(), 'public');
             $user->update([
@@ -153,7 +154,8 @@ class OwnerController extends Controller
         ]);
 
         if ($proof_image) {
-            $directoryPath = dirname($owner->proof_image);
+            $proofPath = $owner->getRawOriginal('proof_image');
+            $directoryPath = dirname($proofPath);
             Storage::disk('public')->deleteDirectory($directoryPath);
             $data['proof_image'] = $proof_image->store('users/' . $user->id . '/proof/' . Str::random(), 'public');
             $owner->update([
@@ -232,6 +234,41 @@ class OwnerController extends Controller
             });
         }
 
+        if ($request->filled('order')) {
+            $orderColumnIndex = $request->input('order')[0]['column']; // Column index
+            $orderDirection = $request->input('order')[0]['dir'];     // 'asc' or 'desc'
+
+            // Map DataTables column index to database column names
+            $columns = [
+                2 => 'user.name',
+                3 => 'user.email',
+                4 => 'user.phone',
+                6 => 'proof_id',
+                7 => 'user.is_active'
+            ];
+
+            if (array_key_exists($orderColumnIndex, $columns)) {
+                $orderColumn = $columns[$orderColumnIndex];
+
+                if (str_starts_with($orderColumn, 'user.')) {
+                    // Sorting for columns in the `users` table using a subquery
+                    $relatedColumn = str_replace('user.', '', $orderColumn);
+                    $query->orderBy(
+                        User::select($relatedColumn)
+                            ->whereColumn('users.id', 'owners.user_id') // Match relationship
+                            ->take(1),
+                        $orderDirection
+                    );
+                } else {
+                    // Sorting for columns in the `owners` table
+                    $query->orderBy($orderColumn, $orderDirection);
+                }
+            }
+        } else {
+            // Default sorting
+            $query->orderBy('created_at', 'desc');
+        }
+
         $totalRecords = Owner::count();
         $filteredRecords = $query->count();
 
@@ -239,7 +276,7 @@ class OwnerController extends Controller
         $query->skip($request->input('start', 0))
             ->take($request->input('length', 10));
 
-        $owners = $query->orderBy('created_at', 'desc')->get();
+        $owners = $query->get();
 
         return response()->json([
             'draw' => intval($request->input('draw')),

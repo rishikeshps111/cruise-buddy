@@ -85,7 +85,8 @@ class AmenityController extends Controller
 
         if ($icon) {
             if ($amenity->icon) {
-                $directoryPath = dirname($amenity->icon);
+                $iconPath = $amenity->getRawOriginal('icon'); 
+                $directoryPath = dirname($iconPath);
                 Storage::disk('public')->deleteDirectory($directoryPath);
             }
             $data['icon'] = $icon->store('amenity_icons/' . Str::random(), 'public');
@@ -104,7 +105,9 @@ class AmenityController extends Controller
      */
     public function destroy(Amenity $amenity)
     {
-        $directory = dirname($amenity->icon);
+
+        $iconPath = $amenity->getRawOriginal('icon'); 
+        $directory = dirname($iconPath);
 
         if (Storage::disk('public')->exists($directory)) {
             Storage::disk('public')->deleteDirectory($directory);
@@ -118,10 +121,52 @@ class AmenityController extends Controller
         ], 200);
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $amenities = Amenity::orderBy('created_at', 'desc')->get();
+        $query = Amenity::query();
 
-        return response()->json($amenities);
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        // Global search (all fields)
+        if ($request->filled('search.value')) {
+            $search = $request->input('search.value');
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        if ($request->filled('order')) {
+            $orderColumnIndex = $request->input('order')[0]['column']; // Column index
+            $orderDirection = $request->input('order')[0]['dir'];     // 'asc' or 'desc'
+
+            // Map DataTables column index to database column names
+            $columns = [
+                2 => 'name'
+            ];
+
+            if (array_key_exists($orderColumnIndex, $columns)) {
+                $orderColumn = $columns[$orderColumnIndex];
+                $query->orderBy($orderColumn, $orderDirection);
+            }
+        } else {
+            // Default sorting
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $totalRecords = Amenity::count();
+        $filteredRecords = $query->count();
+
+        // Apply pagination
+        $query->skip($request->input('start', 0))
+            ->take($request->input('length', 10));
+
+        $amenities = $query->get();
+
+        return response()->json([
+            'draw' => intval($request->input('draw')),
+            'recordsTotal' => $totalRecords,                      // Total records before filtering
+            'recordsFiltered' => $filteredRecords,                // Total records after filtering
+            'data' => $amenities                                       // Data to display
+        ]);
     }
 }

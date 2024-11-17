@@ -15,7 +15,7 @@
             <x-input-label for="icon" :value="__('Icon')" />
             <div class="d-flex justify-content-center">
                 <img id="iconPreview" class="form-img-preview mb-2" alt="Icon Preview"
-                    src="{{ isset($data->icon) ? asset('storage/' . $data->icon) : '' }}"
+                    src="{{ isset($data->icon) ? asset($data->icon) : '' }}"
                     style="{{ isset($data->icon) ? 'display: block;' : 'display: none;' }}">
             </div>
             <x-text-input id="icon" type="file" name="icon" accept="image/*" />

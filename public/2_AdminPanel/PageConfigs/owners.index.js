@@ -13,8 +13,6 @@ var table = $('#CommonTable').DataTable({
             d.phone = $('#CommonTable .filter-row input[name="phone"]').val();
             d.proof_id = $('#CommonTable .filter-row input[name="proof_id"]').val();
             d.status = $('#statusFilter').val(); // Gets the selected status filter value
-            d.orderColumn = d.order[0].column;  // The column index for sorting
-            d.orderDir = d.order[0].dir;
         }
     },
     layout: {
@@ -31,7 +29,7 @@ var table = $('#CommonTable').DataTable({
         }
     },
     columnDefs: [
-        { orderable: false, targets: [1, 5, 8] } // Replace with actual indexes of columns to disable sorting
+        { orderable: false, targets: [0, 1, 5, 8] } // Replace with actual indexes of columns to disable sorting
     ],
     columns: [
         {
@@ -106,7 +104,8 @@ $('#CommonTable .filter-row input, #statusFilter').on('input change', function()
 // Reset filters and reload table
 $('#resetButton').on('click', function() {
     $('#CommonTable .filter-row input').val(''); // Clear text inputs
-    $('#statusFilter').val(''); // Reset the select box
+    $('#statusFilter').val('').selectpicker('refresh');  // Reset the select box
+    table.order([[0, 'asc']]).draw(); // Reset sorting to the initial state
     table.ajax.reload(); // Reload table data
 });
 

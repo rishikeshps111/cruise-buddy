@@ -18,7 +18,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
     Route::get('owners/list', [OwnerController::class, 'list'])->name('owners.list');
     Route::resource('owners', OwnerController::class);
 
-    Route::get('locations/list', [LocationController::class, 'list'])->name('owners.list');
+    Route::get('locations/list', [LocationController::class, 'list'])->name('locations.list');
     Route::resource('locations', LocationController::class);
 
     Route::get('amenities/list', [AmenityController::class, 'list'])->name('amenities.list');

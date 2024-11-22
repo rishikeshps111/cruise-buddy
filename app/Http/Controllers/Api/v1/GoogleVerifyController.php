@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Api\v1\UserResource;
+use App\Http\Requests\Api\v1\GoogleVerifyRequest;
 use Kreait\Firebase\Contract\Auth as FirebaseAuth;
 use Kreait\Firebase\Exception\Auth\FailedToVerifyToken;;
 
@@ -17,7 +17,7 @@ class GoogleVerifyController extends Controller
     {
         $this->firebaseAuth = $firebaseAuth;
     }
-    public function googleVerify(Request $request)
+    public function googleVerify(GoogleVerifyRequest $request)
     {
         try {
             $verifiedIdToken = $this->firebaseAuth->verifyIdToken($request->idToken);

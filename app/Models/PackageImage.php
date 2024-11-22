@@ -6,10 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PackageImage extends Model
 {
-	use SoftDeletes;
+	use SoftDeletes, HasFactory;
 	protected $table = 'package_images';
 
 	protected $casts = [
@@ -30,7 +31,7 @@ class PackageImage extends Model
 	public function packageImg(): Attribute
 	{
 		return Attribute::make(
-			get: function (string $value) {
+			get: function (?string $value) {
 				if (filter_var($value, FILTER_VALIDATE_URL)) {
 					return $value;
 				}

@@ -19,15 +19,16 @@ class BookingSeeder extends Seeder
     public function run(): void
     {
         // Booking::factory(50)->create();
-        $days = rand(1, 90);
         for ($i = 0; $i < 50; $i++) {
+            $order_id = IdGenerator::generate([
+                'table' => 'bookings',
+                'field' => 'order_id',
+                'length' => 10,
+                'prefix' => 'INV-'
+            ]);
+            $days = rand(1, 90);
             Booking::create([
-                'order_id' => IdGenerator::generate([
-                    'table' => 'bookings',
-                    'field' => 'order_id',
-                    'length' => 10,
-                    'prefix' => 'INV-'
-                ]),
+                'order_id' => $order_id,
                 'user_id' => User::doesntHave('owner')->inRandomOrder()->first()->id,
                 'package_id' => Package::inRandomOrder()->first()->id,
                 'booking_type_id' => BookingType::inRandomOrder()->first()->id,

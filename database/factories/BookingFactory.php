@@ -22,13 +22,14 @@ class BookingFactory extends Factory
     public function definition(): array
     {
         $days = rand(1, 90);
+        $order_id = IdGenerator::generate([
+            'table' => 'bookings',
+            'field' => 'order_id',
+            'length' => 10,
+            'prefix' => 'INV-'
+        ]);
         return [
-            'order_id' => IdGenerator::generate([
-                'table' => 'bookings',
-                'field' => 'order_id',
-                'length' => 10,
-                'prefix' => 'INV-'
-            ]),
+            'order_id' => $order_id,
             'user_id' => User::doesntHave('owner')->inRandomOrder()->first()->id,
             'package_id' => Package::inRandomOrder()->first()->id,
             'booking_type_id' => BookingType::inRandomOrder()->first()->id,

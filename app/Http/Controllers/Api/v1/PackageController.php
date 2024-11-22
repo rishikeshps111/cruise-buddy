@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\v1\PackageResource;
 use App\Models\Package;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Filters\Package\CruiseTypeFilter;
+use App\Filters\Package\cruiseModelFilter;
+use App\Http\Resources\Api\v1\PackageResource;
+use App\Filters\Package\unavailableDatesFilter;
 
 class PackageController extends Controller
 {
@@ -16,7 +20,7 @@ class PackageController extends Controller
 
         $packages = QueryBuilder::for(Package::class)
             ->allowedIncludes([
-                'cruise',
+                'cruise.cruiseType',
                 'itineraries',
                 'amenity',
                 'food',
@@ -25,9 +29,10 @@ class PackageController extends Controller
                 'unavailableDates',
             ])
             ->allowedFilters([
-                'food.title',
-                'food.is_veg',
-                'amenity.name'
+                AllowedFilter::exact('amenity.name'),
+                AllowedFilter::custom('dateRange', new unavailableDatesFilter),
+                AllowedFilter::custom('cruiseType.model_name', new cruiseModelFilter),
+                AllowedFilter::custom('cruiseType.type', new CruiseTypeFilter)
             ])
             ->paginate($page_limit)
             ->withQueryString();
@@ -41,7 +46,6 @@ class PackageController extends Controller
 
     public function show(Package $package)
     {
-        return $package;
         $query = QueryBuilder::for(Package::class)
             ->allowedIncludes([
                 'cruise',

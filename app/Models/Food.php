@@ -45,7 +45,7 @@ class Food extends Model
 	public function image(): Attribute
 	{
 		return Attribute::make(
-			get: function (string $value) {
+			get: function (?string $value) {
 				if (filter_var($value, FILTER_VALIDATE_URL)) {
 					return $value;
 				}

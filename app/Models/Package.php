@@ -69,7 +69,8 @@ class Package extends Model
 				'min_amount_to_pay',
 				'price_per_person',
 				'price_per_bed'
-			]);
+			])
+			->orderBy('price');
 	}
 
 	public function packageBookingType()
@@ -84,7 +85,8 @@ class Package extends Model
 	public function unavailableDates()
 	{
 		return $this->hasMany(Booking::class)
-			->where('start_date', '>=', Carbon::today());
+			->where('start_date', '>=', Carbon::today())
+			->whereNot('fulfillment_status', 'cancelled');
 	}
 	public function packageImages()
 	{

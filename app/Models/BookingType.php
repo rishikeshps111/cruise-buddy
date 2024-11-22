@@ -35,6 +35,7 @@ class BookingType extends Model
 				'price_per_bed',
 				'deleted_at'
 			)
+			->orderBy('price')
 			->withTimestamps();
 	}
 }

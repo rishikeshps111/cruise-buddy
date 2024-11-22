@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Filters\DateRangeFilter;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\v1\CruiseResource;
 use App\Models\Cruise;
 use App\Models\Rating;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\Enums\FilterOperator;
+use App\Models\PackageBookingType;
+use App\Http\Controllers\Controller;
+use App\Filters\Cruise\AmenityFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Filters\Cruise\DateRangeFilter;
+use App\Filters\Cruise\PriceRangeFilter;
+use App\Http\Resources\Api\v1\CruiseResource;
+use Spatie\QueryBuilder\Enums\FilterOperator;
 
 class CruiseController extends Controller
 {
@@ -20,6 +23,8 @@ class CruiseController extends Controller
         $cruises = QueryBuilder::for(Cruise::class)
             ->allowedIncludes([
                 'packages.bookings',
+                'packages.bookingTypes',
+                'packages.amenity',
                 'location',
                 'cruiseType',
                 'cruisesImages',
@@ -27,12 +32,25 @@ class CruiseController extends Controller
             ])
             ->allowedFilters([
                 'location.name',
-                AllowedFilter::custom('date_range', new DateRangeFilter),
+                AllowedFilter::custom('dateRange', new DateRangeFilter),
+                AllowedFilter::custom('priceRange', new PriceRangeFilter),
+                AllowedFilter::custom('packagesAmenity', new AmenityFilter),
                 AllowedFilter::exact('cruiseType.model_name'),
                 AllowedFilter::exact('cruiseType.type'),
                 AllowedFilter::operator('rooms', FilterOperator::DYNAMIC),
                 AllowedFilter::operator('max_capacity', FilterOperator::DYNAMIC),
             ])
+            ->allowedSorts(['default_price', 'created_at', 'avg_rating'])
+            ->addSelect([
+                'default_price' => PackageBookingType::selectRaw('MIN(price)')
+                    ->whereColumn('packages.id', 'package_booking_types.package_id')
+                    ->limit(1)
+            ])
+            ->addSelect([
+                'avg_rating' => Rating::selectRaw('AVG(rating)')
+                    ->whereColumn('cruise_id', 'cruises.id')
+            ])
+            ->join('packages', 'cruises.id', '=', 'packages.cruise_id')
             ->paginate($page_limit)->withQueryString();
         return CruiseResource::collection($cruises);
     }
@@ -80,14 +98,21 @@ class CruiseController extends Controller
 
     public function featuredCruise()
     {
-        $cruises =  Cruise::addSelect([
-            'avg_rating' => Rating::selectRaw('AVG(rating)')
-                ->whereColumn('cruise_id', 'cruises.id')
-                ->limit(1)
-        ])
-            ->orderBy('avg_rating', 'desc')
+        $page_limit = request()->query('limit') ?: 10;
+        $cruises = QueryBuilder::for(Cruise::class)
+            ->allowedSorts('avg_rating')
+            ->defaultSort('-avg_rating')
+            ->allowedIncludes([
+                'cruisesImages',
+                'packages.bookingTypes'
+            ])
+            ->addSelect([
+                'avg_rating' => Rating::selectRaw('AVG(rating)')
+                    ->whereColumn('cruise_id', 'cruises.id')
+            ])
             ->limit(20)
-            ->get();
+            ->paginate($page_limit)
+            ->withQueryString();
         return CruiseResource::collection($cruises);
     }
 }

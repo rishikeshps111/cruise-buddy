@@ -18,6 +18,7 @@ class BookingResource extends JsonResource
             'id' => $this->id,
             'orderId' => $this->order_id,
             'userId' => $this->user_id,
+            'cruise_id' => $this->cruise_id,
             'packageId' => $this->package_id,
             'package' => new PackageResource($this->whenLoaded('package')),
             'bookingTypeId' => $this->booking_type_id,

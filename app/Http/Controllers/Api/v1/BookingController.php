@@ -45,14 +45,14 @@ class BookingController extends Controller
         $data = QueryBuilder::for(Booking::class)
             ->where('id', $booking->id)
             ->where('user_id', $this->user->id)
-            ->get()->first();
+            ->first();
 
-        if ($data)
+        if ($data) {
             return new BookingResource($data);
-        else
-            return response()->json([
-                'message' => "We regret to inform you that there are no bookings associated with this user.",
-            ], 404);
+        }
+        return response()->json([
+            'message' => "We regret to inform you that there are no bookings associated with this user.",
+        ], 404);
     }
 
     public function update(BookingRequest $request, Booking $booking)
@@ -95,7 +95,6 @@ class BookingController extends Controller
             ->allowedIncludes(['package.cruise.owner.user'])
             ->whereHas('package.cruise.owner', function ($query) use ($id) {
                 $query->where('user_id', $id);
-                // $query->where('user_id', $this->user->id);
             })
             ->paginate()
             ->withQueryString();

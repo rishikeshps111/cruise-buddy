@@ -20,6 +20,7 @@ class PackageResource extends JsonResource
             'description' => $this->description,
             'isActive' => $this->is_active,
             'cruiseId' => $this->cruise_id,
+            'images' => PackageImageResource::collection($this->whenLoaded('packageImages')),
             'cruise' => new CruiseResource($this->whenLoaded('cruise')),
             'amenities' => AmenityResource::collection($this->whenLoaded('amenity')),
             'food' => FoodResource::collection($this->whenLoaded('food')),

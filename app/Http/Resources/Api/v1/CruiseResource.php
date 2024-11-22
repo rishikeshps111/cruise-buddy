@@ -20,12 +20,13 @@ class CruiseResource extends JsonResource
             'maxCapacity' => $this->max_capacity,
             'description' => $this->description,
             'isActive' => $this->is_active,
-            'images' => CruiseImageResource::collection($this->whenLoaded('cruises_images')),
-            'packages' => PackageResource::collection($this->whenLoaded('packages')),
-            'location' => new LocationResource($this->whenLoaded('location')),
-            'cruiseType' => new CruiseTypeResource($this->whenLoaded('cruise_type')),
-            'owner' => new OwnerResource($this->whenLoaded('owner')), 
+            'default_price' => $this->when($this->default_price, $this->default),
             'avgRating' => $this->when($this->avg_rating, $this->avg_rating),
+            'cruiseType' => new CruiseTypeResource($this->whenLoaded('cruiseType')),
+            'images' => CruiseImageResource::collection($this->whenLoaded('cruisesImages')),
+            'location' => new LocationResource($this->whenLoaded('location')),
+            'owner' => new OwnerResource($this->whenLoaded('owner')),
+            'packages' => PackageResource::collection($this->whenLoaded('packages')),
         ];
     }
 }

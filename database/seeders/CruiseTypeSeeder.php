@@ -20,9 +20,11 @@ class CruiseTypeSeeder extends Seeder
                 CruiseType::updateOrCreate(
                     [
                         'model_name' => $model,
-                        'type' => $type
+                        'type' => $type,
                     ],
-                    []
+                    [
+                        'image' => 'default/dummy-avatar.jpg'
+                    ]
                 );
             }
         }

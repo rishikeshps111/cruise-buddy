@@ -5,7 +5,7 @@ namespace App\Http\Resources\Api\v1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CruiseTypeResource extends JsonResource
+class PackageImageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,9 @@ class CruiseTypeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'modelName' => $this->model_name,
-            'type' => $this->type,
-            'image' => $this->image,
-            'cruises' => CruiseResource::collection($this->whenLoaded('cruises'))
+            'packageId' => $this->package_id,
+            'packageImg' => $this->package_img,
+            'alt' => $this->alt
         ];
     }
 }

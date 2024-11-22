@@ -15,7 +15,6 @@ class UserController extends Controller
         $page_limit = request()->query('limit') ?: 20;
         $users = QueryBuilder::for(User::class)
             ->allowedIncludes('owner')
-            ->with('owner')
             ->paginate($page_limit)
             ->withQueryString();
         return UserResource::collection($users);
@@ -30,9 +29,12 @@ class UserController extends Controller
         //
     }
 
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        $user = QueryBuilder::for(User::class)
+            ->allowedIncludes('owner')
+            ->findOrFail($user->id);
+        return UserResource::collection($user);
     }
 
     public function update(Request $request, User $user)

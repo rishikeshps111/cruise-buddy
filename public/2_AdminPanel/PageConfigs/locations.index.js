@@ -6,12 +6,12 @@ var table = $('#CommonTable').DataTable({
     ajax: {
         url: '/admin/locations/list', // Replace with the correct route if necessary
         type: 'GET',
-        data: function(d) {
+        data: function (d) {
             // Add filter values to the AJAX request
             d.name = $('#CommonTable .filter-row input[name="name"]').val();
-            d.email = $('#CommonTable .filter-row input[name="district"]').val();
-            d.phone = $('#CommonTable .filter-row input[name="state"]').val();
-            d.proof_id = $('#CommonTable .filter-row input[name="country"]').val();
+            d.district = $('#CommonTable .filter-row input[name="district"]').val();
+            d.state = $('#CommonTable .filter-row input[name="state"]').val();
+            d.country = $('#CommonTable .filter-row input[name="country"]').val();
         }
     },
     layout: {
@@ -28,7 +28,7 @@ var table = $('#CommonTable').DataTable({
         }
     },
     columnDefs: [
-        { orderable: false, targets: [1, 6, 7] } // Replace with actual indexes of columns to disable sorting
+        { orderable: false, targets: [0, 1, 6, 7] } // Replace with actual indexes of columns to disable sorting
     ],
     columns: [
         {
@@ -49,9 +49,30 @@ var table = $('#CommonTable').DataTable({
             }
         },
         { data: 'name' },
-        { data: 'district' },
-        { data: 'state' },
-        { data: 'country' },
+        {
+            data: 'district',
+            render: function (data) {
+                return `
+                    ${capitalizeFirstLetter(data)}
+                `;
+            }
+        },
+        {
+            data: 'state',
+            render: function (data) {
+                return `
+                    ${capitalizeFirstLetter(data)}
+                `;
+            }
+        },
+        {
+            data: 'country',
+            render: function (data) {
+                return `
+                    ${capitalizeFirstLetter(data)}
+                `;
+            }
+        },
         {
             data: 'map_url',
             render: function (data) {
@@ -80,13 +101,14 @@ var table = $('#CommonTable').DataTable({
 });
 
 // Trigger table refresh on filter change
-$('#CommonTable .filter-row input').on('input change', function() {
+$('#CommonTable .filter-row input').on('input change', function () {
     table.ajax.reload();
 });
 
 // Reset filters and reload table
-$('#resetButton').on('click', function() {
+$('#resetButton').on('click', function () {
     $('#CommonTable .filter-row input').val(''); // Clear text inputs
+    table.order([[0, 'asc']]).draw();
     table.ajax.reload(); // Reload table data
 });
 

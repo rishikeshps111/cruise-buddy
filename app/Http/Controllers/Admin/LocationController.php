@@ -91,8 +91,9 @@ class LocationController extends Controller
 
         if ($thumbnail) {
             if ($location->thumbnail) {
-                $directoryPath = dirname($location->thumbnail);
-                Storage::disk('public')->deleteDirectory($directoryPath);
+                $thumbnailPath = $location->getRawOriginal('thumbnail');
+                $directory = dirname($thumbnailPath);
+                Storage::disk('public')->deleteDirectory($directory);
             }
             $data['thumbnail'] = $thumbnail->store('locations/' . Str::random(), 'public');
         }
@@ -110,8 +111,8 @@ class LocationController extends Controller
      */
     public function destroy(Location $location)
     {
-
-        $directory = dirname($location->thumbnail);
+        $thumbnailPath = $location->getRawOriginal('thumbnail');
+        $directory = dirname($thumbnailPath);
 
         if (Storage::disk('public')->exists($directory)) {
             Storage::disk('public')->deleteDirectory($directory);
@@ -143,6 +144,36 @@ class LocationController extends Controller
             $query->where('country', 'like', '%' . $request->input('country') . '%');
         }
 
+        // Global search (all fields)
+        if ($request->filled('search.value')) {
+            $search = $request->input('search.value');
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('district', 'like', '%' . $search . '%')
+                ->orWhere('state', 'like', '%' . $search . '%')
+                ->orWhere('country', 'like', '%' . $search . '%');
+        }
+
+        if ($request->filled('order')) {
+            $orderColumnIndex = $request->input('order')[0]['column']; // Column index
+            $orderDirection = $request->input('order')[0]['dir'];     // 'asc' or 'desc'
+
+            // Map DataTables column index to database column names
+            $columns = [
+                2 => 'name',
+                3 => 'district',
+                4 => 'state',
+                5 => 'country'
+            ];
+
+            if (array_key_exists($orderColumnIndex, $columns)) {
+                $orderColumn = $columns[$orderColumnIndex];
+                $query->orderBy($orderColumn, $orderDirection);
+            }
+        } else {
+            // Default sorting
+            $query->orderBy('created_at', 'desc');
+        }
+
         $totalRecords = Location::count();
         $filteredRecords = $query->count();
 
@@ -150,10 +181,10 @@ class LocationController extends Controller
         $query->skip($request->input('start', 0))
             ->take($request->input('length', 10));
 
-        $locations = $query->orderBy('created_at', 'desc')->get();
-        
+        $locations = $query->get();
+
         return response()->json([
-            'draw' => intval($request->input('draw')),            
+            'draw' => intval($request->input('draw')),
             'recordsTotal' => $totalRecords,                      // Total records before filtering
             'recordsFiltered' => $filteredRecords,                // Total records after filtering
             'data' => $locations                                       // Data to display

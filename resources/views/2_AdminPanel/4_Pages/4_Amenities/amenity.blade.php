@@ -41,7 +41,7 @@
                                                         <th><input class="form-control" type="text" disabled></th>
                                                         <th><input class="form-control" type="text" disabled></th>
                                                         <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Name"></th>
+                                                                placeholder="Filter by Name" name="name"></th>
                                                         <th><button id="resetButton" class="btn btn-danger"><i
                                                                     class="fa-solid fa-filter me-2"></i></button></th>
                                                     </tr>

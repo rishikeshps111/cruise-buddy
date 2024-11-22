@@ -2,9 +2,14 @@
 var table = $('#CommonTable').DataTable({
     paging: true,
     scrollCollapse: true,
+    serverSide: true,
     ajax: {
         url: '/admin/amenities/list', // Replace with the correct route if necessary
-        dataSrc: '' // DataTables will use the JSON response as the data source directly
+        type: 'GET',
+        data: function (d) {
+            // Add filter values to the AJAX request
+            d.name = $('#CommonTable .filter-row input[name="name"]').val();
+        }
     },
     layout: {
         bottomEnd: {
@@ -20,7 +25,7 @@ var table = $('#CommonTable').DataTable({
         }
     },
     columnDefs: [
-        { orderable: false, targets: [1, 3] } // Replace with actual indexes of columns to disable sorting
+        { orderable: false, targets: [0, 1, 3] } // Replace with actual indexes of columns to disable sorting
     ],
     columns: [
         {
@@ -34,8 +39,8 @@ var table = $('#CommonTable').DataTable({
             render: function (data) {
                 const imageUrl = data ? data : '/2_AdminPanel/assets/images/dummy-avatar.jpg';
                 return `
-                    <img class="rounded-circle" width="35"
-                         src="/storage/${imageUrl}" 
+                    <img class="avatar avatar-md" width="35"
+                         src="${imageUrl}" 
                          alt="">
                     `;
             }
@@ -59,28 +64,16 @@ var table = $('#CommonTable').DataTable({
     }
 });
 
-$('#CommonTable thead tr:eq(1) th').each(function (i) {
-    // Attach event to filter inputs and select
-    $('input', this).on('keyup change', function () {
-        if (table.column(i).search() !== this.value) {
-            table
-                .column(i)
-                .search(this.value)
-                .draw();
-        }
-    });
+// Trigger table refresh on filter change
+$('#CommonTable .filter-row input').on('input change', function () {
+    table.ajax.reload();
 });
 
-
+// Reset filters and reload table
 $('#resetButton').on('click', function () {
-    // Reset each input and dropdown in the filter row
-    $('#CommonTable thead tr:eq(1) th').each(function () {
-        $('input', this).val('');
-    });
-
-    // Reset each column's search and redraw the table
-    const table = $('#CommonTable').DataTable();
-    table.columns().search('').draw();
+    $('#CommonTable .filter-row input').val(''); // Clear text inputs
+    table.order([[0, 'asc']]).draw();
+    table.ajax.reload(); // Reload table data
 });
 
 function openFormModal(action, itemId = null, size = 'modal-md') {

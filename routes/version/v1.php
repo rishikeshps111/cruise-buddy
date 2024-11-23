@@ -26,6 +26,7 @@ Route::prefix('/v1')->name('api.v1.')->group(function () {
     Route::post('phone-verify', [AuthenticationController::class, 'phoneVerify']);
     Route::post('otp-verify', [AuthenticationController::class, 'otpVerify']);
     Route::post('google-verify', [GoogleVerifyController::class, 'googleVerify']);
+    Route::post('google-verify-uid', [GoogleVerifyController::class, 'googleVerifyUId']);
 
     Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/who-am-i', [AuthenticationController::class, 'whoAmI'])->name('who-am-i');

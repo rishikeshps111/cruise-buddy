@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\Api\v1\UserResource;
+use Illuminate\Support\Facades\Hash;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class AuthenticationController extends Controller
@@ -70,7 +71,7 @@ class AuthenticationController extends Controller
             ['phone' => $phone],
             [
                 'country_code' => $country_code,
-                'password' => str()->password(),
+                'password' => Hash::make(str()->password()),
                 'email_verified_at' => User::where('phone', $phone)->value('email_verified_at') ?? now()
             ]
         );

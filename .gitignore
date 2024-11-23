@@ -6,6 +6,7 @@
 !/public/storage/default
 /storage/*.key
 /database/firebase/
+/database/firebase/*
 /vendor
 .env
 .env.backup

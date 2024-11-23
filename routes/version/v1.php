@@ -16,7 +16,8 @@ use App\Http\Controllers\Api\v1\AuthenticationController;
 use App\Http\Controllers\Api\v1\GoogleVerifyController;
 use App\Http\Controllers\Api\v1\PackageBookingTypeController;
 
-Route::prefix('/v1')->middleware('api_auth_key')->name('api.v1.')->group(function () {
+Route::prefix('/v1')->name('api.v1.')->group(function () {
+    // Route::prefix('/v1')->middleware('api_auth_key')->name('api.v1.')->group(function () {
 
     Route::post('register', [AuthenticationController::class, 'register'])
         ->name('register')

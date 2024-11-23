@@ -34,7 +34,7 @@ class UserController extends Controller
         $user = QueryBuilder::for(User::class)
             ->allowedIncludes('owner')
             ->findOrFail($user->id);
-        return UserResource::collection($user);
+        return new UserResource($user);
     }
 
     public function update(Request $request, User $user)

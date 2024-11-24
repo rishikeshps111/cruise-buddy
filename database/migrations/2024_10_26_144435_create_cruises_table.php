@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('owner_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('cruise_type_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('location_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('name');
             $table->integer('rooms');
             $table->integer('max_capacity');
             $table->longText('description');

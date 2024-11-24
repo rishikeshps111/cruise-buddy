@@ -153,7 +153,7 @@ class LocationController extends Controller
                 ->orWhere('country', 'like', '%' . $search . '%');
         }
 
-        if ($request->filled('order')) {
+        if ($request->filled('order') && $request->input('order')[0]['column'] != 0) {
             $orderColumnIndex = $request->input('order')[0]['column']; // Column index
             $orderDirection = $request->input('order')[0]['dir'];     // 'asc' or 'desc'
 

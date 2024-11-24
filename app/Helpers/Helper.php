@@ -24,3 +24,8 @@ function formatPhone($phone)
 
     return $formattedPhone->formatInternational();
 }
+
+function toCamelCase($str)
+{
+    return str_replace('_', '', ucwords($str, '_'));
+}

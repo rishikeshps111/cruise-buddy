@@ -65,8 +65,11 @@ class PackageController extends Controller
         //
     }
 
-    public function destroy(string $id)
+    public function destroy(Package $package)
     {
-        //
+        $package->forceDelete();
+        return response()->json([
+            'message' => 'Package was deleted successfully'
+        ], 201);
     }
 }

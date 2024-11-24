@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\Package\CruiseTypeFilter;
-use App\Filters\Package\cruiseModelFilter;
+use App\Filters\Package\CruiseModelFilter;
 use App\Http\Resources\Api\v1\PackageResource;
 use App\Filters\Package\UnavailableDatesFilter;
 
@@ -31,7 +31,7 @@ class PackageController extends Controller
             ->allowedFilters([
                 AllowedFilter::exact('amenity.name'),
                 AllowedFilter::custom('dateRange', new UnavailableDatesFilter),
-                AllowedFilter::custom('cruiseType.model_name', new cruiseModelFilter),
+                AllowedFilter::custom('cruiseType.model_name', new CruiseModelFilter),
                 AllowedFilter::custom('cruiseType.type', new CruiseTypeFilter)
             ])
             ->paginate($page_limit)

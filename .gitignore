@@ -1,10 +1,11 @@
 /.phpunit.cache
 /node_modules
 /public/build
+/public/*.htaccess
+.htaccess
 /public/hot
 /public/storage
 /public/storage/*
-!/public/storage/default
 /storage/*.key
 /database/firebase/
 /database/firebase/*

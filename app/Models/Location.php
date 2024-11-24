@@ -26,6 +26,7 @@ class Location extends Model
 		return $this->hasMany(Cruise::class);
 	}
 
+	// Accessors and mutators 
 	public function thumbnail(): Attribute
 	{
 		return Attribute::make(
@@ -35,6 +36,24 @@ class Location extends Model
 				}
 				return url("/storage/$value");
 			}
+		);
+	}
+	public function district(): Attribute
+	{
+		return Attribute::make(
+			get: fn (string $value) => ucfirst($value)
+		);
+	}
+	public function state(): Attribute
+	{
+		return Attribute::make(
+			get: fn (string $value) => ucfirst($value)
+		);
+	}
+	public function country(): Attribute
+	{
+		return Attribute::make(
+			get: fn (string $value) => ucfirst($value)
 		);
 	}
 }

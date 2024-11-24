@@ -10,7 +10,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\Package\CruiseTypeFilter;
 use App\Filters\Package\cruiseModelFilter;
 use App\Http\Resources\Api\v1\PackageResource;
-use App\Filters\Package\unavailableDatesFilter;
+use App\Filters\Package\UnavailableDatesFilter;
 
 class PackageController extends Controller
 {

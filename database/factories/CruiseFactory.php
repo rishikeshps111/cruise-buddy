@@ -22,7 +22,8 @@ class CruiseFactory extends Factory
         return [
             'owner_id' => Owner::inRandomOrder()->first()->id,             
             'cruise_type_id' => CruiseType::inRandomOrder()->first()->id,  
-            'location_id' => Location::inRandomOrder()->first()->id,       
+            'location_id' => Location::inRandomOrder()->first()->id,  
+            'name' => fake()->name(),     
             'rooms' => fake()->numberBetween(4, 10),
             'max_capacity' => fake()->numberBetween(20, 60),
             'description' => fake()->paragraph(),

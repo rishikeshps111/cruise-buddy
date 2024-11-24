@@ -30,7 +30,7 @@ class PackageController extends Controller
             ])
             ->allowedFilters([
                 AllowedFilter::exact('amenity.name'),
-                AllowedFilter::custom('dateRange', new unavailableDatesFilter),
+                AllowedFilter::custom('dateRange', new UnavailableDatesFilter),
                 AllowedFilter::custom('cruiseType.model_name', new cruiseModelFilter),
                 AllowedFilter::custom('cruiseType.type', new CruiseTypeFilter)
             ])

@@ -20,6 +20,7 @@ class ConfigSeeder extends Seeder
             CruiseSeeder::class,
             CruiseImageSeeder::class,
             PackageSeeder::class,
+            PackageImageSeeder::class,
             AmenitySeeder::class,
             FoodSeeder::class,
             PackageAmenitySeeder::class,

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('location_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
             $table->integer('rooms');
+            $table->integer('beds')->nullable();
             $table->integer('max_capacity');
             $table->longText('description');
             $table->boolean('is_active')->default(true);

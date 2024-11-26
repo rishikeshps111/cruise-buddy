@@ -24,7 +24,7 @@ class CruiseController extends Controller
             ->allowedIncludes([
                 'packages.bookings',
                 'packages.bookingTypes',
-                'packages.amenity',
+                'packages.amenities',
                 'location',
                 'cruiseType',
                 'cruisesImages',
@@ -65,6 +65,8 @@ class CruiseController extends Controller
         $query = QueryBuilder::for(Cruise::class)
             ->allowedIncludes([
                 'packages.bookings',
+                'packages.bookingTypes',
+                'packages.amenities',
                 'location',
                 'cruiseType',
                 'cruisesImages',

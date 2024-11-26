@@ -52,7 +52,7 @@ class Package extends Model
 			");
 	}
 
-	public function amenity()
+	public function amenities()
 	{
 		return $this->belongsToMany(Amenity::class, 'package_amenities')
 			->withPivot('id');
@@ -73,7 +73,7 @@ class Package extends Model
 			->orderBy('price');
 	}
 
-	public function packageBookingType()
+	public function packageBookingTypes()
 	{
 		return $this->hasMany(PackageBookingType::class);
 	}

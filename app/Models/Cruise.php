@@ -16,6 +16,7 @@ class Cruise extends Model
 		'owner_id' => 'int',
 		'cruise_type_id' => 'int',
 		'location_id' => 'int',
+		'beds' => 'int',
 		'rooms' => 'int',
 		'max_capacity' => 'int',
 		'is_active' => 'bool'
@@ -26,6 +27,7 @@ class Cruise extends Model
 		'cruise_type_id',
 		'location_id',
 		'rooms',
+		'beds',
 		'max_capacity',
 		'description',
 		'is_active'

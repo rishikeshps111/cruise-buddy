@@ -22,7 +22,7 @@ class PackageAmenitySeeder extends Seeder
         foreach ($packages as $key => $package) {
             $randomAmenities = $amenities->random(rand(1, 5))->pluck('id')->toArray();
             try {
-                $package->amenity()->attach($randomAmenities);
+                $package->amenities()->attach($randomAmenities);
             } catch (QueryException $th) {
                 Log::info('Package amenity seeder :' . $th->getMessage());
             }

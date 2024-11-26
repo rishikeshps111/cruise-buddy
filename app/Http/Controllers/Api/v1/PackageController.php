@@ -22,14 +22,14 @@ class PackageController extends Controller
             ->allowedIncludes([
                 'cruise.cruiseType',
                 'itineraries',
-                'amenity',
+                'amenities',
                 'food',
                 'packageImages',
                 'bookingTypes',
                 'unavailableDates',
             ])
             ->allowedFilters([
-                AllowedFilter::exact('amenity.name'),
+                AllowedFilter::exact('amenities.name'),
                 AllowedFilter::custom('dateRange', new UnavailableDatesFilter),
                 AllowedFilter::custom('cruiseType.model_name', new CruiseModelFilter),
                 AllowedFilter::custom('cruiseType.type', new CruiseTypeFilter)
@@ -48,9 +48,9 @@ class PackageController extends Controller
     {
         $query = QueryBuilder::for(Package::class)
             ->allowedIncludes([
-                'cruise',
+                'cruise.cruiseType',
                 'itineraries',
-                'amenity',
+                'amenities',
                 'food',
                 'packageImages',
                 'bookingTypes',

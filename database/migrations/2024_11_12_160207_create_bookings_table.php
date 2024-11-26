@@ -20,6 +20,9 @@ return new class extends Migration
             $table->integer('veg_count')->nullable();
             $table->integer('non_veg_count')->nullable();
             $table->integer('jain_veg_count')->nullable();
+            $table->integer('number_of_beds')->nullable();
+            $table->integer('number_of_adults')->nullable();
+            $table->integer('number_of_children')->nullable();
             $table->decimal('total_amount', 8, 2)->nullable();
             $table->decimal('amount_paid', 8, 2)->nullable();
             $table->decimal('balance_amount', 8, 2)->nullable();

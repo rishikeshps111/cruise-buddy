@@ -33,7 +33,7 @@ class Package extends Model
 
 	public function itineraries()
 	{
-		return $this->hasOne(Itinerary::class);
+		return $this->hasMany(Itinerary::class);
 	}
 
 	public function food()

@@ -10,14 +10,10 @@ use App\Models\CruisesImage;
 
 class CruiseImageController extends Controller
 {
-    public function index()
+    public function index(int $cruise_id)
     {
-        $page_limit = request()->query('limit') ?: 20;
-        $cruise = QueryBuilder::for(CruisesImage::class)
-            ->allowedIncludes(['cruise'])
-            ->paginate($page_limit)->withQueryString();
-
-        return CruiseImageResource::collection($cruise);
+        $cruise_images = CruisesImage::where('cruise_id', $cruise_id)->get();
+        return CruiseImageResource::collection($cruise_images);
     }
 
     public function store(Request $request)
@@ -25,12 +21,17 @@ class CruiseImageController extends Controller
         //
     }
 
-    public function show(CruisesImage $cruiseImage)
+    public function show(int $cruise_id, int $id)
     {
-        $query = QueryBuilder::for(CruisesImage::class)
-            ->allowedIncludes(['cruise']);
-        $cruiseImage = $query->find($cruiseImage->id);
-        return new CruiseImageResource($cruiseImage);
+        $cruise_image = CruisesImage::where('cruise_id', $cruise_id)
+            ->where('id', $id)
+            ->first();
+        if ($cruise_image) {
+            return CruiseImageResource::collection($cruise_image);
+        }
+        return response()->json([
+            'message' => "No image founded",
+        ], 404);
     }
 
     public function update(Request $request, string $id)

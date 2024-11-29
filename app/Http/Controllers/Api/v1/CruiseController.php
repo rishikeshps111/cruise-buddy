@@ -13,6 +13,8 @@ use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\Cruise\DateRangeFilter;
 use App\Filters\Cruise\PriceRangeFilter;
 use App\Http\Resources\Api\v1\CruiseResource;
+use App\Http\Resources\Api\v1\PackageResource;
+use App\Models\Package;
 use Spatie\QueryBuilder\Enums\FilterOperator;
 
 class CruiseController extends Controller
@@ -116,5 +118,11 @@ class CruiseController extends Controller
             ->paginate($page_limit)
             ->withQueryString();
         return CruiseResource::collection($cruises);
+    }
+
+    public function package($cruise_id)
+    {
+        $packages = Package::where('cruise_id', $cruise_id)->get();
+        return PackageResource::collection($packages);
     }
 }

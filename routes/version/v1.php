@@ -13,8 +13,12 @@ use App\Http\Controllers\Api\v1\LocationController;
 use App\Http\Controllers\Api\v1\CruiseTypeController;
 use App\Http\Controllers\Api\v1\CruiseImageController;
 use App\Http\Controllers\Api\v1\AuthenticationController;
+use App\Http\Controllers\Api\v1\FoodController;
 use App\Http\Controllers\Api\v1\GoogleVerifyController;
+use App\Http\Controllers\Api\v1\ItineraryController;
 use App\Http\Controllers\Api\v1\PackageBookingTypeController;
+use App\Http\Controllers\Api\v1\PackageImageController;
+use App\Http\Controllers\Api\v1\PaymentController;
 
 Route::prefix('/v1')->name('api.v1.')->group(function () {
     // Route::prefix('/v1')->middleware('api_auth_key')->name('api.v1.')->group(function () {
@@ -35,22 +39,31 @@ Route::prefix('/v1')->name('api.v1.')->group(function () {
         Route::apiResource('/owner', OwnerController::class);
         Route::get('/owner/{id}/booking', [BookingController::class, 'bookingOwner'])
             ->name('owner.booking')
-            ->middleware(['role:owner']);
+            ->middleware(['role:owner'])->name('owner.booking');
 
 
         Route::apiResource('/location', LocationController::class);
         Route::apiResource('/cruise-type', CruiseTypeController::class);
         Route::apiResource('/cruise-images', CruiseImageController::class);
-        Route::apiResource('/amenity', AmenityController::class);
 
         Route::apiResource('/cruise', CruiseController::class);
+        Route::get('/cruise/{cruise_id}/package', [CruiseController::class, 'package'])->name('cruise.package');
+        Route::apiResource('/cruise/{cruise_id}/image', CruiseImageController::class);
         Route::get('/cruise/{id}/booking', [BookingController::class, 'bookingCruise'])->name('cruise.booking');
         Route::get('/featured/cruise/', [CruiseController::class, 'featuredCruise'])->name('feature.cruise');
 
 
         Route::apiResource('/package', PackageController::class);
+        Route::get('/package/{id}/unavailable-date', [PackageController::class, 'unavailableDate'])->name('package.unavailable.date');
+        Route::apiResource('/package/{package_id}/image', PackageImageController::class);
+        Route::apiResource('/package/{package_id}/amenity', AmenityController::class);
+        Route::apiResource('/package/{package_id}/food', FoodController::class);
+        Route::apiResource('/package/{package_id}/itinerary', ItineraryController::class);
         Route::apiResource('/package-booking-type', PackageBookingTypeController::class);
+
         Route::apiResource('/booking', BookingController::class);
+
+        Route::apiResource('/payment', PaymentController::class);
 
         Route::apiResource('/rating', RatingController::class);
         Route::apiResource('/favorite', FavoriteController::class);

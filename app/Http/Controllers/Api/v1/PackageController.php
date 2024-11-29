@@ -11,6 +11,7 @@ use App\Filters\Package\CruiseTypeFilter;
 use App\Filters\Package\CruiseModelFilter;
 use App\Http\Resources\Api\v1\PackageResource;
 use App\Filters\Package\UnavailableDatesFilter;
+use App\Http\Resources\Api\v1\UnavailableDateResource;
 
 class PackageController extends Controller
 {
@@ -71,5 +72,11 @@ class PackageController extends Controller
         return response()->json([
             'message' => 'Package was deleted successfully'
         ], 201);
+    }
+    public function unavailableDate($id)
+    {
+        $package = Package::find($id);
+        $unavailable_date = $package->unavailableDates()->get();
+        return UnavailableDateResource::collection($unavailable_date);
     }
 }

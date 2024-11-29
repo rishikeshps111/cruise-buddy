@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\v1\ItineraryResource;
-use App\Models\Itinerary;
+use App\Http\Resources\Api\v1\PackageImageResource;
+use App\Models\PackageImage;
 use Illuminate\Http\Request;
 
-class ItineraryController extends Controller
+class PackageImageController extends Controller
 {
     public function index(int $package_id)
     {
-        $itineraries = Itinerary::where('package_id', $package_id)->get();
-        return ItineraryResource::collection($itineraries);
+        $package_images = PackageImage::where('package_id', $package_id)->get();
+        return PackageImageResource::collection($package_images);
     }
 
     public function store(Request $request)
@@ -22,14 +22,14 @@ class ItineraryController extends Controller
 
     public function show(int $package_id, int $id)
     {
-        $itinerary = Itinerary::where('package_id', $package_id)
-            ->where('id', $id)
+        $package_image = PackageImage::where('id', $id)
+            ->where('package_id', $package_id)
             ->first();
-        if ($itinerary) {
-            return new ItineraryResource($itinerary);
+        if ($package_image) {
+            return new PackageImageResource($package_image);
         }
         return response()->json([
-            'message' => "No itinerary founded",
+            'message' => "No images founded",
         ], 404);
     }
 

@@ -4,17 +4,16 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\v1\FoodResource;
-use App\Models\Food;
+use App\Models\Package;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class FoodController extends Controller
 {
-    public function index()
+    public function index(int $package_id)
     {
-        $foods = QueryBuilder::for(Food::class)
-            ->get();
-        return FoodResource::collection($foods);
+        $package = Package::find($package_id);
+        $food = $package->food()->get();
+        return FoodResource::collection($food);
     }
 
     public function store(Request $request)
@@ -22,9 +21,16 @@ class FoodController extends Controller
         //
     }
 
-    public function show(Food $food)
+    public function show(int $package_id, int $id)
     {
-        return new FoodResource($food);
+        $package = Package::find($package_id);
+        $food = $package->food->where('id', $id)->first();
+        if ($food) {
+            return new FoodResource($food);
+        }
+        return response()->json([
+            'message' => "No food founded",
+        ], 404);
     }
 
     public function update(Request $request, string $id)

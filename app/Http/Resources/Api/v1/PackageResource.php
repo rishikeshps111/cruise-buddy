@@ -24,7 +24,7 @@ class PackageResource extends JsonResource
             'cruise' => new CruiseResource($this->whenLoaded('cruise')),
             'amenities' => AmenityResource::collection($this->whenLoaded('amenities')),
             'food' => FoodResource::collection($this->whenLoaded('food')),
-            'itinerary' => new ItineraryResource($this->whenLoaded('itinerary')),
+            'itineraries' => ItineraryResource::collection($this->whenLoaded('itineraries')),
             'bookingTypes' => BookingTypeResource::collection($this->whenLoaded('bookingTypes')),
             'unavailableDate' => UnavailableDateResource::collection($this->whenLoaded('unavailableDates'))
         ];

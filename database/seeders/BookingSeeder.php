@@ -28,6 +28,7 @@ class BookingSeeder extends Seeder
             ]);
             $days = rand(1, 90);
             Booking::create([
+                'invoice_id' => $order_id,
                 'order_id' => $order_id,
                 'user_id' => User::doesntHave('owner')->inRandomOrder()->first()->id,
                 'package_id' => Package::inRandomOrder()->first()->id,

@@ -15,6 +15,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "propaganistas/laravel-phone": "^5.3",
+        "razorpay/razorpay": "^2.9",
         "spatie/laravel-permission": "*",
         "spatie/laravel-query-builder": "^6.2",
         "spatie/laravel-tags": "^4.7"

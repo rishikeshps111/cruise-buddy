@@ -14,7 +14,7 @@ class DateRangeFilter implements Filter
         $endDate = isset($value['end']) ? Carbon::parse($value['end'])->endOfDay() : Carbon::parse($value['start'])->endOfDay();
 
         $query->whereDoesntHave('packages.unavailableDates', function ($query) use ($startDate, $endDate) {
-            $query->whereNot('fulfillment_status', 'cancelled')
+            $query ->whereNotIn('fulfillment_status', ['cancelled', 'payment_failed', 'blocked_by_owner'])
                 ->where(function ($query) use ($startDate, $endDate) {
                     $query->whereBetween('start_date', [$startDate, $endDate])
                         ->orWhereBetween('end_date', [$startDate, $endDate])

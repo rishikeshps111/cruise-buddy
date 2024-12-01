@@ -86,7 +86,7 @@ class Package extends Model
 	{
 		return $this->hasMany(Booking::class)
 			->where('start_date', '>=', Carbon::today())
-			->whereNot('fulfillment_status', 'cancelled');
+			->whereNotIn('fulfillment_status', ['cancelled', 'payment_failed', 'blocked_by_owner']);
 	}
 	public function packageImages()
 	{

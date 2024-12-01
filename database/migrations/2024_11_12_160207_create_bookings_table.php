@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('invoice_id');
             $table->string('order_id');
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('package_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
@@ -38,6 +39,7 @@ return new class extends Migration
                     'payment_failed',
                     'cancelled',
                     'blocked_by_owner',
+                    'self_booking',
                     'other'
                 ]
             )->default('pending');

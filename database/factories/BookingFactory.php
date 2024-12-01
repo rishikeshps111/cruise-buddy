@@ -29,6 +29,7 @@ class BookingFactory extends Factory
             'prefix' => 'INV-'
         ]);
         return [
+            'invoice_id' => $order_id,
             'order_id' => $order_id,
             'user_id' => User::doesntHave('owner')->inRandomOrder()->first()->id,
             'package_id' => Package::inRandomOrder()->first()->id,

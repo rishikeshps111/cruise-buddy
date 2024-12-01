@@ -28,6 +28,7 @@ class Booking extends Model
 	];
 
 	protected $fillable = [
+		'invoice_id',
 		'order_id',
 		'user_id',
 		'package_id',

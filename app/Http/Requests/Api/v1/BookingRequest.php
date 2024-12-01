@@ -56,7 +56,7 @@ class BookingRequest extends FormRequest
 		$package = Package::where('id', $this->packageId)->first();
 		$unavailablePackage = Cruise::where('id', $package->cruise_id)
 			->whereHas('packages.bookings', function ($query) use ($startDate, $endDate) {
-				$query->whereNot('fulfillment_status', 'cancelled')
+				$query->whereNotIn('fulfillment_status', ['cancelled', 'payment_failed', 'blocked_by_owner'])
 					->whereBetween('start_date', [$startDate, $endDate])
 					->orWhereBetween('end_date', [$startDate, $endDate])
 					->orWhere(function ($query) use ($startDate, $endDate) {
@@ -70,7 +70,7 @@ class BookingRequest extends FormRequest
 
 	public function store()
 	{
-		$order_id = IdGenerator::generate([
+		$invoice_id = IdGenerator::generate([
 			'table' => 'bookings',
 			'field' => 'order_id',
 			'length' => 10,
@@ -78,7 +78,8 @@ class BookingRequest extends FormRequest
 		]);
 		$this->calculateTotalAmount();
 		$data = [
-			'order_id' => $order_id,
+			'invoice_id' => $invoice_id,
+			'order_id' => $this->order_id,
 			'user_id' => $this->user->hasRole('user') ? $this->user->id : null,
 			'package_id' => $this->packageId,
 			'booking_type_id' => $this->bookingTypeId,
@@ -88,6 +89,7 @@ class BookingRequest extends FormRequest
 			'total_amount' => $this->totalAmount,
 			'balance_amount' => $this->totalAmount,		// initial declaration
 			'customer_note' => $this->customerNote,
+			'fulfillment_status' => $this->user->hasRole('user') ? $this->fulfillment_status : 'self_booking',
 			'start_date' => $this->startDate,
 			'end_date' => $this->endDate ?: $this->startDate,
 			'booked_by_user' => $this->user->hasRole('user') ? true : false,
@@ -101,14 +103,16 @@ class BookingRequest extends FormRequest
 	{
 		$data = [
 			'user_id' => $this->user->hasRole('user') ? $this->user->id : null,
+			'order_id' => $this->order_id,
 			'package_id' => $this->packageId,
 			'booking_type_id' => $this->bookingTypeId,
 			'veg_count' => $this->vegCount,
 			'non_veg_count' => $this->nonVegCount,
 			'jain_veg_count' => $this->jainVegCount,
 			'total_amount' => $this->totalAmount,
-			'balance_amount' => $this->totalAmount,		// initial declaration
+			'balance_amount' => $this->totalAmount,	// initial declaration
 			'customer_note' => $this->customerNote,
+			'fulfillment_status' => $this->user->hasRole('user') ? $this->fulfillment_status : 'self_booking',
 			'start_date' => $this->startDate,
 			'end_date' => $this->endDate ?: $this->startDate,
 			'booked_by_user' => $this->user->hasRole('user') ? true : false,

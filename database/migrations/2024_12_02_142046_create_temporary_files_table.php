@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('temporary_files', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 50);
-            $table->string('district', 50);
-            $table->string('state', 50);
-            $table->string('country', 100);
-            $table->longText('map_url')->nullable();
-            $table->string('thumbnail')->nullable();
-            $table->softDeletes();
+            $table->string('folder');
+            $table->string('filename');
             $table->timestamps();
         });
     }
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('temporary_files');
     }
 };

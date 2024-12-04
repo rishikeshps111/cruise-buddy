@@ -27,6 +27,7 @@ class CruiseFactory extends Factory
             'rooms' => fake()->numberBetween(4, 10),
             'max_capacity' => fake()->numberBetween(20, 60),
             'description' => fake()->paragraph(),
+            'slug' => fake()->slug(),
             'is_active' => fake()->boolean(),
         ];
     }

@@ -14,7 +14,7 @@ function PageName(bool $uri = false)
 function formatDocumentName($document)
 {
     // Replace underscores with spaces, capitalize each word, then remove spaces
-    return str_replace(' ', '', ucwords(str_replace('_', ' ', $document)));
+    return str_replace(' ', ' ', ucwords(str_replace('_', ' ', $document)));
 }
 
 function formatPhone($phone)
@@ -24,6 +24,7 @@ function formatPhone($phone)
 
     return $formattedPhone->formatInternational();
 }
+
 
 function toCamelCase($str)
 {

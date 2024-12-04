@@ -47460,7 +47460,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .proof-image {
-    height: 200px;       
-    border-radius: 8px;  
-    object-fit: cover;  
+  height: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+[data-theme-version="dark"] .swal2-popup.swal2-toast {
+  background-color: #242424;
+}
+
+.image-container {
+  position: relative;
+}
+
+.delete-btn {
+  display: none;
+  top: 5px;
+  right: 5px;
+}
+
+.image-container:hover img {
+  filter: blur(1px);
+}
+
+.image-container:hover .delete-btn {
+  display: block;
 }

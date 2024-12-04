@@ -96,7 +96,7 @@ function showErrorMessages(errors) {
     clearErrorMessages(); // Clear existing errors
 
     Object.keys(errors).forEach(field => {
-        const errorContainer = document.querySelector(`[name="${field}"]`).closest('.mb-3').querySelector('.invalid-feedback');
+        const errorContainer = document.querySelector(`form [name="${field}"]`).closest('.mb-3').querySelector('.invalid-feedback');
         if (errorContainer) {
             errorContainer.innerHTML = errors[field].map(message => `<p>${message}</p>`).join(''); // Populate messages
             errorContainer.classList.remove('d-none'); // Show error container
@@ -104,7 +104,7 @@ function showErrorMessages(errors) {
     });
 }
 
-function confirmDelete(url, table) {
+function confirmDelete(url, table, imageWrapper = null, callback = null) {
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -126,6 +126,14 @@ function confirmDelete(url, table) {
                         'success'
                     ).then(() => {
                         table.ajax.reload(null, false);
+
+                        if (imageWrapper) {
+                            imageWrapper.remove(); // Remove the parent element with class 'col-md-2'
+                        }
+
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
                     });
                 })
                 .catch(error => {
@@ -158,7 +166,17 @@ function toCamelCase(str) {
     return str
         .split('_')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join('');
+        .join(' ');
+}
+
+function generateSlug(string) {
+    return string
+        .toLowerCase() // Convert to lowercase
+        .trim() // Remove leading and trailing spaces
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/[^\w\-]+/g, '') // Remove non-word characters except hyphens
+        .replace(/\-\-+/g, '-') // Replace multiple hyphens with a single one
+        .replace(/^-+|-+$/g, ''); // Remove leading or trailing hyphens
 }
 
 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('rooms');
             $table->integer('max_capacity');
             $table->longText('description');
+            $table->string('slug')->unique();
             $table->boolean('is_active')->default(true);
             $table->softDeletes();
             $table->timestamps();

@@ -31,6 +31,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
+                                                        <th>Image</th>
                                                         <th>Model Name</th>
                                                         <th>Type</th>
                                                         <th>Action</th>
@@ -39,13 +40,14 @@
                                                 <thead>
                                                     <tr class="filter-row">
                                                         <th><input class="form-control" type="text" disabled></th>
+                                                        <th><input class="form-control" type="text" disabled></th>
                                                         <th>
                                                             <select id="statusFilter" class="form-control-sm mb-2"
                                                                 name="model_name">
                                                                 <option value="">All Model Name</option>
                                                                 <option value="normal">Normal</option>
-                                                                <option value="full_upper_deck">FullUpperDeck</option>
-                                                                <option value="semi_upper_deck">SemiUpperDeck</option>
+                                                                <option value="full_upper_deck">Full Upper Deck</option>
+                                                                <option value="semi_upper_deck">Semi Upper Deck</option>
                                                             </select>
                                                         </th>
                                                         <th>

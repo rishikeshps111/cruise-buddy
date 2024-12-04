@@ -7,6 +7,9 @@ use App\Models\CruiseType;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\StoreCruiseTypeRequest;
 use App\Http\Requests\Admin\UpdateCruiseTypeRequest;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 
 class CruiseTypeController extends Controller
 {
@@ -42,6 +45,12 @@ class CruiseTypeController extends Controller
     {
         $data = $request->validated();
 
+        $image = $data['image'] ?? null;
+
+        if ($image) {
+            $data['image'] = $image->store('cruise_type/' . Str::random(), 'public');
+        }
+
         $cruise_type = CruiseType::create($data);
 
         return response()->json([
@@ -72,6 +81,18 @@ class CruiseTypeController extends Controller
     public function update(UpdateCruiseTypeRequest $request, CruiseType $cruiseType)
     {
         $data = $request->validated();
+
+        $image = $data['image'] ?? null;
+
+        if ($image) {
+            if ($cruiseType->image) {
+                $imagePath = $cruiseType->getRawOriginal('image');
+                $directory = dirname($imagePath);
+                Storage::disk('public')->deleteDirectory($directory);
+            }
+            $data['image'] = $image->store('cruise_type/' . Str::random(), 'public');
+        }
+
         $cruiseType->update($data);
 
         return response()->json([
@@ -85,7 +106,14 @@ class CruiseTypeController extends Controller
      */
     public function destroy(CruiseType $cruiseType)
     {
-        $cruiseType->delete();
+        $imagePath = $cruiseType->getRawOriginal('thumbnail');
+        $directory = dirname($imagePath);
+
+        if (Storage::disk('public')->exists($directory)) {
+            Storage::disk('public')->deleteDirectory($directory);
+        }
+
+        $cruiseType->forceDelete();
 
         return response()->json([
             'message' => 'cruise Type Deleted Successfully',

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCruiseTypeRequest extends FormRequest
 {
@@ -11,11 +12,24 @@ class UpdateCruiseTypeRequest extends FormRequest
         return true;
     }
 
+    public function messages(): array
+    {
+        return [
+            'model_name.unique' => 'A Cruise Type with this model name and type already exists.',
+        ];
+    }
+
     public function rules(): array
     {
         return [
-            'model_name' => ['required'],
+            'model_name' => [
+                'required',
+                Rule::unique('cruise_types')->where(function ($query) {
+                    return $query->where('type', $this->type);
+                })->ignore($this->route('cruise_type')),
+            ],
             'type' => ['required'],
+            'image' => ['nullable', 'image', 'max:2048'],
         ];
     }
 }

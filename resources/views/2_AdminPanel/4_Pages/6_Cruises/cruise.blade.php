@@ -4,6 +4,13 @@
     @component('2_AdminPanel.5_Components.breadcrumb', ['title' => 'Cruises', 'activePage' => 'Cruises'])
     @endcomponent
 
+    <!-- Style -->
+    @section('styles')
+        <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+        <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+            rel="stylesheet" />
+    @endsection
+
     <!-- container starts -->
     <div class="container-fluid">
         <!-- row -->
@@ -59,7 +66,9 @@
                                                             <select class="form-control-sm mb-2" name="type">
                                                                 <option value="">All Cruise Type</option>
                                                                 @foreach ($cruise_types as $cruise_type)
-                                                                <option value="{{ $cruise_type->id }}">{{ toCamelCase($cruise_type->model_name) }} - {{ $cruise_type->type }}</option>
+                                                                    <option value="{{ $cruise_type->id }}">
+                                                                        {{ $cruise_type->model_name }} -
+                                                                        {{ $cruise_type->type }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </th>
@@ -94,4 +103,11 @@
         </div>
     </div>
     <x-modal id="commonModal" />
+
+    @section('scripts')
+        <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+        <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+        <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+        <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+    @endsection
 </x-app-layout>

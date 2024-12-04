@@ -23,6 +23,7 @@ class Cruise extends Model
 	];
 
 	protected $fillable = [
+		'name',
 		'owner_id',
 		'cruise_type_id',
 		'location_id',
@@ -30,6 +31,7 @@ class Cruise extends Model
 		'beds',
 		'max_capacity',
 		'description',
+		'slug',
 		'is_active'
 	];
 

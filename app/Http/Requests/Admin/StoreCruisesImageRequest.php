@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAmenityRequest extends FormRequest
+class StoreCruisesImageRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,15 +14,16 @@ class StoreAmenityRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.unique' => 'The Amenity is already exists'
+            'cruise_images.required' => 'Please select any images.',
         ];
     }
+
 
     public function rules(): array
     {
         return [
-            'name' => ['required','unique:amenities'],
-            'icon' => ['required', 'image', 'max:2048'],
+            'cruise_images' => ['required'],
+            'cruise_images.*' => ['image', 'max:2048'],
         ];
     }
 }

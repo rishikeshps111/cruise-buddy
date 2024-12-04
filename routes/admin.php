@@ -8,6 +8,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\OwnerController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CruisesImageController;
+use App\Http\Controllers\Admin\DeleteTemporaryFilesController;
+use App\Http\Controllers\Admin\UploadTemporaryFilesController;
 
 Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
@@ -30,6 +33,11 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
     Route::resource('cruise-type', CruiseTypeController::class);
 
     Route::get('cruises/list', [CruiseController::class, 'list'])->name('cruises.list');
-    Route::resource('cruises', CruiseController::class);
-    
+    Route::resource('cruises', CruiseController::class)->except(['show']);
+    Route::get('/cruises/{slug}', [CruiseController::class, 'show'])->name('cruises.show');
+
+    Route::resource('cruises-image', CruisesImageController::class);
+
+    Route::post('upload', UploadTemporaryFilesController::class);
+    Route::delete('delete', DeleteTemporaryFilesController::class);
 });

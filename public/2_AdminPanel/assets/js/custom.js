@@ -65,20 +65,22 @@ var W3Crm = function () {
 	}
 
 	var handleCurrentActive = function () {
-		for (var nk = window.location,
-			o = $("ul#menu a").filter(function () {
-				return this.href == nk;
-			})
-				.addClass("mm-active")
-				.parent()
-				.addClass("mm-active"); ;) {
-			if (!o.is("li")) break;
-			o = o.parent()
-				.addClass("mm-show")
-				.parent()
-				.addClass("mm-active");
-		}
-	}
+		var currentUrl = window.location.href;
+		$("ul#menu a").filter(function () {
+			// Check if the current URL starts with the href of the link
+			return currentUrl.startsWith(this.href);
+		})
+			.addClass("mm-active")
+			.parent()
+			.addClass("mm-active")
+			.each(function () {
+				var parent = $(this).parent();
+				while (parent.is("li")) {
+					parent.addClass("mm-active").parent().addClass("mm-show");
+					parent = parent.parent().parent();
+				}
+			});
+	};
 
 	var handleMiniSidebar = function () {
 		$("ul#menu>li").on('click', function () {

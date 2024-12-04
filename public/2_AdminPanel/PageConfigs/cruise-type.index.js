@@ -26,7 +26,7 @@ var table = $('#CommonTable').DataTable({
         }
     },
     columnDefs: [
-        { orderable: false, targets: [0, 3] } // Replace with actual indexes of columns to disable sorting
+        { orderable: false, targets: [0, 1, 3] } // Replace with actual indexes of columns to disable sorting
     ],
     columns: [
         {
@@ -35,10 +35,21 @@ var table = $('#CommonTable').DataTable({
                 return `<span>${meta.row + meta.settings._iDisplayStart + 1}</span>`; // Row number
             },
         },
+        {
+            data: 'image',               // Assuming 'id' is used for actions
+            render: function (data) {
+                const imageUrl = data ? data : '/2_AdminPanel/assets/images/dummy-avatar.jpg';
+                return `
+                    <img class="rounded-circle" width="35"
+                         src="${imageUrl}" 
+                         alt="">
+                    `;
+            }
+        },
         { data: 'model_name',
             render: function (data) {
                 return `
-                    ${toCamelCase(data)}
+                    ${data}
                 `;
             }
          },
@@ -46,7 +57,7 @@ var table = $('#CommonTable').DataTable({
             data: 'type',
             render: function (data) {
                 return `
-                    ${capitalizeFirstLetter(data)}
+                    ${data}
                 `;
             }
         },
@@ -80,6 +91,13 @@ $('#resetButton').on('click', function () {
     table.ajax.reload(); // Reload table data
 });
 
+//show the image preview
+function ImagePreview() {
+    document.getElementById('image').addEventListener('change', function (event) {
+        previewImage(event, 'imagePreview');
+    });
+}
+
 function openFormModal(action, itemId = null, size = 'modal-md') {
     $.ajax({
         url: '/admin/cruise-type/create', // Change this to the route for `renderForm`
@@ -102,6 +120,7 @@ function openFormModal(action, itemId = null, size = 'modal-md') {
             $('#commonModal').modal('show');
             // reloading the input components
             W3Crm.init();
+            ImagePreview();
             const validator = initializeValidator('#commonModalForm', LocationForm);
             EditOrCreate(validator);
 
@@ -115,20 +134,20 @@ function openFormModal(action, itemId = null, size = 'modal-md') {
 function CrudFunctions() {
 
     document.getElementById('addCruiseTypeButton').addEventListener('click', function () {
-        openFormModal('store', null, 'modal-lg');
+        openFormModal('store', null, 'modal-md');
     });
 
     document.querySelectorAll('.EditCruiseType').forEach(button => {
         button.addEventListener('click', function () {
-            const locationId = this.getAttribute('data-id');
-            openFormModal('edit', locationId, 'modal-lg');
+            const cruiseType_id = this.getAttribute('data-id');
+            openFormModal('edit', cruiseType_id, 'modal-md');
         });
     });
 
     document.querySelectorAll('.DeleteCruiseType').forEach(button => {
         button.addEventListener('click', function () {
-            const locationId = this.getAttribute('data-id');
-            const deleteUrl = `/admin/cruise-type/${locationId}`;
+            const cruiseType_id = this.getAttribute('data-id');
+            const deleteUrl = `/admin/cruise-type/${cruiseType_id}`;
             confirmDelete(deleteUrl, table);
 
         });
@@ -160,7 +179,22 @@ const LocationForm = {
             errorsContainer: '.validate-type',  
         }
 
-    }
+    },
+    '#image': {
+        rules: [
+            {
+                validator: () => {
+                    const preview = document.querySelector('#imagePreview');
+                    const imageInput = document.querySelector('#image_image');
+                    return (
+                        (preview && preview.style.display === 'block' && preview.src) ||
+                        (imageInput && imageInput.files.length > 0)
+                    );
+                },
+                errorMessage: 'Please upload a image.',
+            },
+        ],
+    },
 };
 
 function EditOrCreate(validator) {

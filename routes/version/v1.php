@@ -12,7 +12,6 @@ use App\Http\Controllers\Api\v1\PackageController;
 use App\Http\Controllers\Api\v1\PaymentController;
 use App\Http\Controllers\Api\v1\FavoriteController;
 use App\Http\Controllers\Api\v1\LocationController;
-use App\Http\Controllers\Api\v1\RazorpayController;
 use App\Http\Controllers\Api\v1\ItineraryController;
 use App\Http\Controllers\Api\v1\CruiseTypeController;
 use App\Http\Controllers\Api\v1\CruiseImageController;
@@ -64,8 +63,6 @@ Route::prefix('/v1')->name('api.v1.')->group(function () {
 
         Route::apiResource('/booking', BookingController::class);
 
-        Route::post('razorpay-webhook-payment', [RazorpayController::class, 'webhookStore'])
-            ->name('razorpay.webhook.store');
         Route::apiResource('/payment', PaymentController::class);
 
         Route::apiResource('/rating', RatingController::class);

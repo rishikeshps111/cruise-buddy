@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('invoice_id');
-            $table->string('order_id');
+            $table->string('order_id')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('package_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('booking_type_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\v1;
 
 use App\Models\Favorite;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class FavoriteRequest extends FormRequest
 {
@@ -15,17 +16,17 @@ class FavoriteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'userId' => 'required',
-            'cruiseId' => 'required'
+            'packageId' => 'required'
         ];
     }
 
     public function store()
     {
-        $favorite =  Favorite::create([
-            'user_id' => $this->userId,
-            'cruise_id' => $this->cruiseId
-        ]);
-        return $favorite;
+        $favorite =  Favorite::updateOrCreate([
+            'user_id' => Auth::user()->id,
+            'package_id' => $this->packageId
+        ],[]);
+        $favorite->refresh();
+        return $favorite->load('package', 'user');
     }
 }

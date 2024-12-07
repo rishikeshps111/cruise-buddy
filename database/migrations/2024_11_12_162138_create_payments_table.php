@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('booking_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('booking_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('order_id')->nullable();
             $table->string('payment_id');
             $table->decimal('amount');
             $table->string('currency')->nullable();
             $table->string('status')->nullable();
-            $table->string('order_id');
             $table->string('payment_method')->nullable();
             $table->string('bank')->nullable();
             $table->string('email')->nullable();

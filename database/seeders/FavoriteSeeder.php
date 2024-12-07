@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Cruise;
 use App\Models\Favorite;
+use App\Models\Package;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,7 +21,7 @@ class FavoriteSeeder extends Seeder
             Favorite::updateOrCreate(
                 [
                     'user_id' => User::inRandomOrder()->first()->id,
-                    'cruise_id' => Cruise::inRandomOrder()->first()->id
+                    'package_id' => Package::inRandomOrder()->first()->id
                 ],
                 []
             );

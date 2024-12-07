@@ -17,7 +17,7 @@ class FavoriteResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => new UserResource($this->whenLoaded('user')),
-            'cruise' => new CruiseResource($this->whenLoaded('cruise'))
+            'package' => new PackageResource($this->whenLoaded('package'))
         ];
     }
 }

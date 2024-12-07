@@ -14,17 +14,17 @@ class Favorite extends Model
 
 	protected $casts = [
 		'user_id' => 'int',
-		'cruise_id' => 'int'
+		'package_id' => 'int'
 	];
 
 	protected $fillable = [
 		'user_id',
-		'cruise_id'
+		'package_id'
 	];
 
-	public function cruise()
+	public function Package()
 	{
-		return $this->belongsTo(Cruise::class);
+		return $this->belongsTo(Package::class);
 	}
 
 	public function user()

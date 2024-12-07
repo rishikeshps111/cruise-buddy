@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\FavoriteRequest;
 use App\Http\Resources\Api\v1\FavoriteResource;
 use App\Models\Favorite;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class FavoriteController extends Controller
@@ -15,7 +16,8 @@ class FavoriteController extends Controller
     {
         $page_limit = request()->query('limit') ?: 20;
         $favorites = QueryBuilder::for(Favorite::class)
-            ->allowedIncludes(['user', 'cruise'])
+            ->allowedIncludes(['user', 'package.cruise'])
+            ->where('user_id', Auth::user()->id)
             ->paginate($page_limit)
             ->withQueryString();
         return FavoriteResource::collection($favorites);
@@ -33,7 +35,7 @@ class FavoriteController extends Controller
         $query = QueryBuilder::for(Favorite::class)
             ->allowedIncludes([
                 'user',
-                'cruise'
+                'package.cruise'
             ]);
         $rating = $query->find($favorite->id);
         return new FavoriteResource($rating);

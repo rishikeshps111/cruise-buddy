@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Cruise;
+use App\Models\Package;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,7 +21,7 @@ class FavoriteFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id,
-            'cruise_id' => Cruise::inRandomOrder()->first()->id,
+            'package_id' => Package::inRandomOrder()->first()->id,
         ];
     }
 }

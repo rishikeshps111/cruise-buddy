@@ -108,7 +108,7 @@ class CruiseController extends Controller
             ->defaultSort('-avg_rating')
             ->allowedIncludes([
                 'cruisesImages',
-                'packages.bookingTypes'
+                'packages.packageImages'
             ])
             ->addSelect([
                 'avg_rating' => Rating::selectRaw('AVG(rating)')
@@ -117,6 +117,7 @@ class CruiseController extends Controller
             ->limit(20)
             ->paginate($page_limit)
             ->withQueryString();
+        return $cruises;
         return CruiseResource::collection($cruises);
     }
 

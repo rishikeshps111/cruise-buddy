@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Models\Rating;
 use App\Models\Package;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -78,5 +79,31 @@ class PackageController extends Controller
         $package = Package::find($id);
         $unavailable_date = $package->unavailableDates()->get();
         return UnavailableDateResource::collection($unavailable_date);
+    }
+
+    public function featuredPackage()
+    {
+        $page_limit = request()->query('limit') ?: 10;
+        $packages = QueryBuilder::for(Package::class)
+            ->allowedSorts('avg_rating')
+            ->defaultSort('-avg_rating')
+            ->allowedIncludes([
+                'cruise.cruisesImages',
+                'packageImages'
+            ])
+            ->select('packages.*') // Ensure you select the base table fields
+            ->addSelect([
+                'avg_rating' => Rating::selectRaw('AVG(rating)')
+                    ->whereColumn('cruise_id', 'cruises.id') // Link to related cruises
+            ])
+            ->join('cruises', 'cruises.id', '=', 'packages.cruise_id') // Join related cruises
+            ->groupBy('packages.id') // Prevent ambiguity errors with aggregates
+            ->orderByDesc('avg_rating') // Sort by average rating
+            ->limit(20)
+            ->paginate($page_limit)
+            ->withQueryString();
+
+        return $packages;
+        return PackageResource::collection($packages);
     }
 }

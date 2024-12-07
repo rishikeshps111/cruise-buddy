@@ -53,6 +53,7 @@ Route::prefix('/v1')->name('api.v1.')->group(function () {
         Route::get('/featured/cruise/', [CruiseController::class, 'featuredCruise'])->name('feature.cruise');
 
 
+        Route::get('/featured/package/', [PackageController::class, 'featuredPackage'])->name('feature.package');
         Route::apiResource('/package', PackageController::class);
         Route::get('/package/{id}/unavailable-date', [PackageController::class, 'unavailableDate'])->name('package.unavailable.date');
         Route::apiResource('/package/{package_id}/image', PackageImageController::class);

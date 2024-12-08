@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('cruise_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name', 50);
             $table->longText('description')->nullable();
+            $table->string('slug')->unique();
             $table->boolean('is_active')->default(true);
             $table->softDeletes();
             $table->timestamps();

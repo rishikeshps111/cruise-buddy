@@ -13,8 +13,8 @@ class UploadTemporaryFilesController extends Controller
      */
     public function __invoke(Request $request)
     {
-        if ($request->hasFile('cruise_images')) {
-            $image = $request->file('cruise_images');
+        if ($request->hasFile('images')) {
+            $image = $request->file('images');
             $filename = $image->getClientOriginalName();
             $folder = uniqid('image-', true);
             $image->storeAs('images/tmp' . $folder, $filename);

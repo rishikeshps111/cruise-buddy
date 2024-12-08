@@ -16,6 +16,20 @@ function showToast(message, duration, type = 'success') {
     });
 }
 
+function swalToast(message, type = 'success') {
+    Swal.fire({
+        title: "Good job!",
+        text: message,
+        icon: type,
+        didClose: () => {
+            // This callback will be executed once the Swal toast closes
+            if (typeof swalToast.callback === 'function') {
+                swalToast.callback();
+            }
+        }
+    })
+}
+
 function initIntlTelInput(id, message_id, form_id, full_phone = "full_phone", country_code = "country_code") {
 
     const input = document.querySelector(`#${id}`);
@@ -97,6 +111,7 @@ function showErrorMessages(errors) {
 
     Object.keys(errors).forEach(field => {
         const errorContainer = document.querySelector(`form [name="${field}"]`).closest('.mb-3').querySelector('.invalid-feedback');
+        console.log(errorContainer)
         if (errorContainer) {
             errorContainer.innerHTML = errors[field].map(message => `<p>${message}</p>`).join(''); // Populate messages
             errorContainer.classList.remove('d-none'); // Show error container
@@ -104,7 +119,20 @@ function showErrorMessages(errors) {
     });
 }
 
-function confirmDelete(url, table, imageWrapper = null, callback = null) {
+function customShowErrorMessages(errors) {
+    clearErrorMessages(); // Clear existing errors
+
+    Object.keys(errors).forEach(field => {
+        const errorContainer = document.querySelector(`form [name="${field}"]`).closest('.form-field').querySelector('.invalid-feedback');
+        console.log(errorContainer)
+        if (errorContainer) {
+            errorContainer.innerHTML = errors[field].map(message => `<p>${message}</p>`).join(''); // Populate messages
+            errorContainer.classList.remove('d-none'); // Show error container
+        }
+    });
+}
+
+function confirmDelete(url, table = null, imageWrapper = null, callback = null) {
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -125,7 +153,9 @@ function confirmDelete(url, table, imageWrapper = null, callback = null) {
                         response.data.message, // Use custom message or API response message
                         'success'
                     ).then(() => {
-                        table.ajax.reload(null, false);
+                        if (table) {
+                            table.ajax.reload(null, false);
+                        }
 
                         if (imageWrapper) {
                             imageWrapper.remove(); // Remove the parent element with class 'col-md-2'

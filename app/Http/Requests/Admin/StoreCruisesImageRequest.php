@@ -14,7 +14,7 @@ class StoreCruisesImageRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'cruise_images.required' => 'Please select any images.',
+            'images.required' => 'Please select any images.',
         ];
     }
 
@@ -22,8 +22,8 @@ class StoreCruisesImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cruise_images' => ['required'],
-            'cruise_images.*' => ['image', 'max:2048'],
+            'images' => ['required'],
+            'images.*' => ['image', 'max:2048'],
         ];
     }
 }

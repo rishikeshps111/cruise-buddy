@@ -22,7 +22,8 @@ class Package extends Model
 		'cruise_id',
 		'name',
 		'description',
-		'is_active'
+		'is_active',
+		'slug'
 	];
 
 	// relationship

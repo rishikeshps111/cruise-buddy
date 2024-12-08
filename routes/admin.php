@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CruisesImageController;
 use App\Http\Controllers\Admin\DeleteTemporaryFilesController;
+use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\UploadTemporaryFilesController;
 
 Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(function () {
@@ -37,6 +38,14 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
     Route::get('/cruises/{slug}', [CruiseController::class, 'show'])->name('cruises.show');
 
     Route::resource('cruises-image', CruisesImageController::class);
+
+    Route::get('packages/list/{id}', [PackageController::class, 'list'])->name('packages.list');
+    Route::delete('packages/image/{id}', [PackageController::class, 'delete_image'])->name('packages.delete-image');
+    Route::resource('packages', PackageController::class)->except(['create', 'edit']);
+    Route::get('/packages/create/{slug}', [PackageController::class, 'create'])->name('packages.create');
+    Route::get('/packages/edit/{slug}', [PackageController::class, 'edit'])->name('packages.edit');
+
+
 
     Route::post('upload', UploadTemporaryFilesController::class);
     Route::delete('delete', DeleteTemporaryFilesController::class);

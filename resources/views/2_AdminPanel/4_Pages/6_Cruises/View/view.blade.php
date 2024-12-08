@@ -121,9 +121,9 @@
                                 <div>
                                     <h4 class="card-title">{{ $cruise_details->name }} - Packages</h4>
                                 </div>
-                                <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" role="button"
-                                    aria-controls="offcanvasExample" id="addCruiseButton">+ Add
-                                    Packages</button>
+                                <a href="{{ route('packages.create', ['slug' => $cruise_details->slug]) }}"
+                                    class="btn btn-primary btn-sm">+ Add
+                                    Packages</a>
                             </div>
                             <!-- tab-content -->
                             <div class="tab-content">
@@ -131,12 +131,14 @@
                                     aria-labelledby="home-tab-2">
                                     <div class="card-body pt-0">
                                         <div class="table-responsive">
-                                            <table id="CommonTable" class="display table" style="min-width: 845px">
+                                            <table id="CommonTable" class="display table"
+                                                data-cruise-id="{{ $cruise_details->id }}" style="min-width: 845px">
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
                                                         <th>Images</th>
-                                                        <th>Packages Name</th>
+                                                        <th>Package Category</th>
+                                                        <th>Amenities</th>
                                                         <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -146,8 +148,9 @@
                                                         <th><input class="form-control" type="text" disabled></th>
                                                         <th><input class="form-control" type="text" disabled></th>
                                                         <th><input class="form-control" type="text"
-                                                                placeholder="Filter by Name" name="name">
+                                                                placeholder="Filter by Category" name="name">
                                                         </th>
+                                                        <th><input class="form-control" type="text" disabled></th>
                                                         <th>
                                                             <select class="form-control-sm mb-2" name="is_active">
                                                                 <option value="">All</option>

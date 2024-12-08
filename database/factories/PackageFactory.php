@@ -21,6 +21,7 @@ class PackageFactory extends Factory
             'cruise_id' => Cruise::inRandomOrder()->first()->id,
             'name' => fake()->word(),
             'description' => fake()->paragraph(),
+            'slug' => fake()->slug(),
             'is_active' => fake()->boolean()
         ];
     }

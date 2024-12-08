@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="mb-3 col-md-12">
                     {{-- <x-input-label for="cruise_images" :value="__('Cruise Images')" /> --}}
-                    <input type="file" name="cruise_images" id="cruise_images" multiple credits="false" />
+                    <input type="file" name="images" id="cruise_images" multiple credits="false" />
                     <x-input-error :messages="$errors->get('cruise_images')" />
                 </div>
                 <div class="mb-3 col-md-12 d-flex justify-content-end mt-2">

@@ -411,6 +411,8 @@ function AddImages() {
             })
             .catch(error => {
                 if (error.response && error.response.status === 422) {
+                    
+                    console.log(error.response.data.errors)
                     showErrorMessages(error.response.data.errors);
                 } else {
                     console.error(error.response.data);

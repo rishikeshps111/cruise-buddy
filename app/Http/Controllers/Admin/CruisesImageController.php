@@ -28,12 +28,7 @@ class CruisesImageController extends Controller
      */
     public function create(Request $request)
     {
-        $temporaryImages = TemporaryFile::all();
-
-        foreach ($temporaryImages as $temporaryImage) {
-            storage::deleteDirectory('images/tmp' . $temporaryImage->folder);
-            $temporaryImage->delete();
-        }
+        clearTemporaryFiles();
 
         $itemId = $request->get('id');
         $size = $request->get('size', 'modal-md');

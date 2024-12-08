@@ -37,8 +37,17 @@ class PackageController extends Controller
                 AllowedFilter::custom('cruiseType.model_name', new CruiseModelFilter),
                 AllowedFilter::custom('cruiseType.type', new CruiseTypeFilter)
             ])
+            ->select('packages.*') // Ensure you select the base table fields
+            ->addSelect([
+                'avg_rating' => Rating::selectRaw('AVG(rating)')
+                    ->whereColumn('cruise_id', 'cruises.id') // Link to related cruises
+            ])
+            ->join('cruises', 'cruises.id', '=', 'packages.cruise_id') // Join related cruises
+            ->groupBy('packages.id') // Prevent ambiguity errors with aggregates
+            ->orderByDesc('avg_rating') // Sort by average ratings
             ->paginate($page_limit)
             ->withQueryString();
+        // return $packages;
         return PackageResource::collection($packages);
     }
 
@@ -52,6 +61,7 @@ class PackageController extends Controller
         $query = QueryBuilder::for(Package::class)
             ->allowedIncludes([
                 'cruise.cruiseType',
+                'cruise.ratings',
                 'itineraries',
                 'amenities',
                 'food',
@@ -100,11 +110,8 @@ class PackageController extends Controller
             ->join('cruises', 'cruises.id', '=', 'packages.cruise_id') // Join related cruises
             ->groupBy('packages.id') // Prevent ambiguity errors with aggregates
             ->orderByDesc('avg_rating') // Sort by average rating
-            ->limit(20)
             ->paginate($page_limit)
             ->withQueryString();
-
-        return $packages;
         return PackageResource::collection($packages);
     }
 }

@@ -25,7 +25,7 @@ class RatingRequest extends FormRequest
     {
         return [
             'cruiseId' => 'required',
-            'rating' => 'required',
+            'rating' => 'required|numeric|in:1,2,3,4,5',
             'description' => 'nullable|string|between:10,5000'
         ];
     }
@@ -42,6 +42,7 @@ class RatingRequest extends FormRequest
                 'description' => $this->description
             ]
         );
+        $rating->refresh();
         return $rating;
     }
 }

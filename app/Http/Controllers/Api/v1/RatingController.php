@@ -28,7 +28,7 @@ class RatingController extends Controller
     public function store(RatingRequest $request)
     {
         return response()->json([
-            'rating' => new Rating($request->store())
+            'rating' => new RatingResource($request->store())
         ], 201);
     }
 

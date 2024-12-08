@@ -28,6 +28,7 @@ class CruiseController extends Controller
                 'packages.bookingTypes',
                 'packages.amenities',
                 'location',
+                'ratings',
                 'cruiseType',
                 'cruisesImages',
                 'owner.user'
@@ -70,6 +71,7 @@ class CruiseController extends Controller
                 'packages.bookingTypes',
                 'packages.amenities',
                 'location',
+                'ratings',
                 'cruiseType',
                 'cruisesImages',
                 'owner.user'
@@ -79,6 +81,10 @@ class CruiseController extends Controller
                 AllowedFilter::custom('date_range', new DateRangeFilter),
                 AllowedFilter::exact('cruiseType.model_name'),
                 AllowedFilter::exact('cruiseType.type'),
+            ])
+            ->addSelect([
+                'avg_rating' => Rating::selectRaw('AVG(rating)')
+                    ->whereColumn('cruise_id', 'cruises.id')
             ]);
         try {
             $cruise = $query->findOrFail($cruise->id);

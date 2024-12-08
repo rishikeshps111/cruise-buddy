@@ -23,6 +23,7 @@ class PackageController extends Controller
         $packages = QueryBuilder::for(Package::class)
             ->allowedIncludes([
                 'cruise.cruiseType',
+                'cruise.ratings',
                 'itineraries',
                 'amenities',
                 'food',

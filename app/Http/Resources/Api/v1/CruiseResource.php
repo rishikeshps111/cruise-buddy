@@ -27,6 +27,7 @@ class CruiseResource extends JsonResource
             'location' => new LocationResource($this->whenLoaded('location')),
             'owner' => new OwnerResource($this->whenLoaded('owner')),
             'packages' => PackageResource::collection($this->whenLoaded('packages')),
+            'ratings' => RatingResource::collection($this->whenLoaded('ratings'))
         ];
     }
 }
